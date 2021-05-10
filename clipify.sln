@@ -5,15 +5,20 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Web", "source\Clipify.Web\Clipify.Web.csproj", "{734CA6E9-B12E-438E-B6CB-99099F8F58CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clipify.Domain", "source\Clipify.Domain\Clipify.Domain.csproj", "{DE7A2D3A-D530-4020-A03D-CD4BDB00DC8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Domain", "source\Clipify.Domain\Clipify.Domain.csproj", "{DE7A2D3A-D530-4020-A03D-CD4BDB00DC8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clipify.Application", "source\Clipify.Application\Clipify.Application.csproj", "{68EB61B1-786D-475B-8E9B-2879636DF49B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Application", "source\Clipify.Application\Clipify.Application.csproj", "{68EB61B1-786D-475B-8E9B-2879636DF49B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clipify.Infrastructure", "source\Clipify.Infrastructure\Clipify.Infrastructure.csproj", "{21FBD46F-80F3-4194-B460-6F0CDBDFA4ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Infrastructure", "source\Clipify.Infrastructure\Clipify.Infrastructure.csproj", "{21FBD46F-80F3-4194-B460-6F0CDBDFA4ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clipify.Domain.UnitTests", "tests\Clipify.Domain.UnitTests\Clipify.Domain.UnitTests.csproj", "{D5216D1C-D053-4011-B85A-E1634495F989}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Domain.UnitTests", "tests\Clipify.Domain.UnitTests\Clipify.Domain.UnitTests.csproj", "{D5216D1C-D053-4011-B85A-E1634495F989}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clipify.Application.UnitTests", "tests\Clipify.Application.UnitTests\Clipify.Application.UnitTests.csproj", "{CDF33D06-A918-46F8-A684-4226CE68086B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Application.UnitTests", "tests\Clipify.Application.UnitTests\Clipify.Application.UnitTests.csproj", "{CDF33D06-A918-46F8-A684-4226CE68086B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8B6829BC-CCB7-4F64-9C32-AEDF81D4407B}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\Dockerfile = Solution Items\Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
