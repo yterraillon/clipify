@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Application.UnitTes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8B6829BC-CCB7-4F64-9C32-AEDF81D4407B}"
 	ProjectSection(SolutionItems) = preProject
-		Solution Items\Dockerfile = Solution Items\Dockerfile
+		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
 Global
