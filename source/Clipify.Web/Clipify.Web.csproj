@@ -2,11 +2,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>bb59ded6-4beb-4173-a14d-959779959fae</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
     <PropertyGroup>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <DockerfileContext>..\..</DockerfileContext>
         <DockerfileRunArguments>-v "C:\Docker\Clipify\data:/data" -v "C:\Docker\Clipify\config:/config"</DockerfileRunArguments>
     </PropertyGroup>
 
