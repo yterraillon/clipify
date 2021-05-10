@@ -5,6 +5,21 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Web", "source\Clipify.Web\Clipify.Web.csproj", "{734CA6E9-B12E-438E-B6CB-99099F8F58CA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Domain", "source\Clipify.Domain\Clipify.Domain.csproj", "{DE7A2D3A-D530-4020-A03D-CD4BDB00DC8F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Application", "source\Clipify.Application\Clipify.Application.csproj", "{68EB61B1-786D-475B-8E9B-2879636DF49B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Infrastructure", "source\Clipify.Infrastructure\Clipify.Infrastructure.csproj", "{21FBD46F-80F3-4194-B460-6F0CDBDFA4ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Domain.UnitTests", "tests\Clipify.Domain.UnitTests\Clipify.Domain.UnitTests.csproj", "{D5216D1C-D053-4011-B85A-E1634495F989}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clipify.Application.UnitTests", "tests\Clipify.Application.UnitTests\Clipify.Application.UnitTests.csproj", "{CDF33D06-A918-46F8-A684-4226CE68086B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8B6829BC-CCB7-4F64-9C32-AEDF81D4407B}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +30,26 @@ Global
 		{734CA6E9-B12E-438E-B6CB-99099F8F58CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{734CA6E9-B12E-438E-B6CB-99099F8F58CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{734CA6E9-B12E-438E-B6CB-99099F8F58CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE7A2D3A-D530-4020-A03D-CD4BDB00DC8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE7A2D3A-D530-4020-A03D-CD4BDB00DC8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE7A2D3A-D530-4020-A03D-CD4BDB00DC8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE7A2D3A-D530-4020-A03D-CD4BDB00DC8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68EB61B1-786D-475B-8E9B-2879636DF49B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68EB61B1-786D-475B-8E9B-2879636DF49B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68EB61B1-786D-475B-8E9B-2879636DF49B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68EB61B1-786D-475B-8E9B-2879636DF49B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21FBD46F-80F3-4194-B460-6F0CDBDFA4ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21FBD46F-80F3-4194-B460-6F0CDBDFA4ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21FBD46F-80F3-4194-B460-6F0CDBDFA4ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21FBD46F-80F3-4194-B460-6F0CDBDFA4ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5216D1C-D053-4011-B85A-E1634495F989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5216D1C-D053-4011-B85A-E1634495F989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5216D1C-D053-4011-B85A-E1634495F989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5216D1C-D053-4011-B85A-E1634495F989}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF33D06-A918-46F8-A684-4226CE68086B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF33D06-A918-46F8-A684-4226CE68086B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF33D06-A918-46F8-A684-4226CE68086B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF33D06-A918-46F8-A684-4226CE68086B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

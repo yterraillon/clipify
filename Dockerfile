@@ -8,7 +8,12 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
+
+COPY ["source/Clipify.Application/Clipify.Application.csproj", "source/Clipify.Application/"]
+COPY ["source/Clipify.Domain/Clipify.Domain.csproj", "source/Clipify.Domain/"]
+COPY ["source/Clipify.Infrastructure/Clipify.Infrastructure.csproj", "source/Clipify.Infrastructure/"]
 COPY ["source/Clipify.Web/Clipify.Web.csproj", "source/Clipify.Web/"]
+COPY . .
 RUN dotnet restore "source/Clipify.Web/Clipify.Web.csproj"
 COPY . .
 WORKDIR "/src/source/Clipify.Web"
