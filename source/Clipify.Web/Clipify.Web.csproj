@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Nullable>enable</Nullable>
     <UserSecretsId>bb59ded6-4beb-4173-a14d-959779959fae</UserSecretsId>
   </PropertyGroup>
 
@@ -12,5 +13,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Clipify.Application\Clipify.Application.csproj" />
   </ItemGroup>
 </Project>
