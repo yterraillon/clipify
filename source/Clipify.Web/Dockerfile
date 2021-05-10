@@ -2,6 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base
 WORKDIR /app
+VOLUME /config /data
 EXPOSE 80
 EXPOSE 443
 
@@ -19,5 +20,4 @@ RUN dotnet publish "Clipify.Web.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-VOLUME /config /data
 ENTRYPOINT ["dotnet", "Clipify.Web.dll"]
