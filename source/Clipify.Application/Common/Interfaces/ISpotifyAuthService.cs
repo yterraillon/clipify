@@ -1,9 +1,10 @@
-﻿namespace Clipify.Application.Common.Interfaces
+﻿using System.Threading.Tasks;
+using Clipify.Application.Spotify.Requests;
+
+namespace Clipify.Application.Common.Interfaces
 {
     public interface ISpotifyAuthService
     {
-        public string GenerateCodeVerifier();
-
-        public string GenerateCodeChallenge(string codeVerifier);
+        public string GetAuthorizeUrl(SpotifyAuthorizeRequest.Request request);
     }
 }

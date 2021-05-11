@@ -1,19 +1,22 @@
-﻿<h3>Login</h3>
+﻿@page "/login"
+
+@using MediatR
+@using Clipify.Application.Spotify.Requests
+<h3>Login</h3>
+
+@inject IMediator Mediator
 
 <div class="container">
-    <div class="form-control">
-        <div class="form-group">
-            <label class="form-control">Username</label>
-            <input class="form-control"/>
-        </div>
-        
-        <div class="form-group">
-            <label class="form-control">Password</label>
-            <input class="form-control"/>
-        </div>
-    </div>
+    <p>@_authorizeUri</p>
+    <a href="@_authorizeUri" target="_blank">Spotify Auth</a>
 </div>
 
-@code {
+@code
+{
+    private string _authorizeUri = String.Empty;
 
+    protected override async Task OnInitializedAsync()
+    {
+        _authorizeUri = await Mediator.Send(new SpotifyAuthorizeRequest.Request()).ConfigureAwait(false);
+    }
 }
