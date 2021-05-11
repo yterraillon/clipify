@@ -43,6 +43,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _forecasts = await Mediator.Send(new GetWeatherForecastsQuery());
+        _forecasts = await Mediator.Send(new GetWeatherForecastsQuery { StartDate = DateTime.Now });
     }
 }
