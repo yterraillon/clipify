@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 
-namespace Clipify.Web.Data
+namespace Clipify.Application.Common.Models
 {
     public class WeatherForecast
     {
@@ -10,6 +10,6 @@ namespace Clipify.Web.Data
 
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
-        public string Summary { get; set; } = "";
+        public string Summary { get; set; } = string.Empty;
     }
 }

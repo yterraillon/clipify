@@ -12,10 +12,12 @@
     </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.13" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Clipify.Application\Clipify.Application.csproj" />
+    <ProjectReference Include="..\Clipify.Infrastructure\Clipify.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

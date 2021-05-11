@@ -1,13 +1,15 @@
 ﻿@page "/fetchdata"
 
-@using Clipify.Web.Data
-@inject WeatherForecastService ForecastService
+@using Clipify.Application.Common.Models
+@using Clipify.Application.WeatherForecasts.Requests
+@using MediatR
+@inject IMediator Mediator
 
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (forecasts == null)
+@if (!_forecasts.Any())
 {
     <p><em>Loading...</em></p>
 }
@@ -23,7 +25,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var forecast in _forecasts)
             {
                 <tr>
                     <td>@forecast.Date.ToShortDateString()</td>
@@ -37,10 +39,11 @@ else
 }
 
 @code {
-    private WeatherForecast[] forecasts = new WeatherForecast[] {};
+    private IEnumerable<WeatherForecast> _forecasts = Enumerable.Empty<WeatherForecast>();
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        _forecasts = await Mediator.Send(new GetWeatherForecasts.Request { StartDate = DateTime.Now })
+            .ConfigureAwait(false);
     }
 }
