@@ -1,6 +1,10 @@
 ﻿using System;
 
+<<<<<<< HEAD:source/Clipify.Domain/Entities/WeatherForecast.cs
 namespace Clipify.Domain.Entities
+=======
+namespace Clipify.Application.Common.Models
+>>>>>>> main:source/Clipify.Application/Common/Models/WeatherForecast.cs
 {
     public class WeatherForecast
     {
@@ -15,6 +19,6 @@ namespace Clipify.Domain.Entities
 
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
-        public string Summary { get; set; }
+        public string Summary { get; set; } = string.Empty;
     }
 }

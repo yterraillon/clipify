@@ -1,0 +1,18 @@
+name: Publish Docker image
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: build docker image
+      run: docker build . --file ./source/Clipify.Web/Dockerfile --tag clipify/clipifyweb:latest
+    - name: docker push
+      run: docker push ${{secrets.DOCKERHUB_USERNAME}}/clipifyweb

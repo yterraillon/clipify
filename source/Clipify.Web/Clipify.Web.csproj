@@ -18,5 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Clipify.Application\Clipify.Application.csproj" />
+    <ProjectReference Include="..\Clipify.Infrastructure\Clipify.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
