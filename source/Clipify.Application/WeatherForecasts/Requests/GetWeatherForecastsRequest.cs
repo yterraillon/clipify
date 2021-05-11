@@ -11,21 +11,21 @@ namespace Clipify.Application.WeatherForecasts.Requests
 {
     public static class GetWeatherForecasts
     {
-        public class GetWeatherForecastsRequest : IRequest<IEnumerable<WeatherForecast>>
+        public class Request : IRequest<IEnumerable<WeatherForecast>>
         {
             public DateTime StartDate { get; set; }
         }
 
-        public class GetWeatherForecastsRequestHandler : IRequestHandler<GetWeatherForecastsRequest, IEnumerable<WeatherForecast>>
+        public class Handler : IRequestHandler<Request, IEnumerable<WeatherForecast>>
         {
             private readonly IWeatherForecastService _weatherForecastService;
 
-            public GetWeatherForecastsRequestHandler(IWeatherForecastService weatherService)
+            public Handler(IWeatherForecastService weatherService)
             {
                 _weatherForecastService = weatherService;
             }
 
-            public Task<IEnumerable<WeatherForecast>> Handle(GetWeatherForecastsRequest request, CancellationToken cancellationToken)
+            public Task<IEnumerable<WeatherForecast>> Handle(Request request, CancellationToken cancellationToken)
             {
                 return _weatherForecastService.GetWeatherForecasts(request.StartDate);
             }
