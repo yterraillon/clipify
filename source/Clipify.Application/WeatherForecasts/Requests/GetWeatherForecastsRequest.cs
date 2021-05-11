@@ -1,11 +1,10 @@
-﻿using Clipify.Domain.Entities;
+﻿using Clipify.Application.Common.Interfaces;
+using Clipify.Application.Common.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Common.Interfaces;
 
 namespace Clipify.Application.WeatherForecasts.Requests
 {

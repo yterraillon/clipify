@@ -1,6 +1,6 @@
 ﻿@page "/fetchdata"
 
-@using Clipify.Domain.Entities;
+@using Clipify.Application.Common.Models
 @using Clipify.Application.WeatherForecasts.Requests
 @using MediatR
 @inject IMediator Mediator
@@ -43,6 +43,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _forecasts = await Mediator.Send(new GetWeatherForecasts.Request { StartDate = DateTime.Now });
+        _forecasts = await Mediator.Send(new GetWeatherForecasts.Request { StartDate = DateTime.Now })
+            .ConfigureAwait(false);
     }
 }

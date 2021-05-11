@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Clipify.Application.Common.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Clipify.Domain.Entities;
 
 namespace Clipify.Application.Common.Interfaces
 {

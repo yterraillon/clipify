@@ -1,5 +1,5 @@
 ﻿using Clipify.Application.Common.Interfaces;
-using Clipify.Domain.Entities;
+using Clipify.Application.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace Clipify.Infrastructure.WeatherForecasts
         {
             var random = new Random();
 
-            return Task.FromResult(Enumerable.Range(1, 5).Select(index => new Domain.Entities.WeatherForecast
+            return Task.FromResult(Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = startDate.AddDays(index),
                 TemperatureC = random.Next(-20, 55),
