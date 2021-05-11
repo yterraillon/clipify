@@ -27,11 +27,11 @@ namespace Clipify.Infrastructure.Spotify
 
         private string CodeChallengeMethod { get; set; } = "S256";
 
-        private static string CodeVerifier { get; set; } = String.Empty;
+        private string CodeVerifier { get; set; } = String.Empty;
 
         private string CodeChallenge { get; set; } = String.Empty;
 
-        private HttpClient Client { get; } = LazyHttpClient.Value;
+        private HttpClient Client { get; } = new HttpClient();
 
         private static string GenerateCodeVerifier()
         {
@@ -133,18 +133,6 @@ namespace Clipify.Infrastructure.Spotify
                 Console.WriteLine(e);
                 return new SpotifyAuthResponse();
             }
-
         }
-
-        private static readonly Lazy<HttpClient> LazyHttpClient = new Lazy<HttpClient>(() =>
-        {
-            var httpClient = new HttpClient(new HttpClientHandler
-            {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate | DecompressionMethods.Brotli
-            }, true);
-
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36");
-            return httpClient;
-        });
     }
 }
