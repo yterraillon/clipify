@@ -9,6 +9,7 @@ using Clipify.Application.Auth.Requests;
 using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
 using Clipify.Application.Auth.Requests.AuthorizeRequest;
 using Clipify.Infrastructure.Extensions;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace Clipify.Infrastructure.SpotifyAuth
@@ -17,8 +18,6 @@ namespace Clipify.Infrastructure.SpotifyAuth
     {
         public class Settings
         {
-            public string ClientId { get; set; } = string.Empty;
-
             public string AuthorizeUrl { get; set; } = string.Empty;
 
             public string AccessTokenUrl { get; set; } = string.Empty;
@@ -40,9 +39,9 @@ namespace Clipify.Infrastructure.SpotifyAuth
 
         private Settings SpotifySettings { get; }
 
-        public SpotifyAuthService(Settings settings)
+        public SpotifyAuthService(IOptions<Settings> spotifySettings)
         {
-            SpotifySettings = settings;
+            SpotifySettings = spotifySettings.Value;
         }
 
         private static string GenerateCodeVerifier()
@@ -84,7 +83,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
             CodeVerifier = GenerateCodeVerifier();
             CodeChallenge = GenerateCodeChallenge();
 
-            var builder = new UriBuilder();
+            var builder = new UriBuilder(SpotifySettings.AuthorizeUrl);
             var query = HttpUtility.ParseQueryString(builder.Query);
 
             query.Add("client_id", ClientId);

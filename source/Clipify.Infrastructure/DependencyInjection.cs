@@ -11,10 +11,10 @@ namespace Clipify.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<SpotifyAuthService.Settings>(configuration.GetSection("SpotifyAuth"));
+
             services.AddTransient<IAuthService, SpotifyAuthService>();
             services.AddTransient<IWeatherForecastService, WeatherForecastService>();
-
-            services.Configure<SpotifyAuthService.Settings>(configuration.GetSection("SpotifyAuth"));
 
             return services;
         }
