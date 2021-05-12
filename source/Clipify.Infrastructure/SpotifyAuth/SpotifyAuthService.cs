@@ -1,21 +1,18 @@
-﻿using Clipify.Application.Common.Interfaces;
-using Clipify.Application.Spotify.Requests;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Clipify.Application.Common.Models;
+using Clipify.Application.Auth.Requests;
+using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
+using Clipify.Application.Auth.Requests.AuthorizeRequest;
 using Newtonsoft.Json;
 
-namespace Clipify.Infrastructure.Spotify
+namespace Clipify.Infrastructure.SpotifyAuth
 {
-    public class SpotifyAuthService : ISpotifyAuthService
+    public class SpotifyAuthService : IAuthService
     {
         private const string AuthorizeUri = "https://accounts.spotify.com/authorize";
 
@@ -67,7 +64,7 @@ namespace Clipify.Infrastructure.Spotify
             }
         }
 
-        public string GetAuthorizeUrl(SpotifyAuthorizeRequest.Request request)
+        public string GetAuthorizeUrl(AuthorizeRequest.Request request)
         {
             CodeVerifier = GenerateCodeVerifier();
             CodeChallenge = GenerateCodeChallenge();
@@ -92,7 +89,7 @@ namespace Clipify.Infrastructure.Spotify
             return builder.ToString();
         }
 
-        public async Task<SpotifyAuthResponse> GetAccessTokenAsync(string code)
+        public async Task<AccessTokenResponse> GetAccessTokenAsync(string code)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -119,19 +116,19 @@ namespace Clipify.Infrastructure.Spotify
                     .ConfigureAwait(false);
 
                 if (content == null)
-                    return new SpotifyAuthResponse(); // TODO: Error handling.
+                    return new AccessTokenResponse(); // TODO: Error handling.
 
-                return JsonConvert.DeserializeObject<SpotifyAuthResponse>(content, new JsonSerializerSettings
+                return JsonConvert.DeserializeObject<AccessTokenResponse>(content, new JsonSerializerSettings
                 {
                     DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
                     NullValueHandling = NullValueHandling.Ignore
-                }) ?? new SpotifyAuthResponse(); // TODO: Error handling.
+                }) ?? new AccessTokenResponse(); // TODO: Error handling.
             }
             catch (HttpRequestException e)
             {
                 // TODO: Error handling.
                 Console.WriteLine(e);
-                return new SpotifyAuthResponse();
+                return new AccessTokenResponse();
             }
         }
     }

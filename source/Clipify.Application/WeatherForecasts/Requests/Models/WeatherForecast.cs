@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Clipify.Application.Common.Models
+namespace Clipify.Application.WeatherForecasts.Requests.Models
 {
     public class WeatherForecast
     {

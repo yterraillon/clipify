@@ -1,10 +1,9 @@
-﻿using Clipify.Application.Common.Interfaces;
-using Clipify.Application.Common.Models;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Clipify.Application.WeatherForecasts.Requests.Models;
 
 namespace Clipify.Application.WeatherForecasts.Requests
 {

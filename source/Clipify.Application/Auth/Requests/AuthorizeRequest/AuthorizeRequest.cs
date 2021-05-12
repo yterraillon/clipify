@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Common.Interfaces;
 using MediatR;
 
-namespace Clipify.Application.Spotify.Requests
+namespace Clipify.Application.Auth.Requests.AuthorizeRequest
 {
-    public static class SpotifyAuthorizeRequest
+    public static class AuthorizeRequest
     {
         public class Request : IRequest<string>
         {
@@ -17,9 +16,9 @@ namespace Clipify.Application.Spotify.Requests
 
         public class Handler : IRequestHandler<Request, string>
         {
-            private readonly ISpotifyAuthService _spotifyAuthService;
+            private readonly IAuthService _spotifyAuthService;
 
-            public Handler(ISpotifyAuthService spotifyAuthService)
+            public Handler(IAuthService spotifyAuthService)
             {
                 _spotifyAuthService = spotifyAuthService;
             }

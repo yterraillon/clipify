@@ -2,8 +2,8 @@
 
 @using Microsoft.AspNetCore.WebUtilities
 @using MediatR
-@using Clipify.Application.Spotify.Requests
-@using Clipify.Application.Common.Models
+@using Clipify.Application.Auth.Requests.AccessTokenRequest.Models
+@using Clipify.Application.Auth.Requests.AccessTokenRequest
 @inject NavigationManager NavigationManager
 @inject IMediator Mediator
 
@@ -19,7 +19,7 @@
         <p>Error: @Error</p>
     }
     
-    @if (Response != null)
+    @if (!string.IsNullOrEmpty(Response.AccessToken))
     {
         <p>Access Token: @Response.AccessToken</p>
     }
@@ -33,7 +33,7 @@
 
     private string State { get; set; } = String.Empty;
 
-    private SpotifyAuthResponse? Response { get; set; }
+    private AccessTokenResponse Response { get; set; } = new AccessTokenResponse();
 
     protected override async Task OnInitializedAsync()
     {
@@ -55,7 +55,7 @@
 
         if (!string.IsNullOrEmpty(Code))
         {
-            Response = await Mediator.Send(new SpotifyAccessTokenRequest.Request
+            Response = await Mediator.Send(new AccessTokenRequest.Request
             {
                 Code = Code
             }).ConfigureAwait(false);

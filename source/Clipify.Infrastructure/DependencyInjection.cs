@@ -1,5 +1,6 @@
-﻿using Clipify.Application.Common.Interfaces;
-using Clipify.Infrastructure.Spotify;
+﻿using Clipify.Application.Auth.Requests;
+using Clipify.Application.WeatherForecasts.Requests;
+using Clipify.Infrastructure.SpotifyAuth;
 using Clipify.Infrastructure.WeatherForecasts;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +10,7 @@ namespace Clipify.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddTransient<ISpotifyAuthService, SpotifyAuthService>();
+            services.AddTransient<IAuthService, SpotifyAuthService>();
             services.AddTransient<IWeatherForecastService, WeatherForecastService>();
 
             return services;

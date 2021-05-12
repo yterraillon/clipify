@@ -1,9 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Clipify.Application.Common.Models
+namespace Clipify.Application.Auth.Requests.AccessTokenRequest.Models
 {
-    public class SpotifyAuthResponse
+    public class AccessTokenResponse
     {
         [JsonProperty("access_token")]
         public string AccessToken { get; set; } = String.Empty;

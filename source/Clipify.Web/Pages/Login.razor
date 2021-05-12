@@ -1,7 +1,7 @@
 ﻿@page "/login"
 
 @using MediatR
-@using Clipify.Application.Spotify.Requests
+@using Clipify.Application.Auth.Requests.AuthorizeRequest
 <h3>Login</h3>
 
 @inject IMediator Mediator
@@ -17,6 +17,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _authorizeUri = await Mediator.Send(new SpotifyAuthorizeRequest.Request()).ConfigureAwait(false);
+        _authorizeUri = await Mediator.Send(new AuthorizeRequest.Request()).ConfigureAwait(false);
     }
 }
