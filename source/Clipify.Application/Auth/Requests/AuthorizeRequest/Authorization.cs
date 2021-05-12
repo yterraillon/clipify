@@ -15,16 +15,16 @@ namespace Clipify.Application.Auth.Requests.AuthorizeRequest
 
         public class Handler : IRequestHandler<Request, string>
         {
-            private readonly IAuthService _authService;
+            private readonly IAuthUriBuilder _authUriBuilder;
 
-            public Handler(IAuthService authService)
+            public Handler(IAuthUriBuilder authUriBuilder)
             {
-                _authService = authService;
+                _authUriBuilder = authUriBuilder;
             }
 
             public Task<string> Handle(Request request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(_authService.GetAuthorizeUrl(request));
+                return Task.FromResult(_authUriBuilder.GetAuthorizeUrl(request.Scope, request.State));
             }
         }
     }

@@ -2,32 +2,19 @@
 using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
 using Clipify.Application.Auth.Requests.AuthorizeRequest;
 using Clipify.Infrastructure.SpotifyAuth.Clients;
+using Clipify.Infrastructure.SpotifyAuth.Models;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Clipify.Infrastructure.SpotifyAuth
 {
     public class SpotifyAuthService : IAuthService
     {
-        public class Settings
-        {
-            public string AuthorizeUrl { get; set; } = string.Empty;
-
-            public string AccessTokenUrl { get; set; } = string.Empty;
-
-            public string RedirectUrl { get; set; } = string.Empty;
-        }
-
-        private string ClientId { get; } = "06e60e8e48db4378a95783a631ffbe60";
-
-        private const string ResponseType = "code";
-
-        private const string CodeChallengeMethod = "S256";
+        private const string ClientId = "06e60e8e48db4378a95783a631ffbe60";
 
         private string CodeVerifier { get; set; } = String.Empty;
 
@@ -35,12 +22,12 @@ namespace Clipify.Infrastructure.SpotifyAuth
 
         private SpotifyAuthClient Client { get; }
 
-        private Settings SpotifySettings { get; }
+        private SpotifyAuthSettings Settings { get; }
 
-        public SpotifyAuthService(SpotifyAuthClient client, IOptions<Settings> spotifySettings)
+        public SpotifyAuthService(SpotifyAuthClient client, IOptions<SpotifyAuthSettings> settings)
         {
             Client = client;
-            SpotifySettings = spotifySettings.Value;
+            Settings = settings.Value;
         }
 
         private static string GenerateCodeVerifier()
@@ -82,24 +69,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
             CodeVerifier = GenerateCodeVerifier();
             CodeChallenge = GenerateCodeChallenge();
 
-            var builder = new UriBuilder(SpotifySettings.AuthorizeUrl);
-            var query = HttpUtility.ParseQueryString(builder.Query);
-
-            query.Add("client_id", ClientId);
-            query.Add("response_type", ResponseType);
-            query.Add("redirect_uri", SpotifySettings.RedirectUrl);
-            query.Add("code_challenge_method", CodeChallengeMethod);
-            query.Add("code_challenge", CodeChallenge);
-
-            if (!string.IsNullOrEmpty(request.State))
-                query.Add("state", request.State);
-
-            if (!string.IsNullOrEmpty(request.Scope))
-                query.Add("scope", request.Scope);
-
-            builder.Query = query.ToString();
-
-            return builder.ToString();
+            return string.Empty;
         }
 
         public Task<AccessTokenResponse> GetAccessTokenAsync(string code)
@@ -109,11 +79,11 @@ namespace Clipify.Infrastructure.SpotifyAuth
                 {"client_id", ClientId},
                 {"grant_type", "authorization_code"},
                 {"code", code},
-                {"redirect_uri", SpotifySettings.RedirectUrl},
+                {"redirect_uri", Settings.RedirectUrl},
                 {"code_verifier", CodeVerifier}
             };
 
-            return Client.GetAccessTokenAsync(new Uri(SpotifySettings.AccessTokenUrl), parameters);
+            return Client.GetAccessTokenAsync(new Uri(Settings.AccessTokenUrl), parameters);
         }
     }
 }
