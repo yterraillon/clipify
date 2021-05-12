@@ -15,15 +15,17 @@ namespace Clipify.Application.Auth.Requests.AccessTokenRequest
         public class Handler : IRequestHandler<Request, AccessTokenResponse>
         {
             private readonly IAuthService _authService;
+            private readonly IAuthCodeProvider _codeProvider;
 
-            public Handler(IAuthService authService)
+            public Handler(IAuthService authService, IAuthCodeProvider codeProvider)
             {
                 _authService = authService;
+                _codeProvider = codeProvider;
             }
 
             public Task<AccessTokenResponse> Handle(Request request, CancellationToken cancellationToken)
             {
-                return _authService.GetAccessTokenAsync(request.Code);
+                return _authService.GetAccessTokenAsync(_codeProvider.Verifier, request.Code);
             }
         }
     }

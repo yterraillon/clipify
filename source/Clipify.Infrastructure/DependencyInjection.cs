@@ -17,6 +17,8 @@ namespace Clipify.Infrastructure
 
             services.AddHttpClient<SpotifyAuthClient>();
 
+            services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
+
             services.AddTransient<IAuthService, SpotifyAuthService>();
             services.AddTransient<IAuthUriBuilder, SpotifyAuthUriBuilder>();
             services.AddTransient<IWeatherForecastService, WeatherForecastService>();

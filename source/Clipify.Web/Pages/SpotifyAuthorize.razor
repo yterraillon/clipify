@@ -1,4 +1,4 @@
-﻿@page "/spotify-auth"
+﻿@page "/spotify-authorize"
 
 @using Microsoft.AspNetCore.WebUtilities
 @using MediatR
@@ -19,6 +19,11 @@
         <p>Error: @Error</p>
     }
     
+    @if (!string.IsNullOrEmpty(State))
+    {
+        <p>State: @State</p>
+    }
+
     @if (!string.IsNullOrEmpty(Response.AccessToken))
     {
         <p>Access Token: @Response.AccessToken</p>
@@ -27,13 +32,13 @@
 
 @code {
 
-    private string Code { get; set; } = String.Empty;
+    private string Code { get; set; } = string.Empty;
 
-    private string Error { get; set; } = String.Empty;
+    private string Error { get; set; } = string.Empty;
 
-    private string State { get; set; } = String.Empty;
+    private string State { get; set; } = string.Empty;
 
-    private AccessTokenResponse Response { get; set; } = new AccessTokenResponse();
+    private static AccessTokenResponse Response { get; set; } = new AccessTokenResponse();
 
     protected override async Task OnInitializedAsync()
     {
@@ -53,7 +58,7 @@
             State = state;
         }
 
-        if (!string.IsNullOrEmpty(Code))
+        if (!string.IsNullOrEmpty(Code) && string.IsNullOrEmpty(Response.AccessToken))
         {
             Response = await Mediator.Send(new GetAccessToken.Request
             {

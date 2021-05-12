@@ -6,6 +6,8 @@
 
         public string AccessTokenUrl { get; set; } = string.Empty;
 
-        public string RedirectUrl { get; set; } = string.Empty;
+        public string AuthorizeRedirectUrl { get; set; } = string.Empty;
+
+        public string AccessTokenRedirectUrl { get; set; } = string.Empty;
     }
 }

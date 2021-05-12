@@ -21,15 +21,15 @@ namespace Clipify.Infrastructure.SpotifyAuth
             Settings = settings.Value;
         }
 
-        public string GetAuthorizeUrl(string scope, string state)
+        public string GetAuthorizeUrl(string challenge, string scope, string state)
         {
             var parameters = new Dictionary<string, string>
             {
                 { "client_id", ClientId },
                 { "response_type", ResponseType },
-                { "redirect_uri", Settings.RedirectUrl },
+                { "redirect_uri", Settings.AuthorizeRedirectUrl },
                 { "code_challenge_method", CodeChallengeMethod },
-                { "code_challenge", "" }
+                { "code_challenge", challenge }
             };
 
             if (!string.IsNullOrEmpty(scope))

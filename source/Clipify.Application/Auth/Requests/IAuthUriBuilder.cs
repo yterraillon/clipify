@@ -2,6 +2,6 @@
 {
     public interface IAuthUriBuilder
     {
-        public string GetAuthorizeUrl(string scope, string state);
+        public string GetAuthorizeUrl(string challenge, string scope, string state);
     }
 }

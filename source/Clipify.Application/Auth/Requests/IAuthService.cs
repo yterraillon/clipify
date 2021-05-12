@@ -6,8 +6,6 @@ namespace Clipify.Application.Auth.Requests
 {
     public interface IAuthService
     {
-        public string GetAuthorizeUrl(Authorization.Request request);
-
-        public Task<AccessTokenResponse> GetAccessTokenAsync(string code);
+        public Task<AccessTokenResponse> GetAccessTokenAsync(string verifier, string code);
     }
 }
