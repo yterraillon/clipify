@@ -8,27 +8,42 @@ using System.Web;
 using Clipify.Application.Auth.Requests;
 using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
 using Clipify.Application.Auth.Requests.AuthorizeRequest;
+using Clipify.Infrastructure.Extensions;
 using Newtonsoft.Json;
 
 namespace Clipify.Infrastructure.SpotifyAuth
 {
     public class SpotifyAuthService : IAuthService
     {
-        private const string AuthorizeUri = "https://accounts.spotify.com/authorize";
+        public class Settings
+        {
+            public string ClientId { get; set; } = string.Empty;
 
-        private string ClientId { get; set; } = "06e60e8e48db4378a95783a631ffbe60";
+            public string AuthorizeUrl { get; set; } = string.Empty;
 
-        private string ResponseType { get; set; } = "code";
+            public string AccessTokenUrl { get; set; } = string.Empty;
 
-        private string RedirectUri { get; set; } = "https://localhost:44389/spotify-auth";
+            public string RedirectUrl { get; set; } = string.Empty;
+        }
 
-        private string CodeChallengeMethod { get; set; } = "S256";
+        private string ClientId { get; } = "06e60e8e48db4378a95783a631ffbe60";
+
+        private const string ResponseType = "code";
+
+        private const string CodeChallengeMethod = "S256";
 
         private string CodeVerifier { get; set; } = String.Empty;
 
         private string CodeChallenge { get; set; } = String.Empty;
 
         private HttpClient Client { get; } = new HttpClient();
+
+        private Settings SpotifySettings { get; }
+
+        public SpotifyAuthService(Settings settings)
+        {
+            SpotifySettings = settings;
+        }
 
         private static string GenerateCodeVerifier()
         {
@@ -69,12 +84,12 @@ namespace Clipify.Infrastructure.SpotifyAuth
             CodeVerifier = GenerateCodeVerifier();
             CodeChallenge = GenerateCodeChallenge();
 
-            var builder = new UriBuilder(AuthorizeUri);
+            var builder = new UriBuilder();
             var query = HttpUtility.ParseQueryString(builder.Query);
 
             query.Add("client_id", ClientId);
             query.Add("response_type", ResponseType);
-            query.Add("redirect_uri", RedirectUri);
+            query.Add("redirect_uri", SpotifySettings.RedirectUrl);
             query.Add("code_challenge_method", CodeChallengeMethod);
             query.Add("code_challenge", CodeChallenge);
 
@@ -89,47 +104,19 @@ namespace Clipify.Infrastructure.SpotifyAuth
             return builder.ToString();
         }
 
-        public async Task<AccessTokenResponse> GetAccessTokenAsync(string code)
+        public Task<AccessTokenResponse> GetAccessTokenAsync(string code)
         {
             var parameters = new Dictionary<string, string>
             {
                 {"client_id", ClientId},
                 {"grant_type", "authorization_code"},
                 {"code", code},
-                {"redirect_uri", RedirectUri},
+                {"redirect_uri", SpotifySettings.RedirectUrl},
                 {"code_verifier", CodeVerifier}
             };
 
-            try
-            {
-                var response = await Client
-                    .SendAsync(new HttpRequestMessage(HttpMethod.Post, "https://accounts.spotify.com/api/token")
-                        {
-                            Content = new FormUrlEncodedContent(parameters)
-                        })
-                    .ConfigureAwait(false);
-
-                response.EnsureSuccessStatusCode();
-
-                var content = await response.Content
-                    .ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
-                if (content == null)
-                    return new AccessTokenResponse(); // TODO: Error handling.
-
-                return JsonConvert.DeserializeObject<AccessTokenResponse>(content, new JsonSerializerSettings
-                {
-                    DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
-                    NullValueHandling = NullValueHandling.Ignore
-                }) ?? new AccessTokenResponse(); // TODO: Error handling.
-            }
-            catch (HttpRequestException e)
-            {
-                // TODO: Error handling.
-                Console.WriteLine(e);
-                return new AccessTokenResponse();
-            }
+            return Client.PostRequestAsync<AccessTokenResponse>(new Uri(SpotifySettings.AccessTokenUrl),
+                HttpMethod.Post, parameters);
         }
     }
 }
