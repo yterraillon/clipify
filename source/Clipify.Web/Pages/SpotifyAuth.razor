@@ -55,7 +55,7 @@
 
         if (!string.IsNullOrEmpty(Code))
         {
-            Response = await Mediator.Send(new AccessTokenRequest.Request
+            Response = await Mediator.Send(new GetAccessToken.Request
             {
                 Code = Code
             }).ConfigureAwait(false);

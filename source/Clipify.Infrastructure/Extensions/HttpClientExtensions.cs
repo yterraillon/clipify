@@ -16,8 +16,7 @@ namespace Clipify.Infrastructure.Extensions
                     .SendAsync(new HttpRequestMessage(method, requestUri)
                     {
                         Content = new FormUrlEncodedContent(parameters)
-                    })
-                    .ConfigureAwait(false);
+                    });
 
                 response.EnsureSuccessStatusCode();
 

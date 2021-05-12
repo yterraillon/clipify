@@ -17,6 +17,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _authorizeUri = await Mediator.Send(new AuthorizeRequest.Request()).ConfigureAwait(false);
+        _authorizeUri = await Mediator.Send(new Authorization.Request()).ConfigureAwait(false);
     }
 }

@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
-using MediatR;
 
 namespace Clipify.Application.Auth.Requests.AccessTokenRequest
 {
-    public static class AccessTokenRequest
+    public static class GetAccessToken
     {
         public class Request : IRequest<AccessTokenResponse>
         {
-            public string Code { get; set; } = String.Empty;
+            public string Code { get; set; } = string.Empty;
         }
 
         public class Handler : IRequestHandler<Request, AccessTokenResponse>

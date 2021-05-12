@@ -77,7 +77,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
             }
         }
 
-        public string GetAuthorizeUrl(AuthorizeRequest.Request request)
+        public string GetAuthorizeUrl(Authorization.Request request)
         {
             CodeVerifier = GenerateCodeVerifier();
             CodeChallenge = GenerateCodeChallenge();
