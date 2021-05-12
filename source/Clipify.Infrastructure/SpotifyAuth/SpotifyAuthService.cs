@@ -1,16 +1,14 @@
-﻿using System;
+﻿using Clipify.Application.Auth.Requests;
+using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
+using Clipify.Application.Auth.Requests.AuthorizeRequest;
+using Clipify.Infrastructure.SpotifyAuth.Clients;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Clipify.Application.Auth.Requests;
-using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
-using Clipify.Application.Auth.Requests.AuthorizeRequest;
-using Clipify.Infrastructure.Extensions;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace Clipify.Infrastructure.SpotifyAuth
 {
@@ -35,12 +33,13 @@ namespace Clipify.Infrastructure.SpotifyAuth
 
         private string CodeChallenge { get; set; } = String.Empty;
 
-        private HttpClient Client { get; } = new HttpClient();
+        private SpotifyAuthClient Client { get; }
 
         private Settings SpotifySettings { get; }
 
-        public SpotifyAuthService(IOptions<Settings> spotifySettings)
+        public SpotifyAuthService(SpotifyAuthClient client, IOptions<Settings> spotifySettings)
         {
+            Client = client;
             SpotifySettings = spotifySettings.Value;
         }
 
@@ -114,8 +113,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
                 {"code_verifier", CodeVerifier}
             };
 
-            return Client.PostRequestAsync<AccessTokenResponse>(new Uri(SpotifySettings.AccessTokenUrl),
-                HttpMethod.Post, parameters);
+            return Client.GetAccessTokenAsync(new Uri(SpotifySettings.AccessTokenUrl), parameters);
         }
     }
 }
