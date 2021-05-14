@@ -20,6 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{897A29CA-A891-4A70-B65C-6EE86FC2C897}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{629C3FFF-07FA-44AB-B79E-563AFDA5EFBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +57,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{734CA6E9-B12E-438E-B6CB-99099F8F58CA} = {897A29CA-A891-4A70-B65C-6EE86FC2C897}
+		{DE7A2D3A-D530-4020-A03D-CD4BDB00DC8F} = {897A29CA-A891-4A70-B65C-6EE86FC2C897}
+		{68EB61B1-786D-475B-8E9B-2879636DF49B} = {897A29CA-A891-4A70-B65C-6EE86FC2C897}
+		{21FBD46F-80F3-4194-B460-6F0CDBDFA4ED} = {897A29CA-A891-4A70-B65C-6EE86FC2C897}
+		{D5216D1C-D053-4011-B85A-E1634495F989} = {629C3FFF-07FA-44AB-B79E-563AFDA5EFBD}
+		{CDF33D06-A918-46F8-A684-4226CE68086B} = {629C3FFF-07FA-44AB-B79E-563AFDA5EFBD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AC408FA4-2C86-47E2-ABC0-06F5866A01BB}

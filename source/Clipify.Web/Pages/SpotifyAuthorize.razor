@@ -1,0 +1,70 @@
+﻿@page "/spotify-authorize"
+
+@using Microsoft.AspNetCore.WebUtilities
+@using MediatR
+@using Clipify.Application.Auth.Requests.AccessTokenRequest.Models
+@using Clipify.Application.Auth.Requests.AccessTokenRequest
+@inject NavigationManager NavigationManager
+@inject IMediator Mediator
+
+<h3>SpotifyAuth</h3>
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(Code))
+    {
+        <p>Code: @Code</p>
+    }
+    else
+    {
+        <p>Error: @Error</p>
+    }
+    
+    @if (!string.IsNullOrEmpty(State))
+    {
+        <p>State: @State</p>
+    }
+
+    @if (!string.IsNullOrEmpty(Response.AccessToken))
+    {
+        <p>Access Token: @Response.AccessToken</p>
+    }
+</div>
+
+@code {
+
+    private string Code { get; set; } = string.Empty;
+
+    private string Error { get; set; } = string.Empty;
+
+    private string State { get; set; } = string.Empty;
+
+    private static AccessTokenResponse Response { get; set; } = new AccessTokenResponse();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var code))
+        {
+            Code = code;
+        }
+        else if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("state", out var error))
+        {
+            Error = error;
+        }
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("state", out var state))
+        {
+            State = state;
+        }
+
+        if (!string.IsNullOrEmpty(Code) && string.IsNullOrEmpty(Response.AccessToken))
+        {
+            Response = await Mediator.Send(new GetAccessToken.Request
+            {
+                Code = Code
+            }).ConfigureAwait(false);
+        }
+    }
+
+}

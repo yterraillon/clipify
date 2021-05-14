@@ -1,0 +1,22 @@
+﻿@page "/login"
+
+@using MediatR
+@using Clipify.Application.Auth.Requests.AuthorizeRequest
+<h3>Login</h3>
+
+@inject IMediator Mediator
+
+<div class="container">
+    <p>@_authorizeUri</p>
+    <a href="@_authorizeUri" target="_blank">Spotify Auth</a>
+</div>
+
+@code
+{
+    private string _authorizeUri = String.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _authorizeUri = await Mediator.Send(new Authorization.Request()).ConfigureAwait(false);
+    }
+}

@@ -1,5 +1,4 @@
-﻿using Clipify.Application.Common.Interfaces;
-using Clipify.Application.Common.Models;
+﻿using Clipify.Application.WeatherForecasts.Requests.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;

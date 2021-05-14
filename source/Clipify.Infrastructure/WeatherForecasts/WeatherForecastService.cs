@@ -1,5 +1,5 @@
-﻿using Clipify.Application.Common.Interfaces;
-using Clipify.Application.Common.Models;
+﻿using Clipify.Application.WeatherForecasts.Requests;
+using Clipify.Application.WeatherForecasts.Requests.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
