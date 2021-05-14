@@ -1,26 +1,25 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Clipify.Application.Auth;
+﻿using Clipify.Application;
 using Clipify.Application.Auth.Requests.AccessTokenRequest;
-using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
 using Clipify.Infrastructure.SpotifyAuth.Hubs;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Threading.Tasks;
 
 namespace Clipify.Web.Controllers
 {
     [Route("[controller]")]
     public class CallbackController : Controller
     {
-        private readonly IHubContext<SpotifyAuthHub, IAuthHub> _hubContext;
+        private readonly AuthHub _authHub;
+        private readonly IHubContext<SpotifyAuthHub, ISignalRHub> _hubContext;
         private readonly IMediator _mediator;
 
-        public CallbackController(IHubContext<SpotifyAuthHub, IAuthHub> hubContext, IMediator mediator)
+        public CallbackController(IHubContext<SpotifyAuthHub, ISignalRHub> hubContext, IMediator mediator, AuthHub authHub)
         {
             _hubContext = hubContext;
             _mediator = mediator;
+            _authHub = authHub;
         }
 
         [HttpGet]
@@ -34,7 +33,9 @@ namespace Clipify.Web.Controllers
                 Code = code,
             });
 
-            await _hubContext.Clients.All.Broadcast(response.AccessToken);
+            await _hubContext.Clients
+                .Client(state)
+                .Broadcast(response.AccessToken);
 
             return Redirect("/");
         }

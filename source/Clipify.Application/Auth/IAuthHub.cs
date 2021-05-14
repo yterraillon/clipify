@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Auth
 {
     public interface IAuthHub
     {
-        Task Broadcast(string message);
+        HubConnection Connection { get; }
+
+        Task<string> GetConnectionId();
     }
 }
