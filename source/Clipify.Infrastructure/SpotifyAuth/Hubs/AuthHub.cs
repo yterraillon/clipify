@@ -1,5 +1,4 @@
 ﻿using Clipify.Application.Auth;
-using MediatR;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading.Tasks;
 
@@ -9,11 +8,8 @@ namespace Clipify.Infrastructure.SpotifyAuth.Hubs
     {
         public HubConnection Connection { get; }
 
-        private readonly IMediator _mediator;
-
-        public AuthHub(IMediator mediator)
+        public AuthHub()
         {
-            _mediator = mediator;
             Connection = new HubConnectionBuilder()
                 .WithUrl("https://localhost:44389/spotify-auth-hub")
                 .Build();

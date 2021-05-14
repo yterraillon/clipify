@@ -1,5 +1,4 @@
 using Clipify.Application;
-using Clipify.Application.Auth;
 using Clipify.Infrastructure;
 using Clipify.Infrastructure.SpotifyAuth.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -30,8 +29,6 @@ namespace Clipify.Web
             services.AddServerSideBlazor();
             services.AddApplication();
             services.AddInfrastructure(Configuration);
-
-            services.AddHttpContextAccessor();
 
             services.AddResponseCompression(opts =>
             {

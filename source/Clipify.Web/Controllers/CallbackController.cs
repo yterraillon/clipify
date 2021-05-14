@@ -11,15 +11,13 @@ namespace Clipify.Web.Controllers
     [Route("[controller]")]
     public class CallbackController : Controller
     {
-        private readonly AuthHub _authHub;
         private readonly IHubContext<SpotifyAuthHub, ISignalRHub> _hubContext;
         private readonly IMediator _mediator;
 
-        public CallbackController(IHubContext<SpotifyAuthHub, ISignalRHub> hubContext, IMediator mediator, AuthHub authHub)
+        public CallbackController(IHubContext<SpotifyAuthHub, ISignalRHub> hubContext, IMediator mediator)
         {
             _hubContext = hubContext;
             _mediator = mediator;
-            _authHub = authHub;
         }
 
         [HttpGet]
