@@ -1,7 +1,10 @@
+using System.Linq;
 using Clipify.Application;
 using Clipify.Infrastructure;
+using Clipify.Infrastructure.SpotifyAuth.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +29,12 @@ namespace Clipify.Web
             services.AddServerSideBlazor();
             services.AddApplication();
             services.AddInfrastructure(Configuration);
+
+            services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +51,7 @@ namespace Clipify.Web
                 app.UseHsts();
             }
 
+            app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -51,6 +61,7 @@ namespace Clipify.Web
             {
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
+                endpoints.MapHub<SpotifyAuthHub>("/spotify-auth-hub");
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
