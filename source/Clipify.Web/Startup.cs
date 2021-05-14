@@ -1,4 +1,5 @@
 using Clipify.Application;
+using Clipify.Application.Auth;
 using Clipify.Infrastructure;
 using Clipify.Infrastructure.SpotifyAuth.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -30,7 +31,7 @@ namespace Clipify.Web
             services.AddApplication();
             services.AddInfrastructure(Configuration);
 
-            services.AddSingleton<AuthHub>();
+            services.AddSingleton<IAuthHub, AuthHub>();
             services.AddHttpContextAccessor();
 
             services.AddResponseCompression(opts =>

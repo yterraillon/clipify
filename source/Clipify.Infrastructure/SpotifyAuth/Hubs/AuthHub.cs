@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.AuthorizeRequest;
+﻿using Clipify.Application.Auth;
 using MediatR;
 using Microsoft.AspNetCore.SignalR.Client;
+using System.Threading.Tasks;
 
 namespace Clipify.Infrastructure.SpotifyAuth.Hubs
 {
-    public class AuthHub
+    public class AuthHub : IAuthHub
     {
         public HubConnection Connection { get; }
 

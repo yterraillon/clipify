@@ -1,5 +1,5 @@
-﻿using System;
-using Clipify.Domain.Common;
+﻿using Clipify.Domain.Common;
+using System;
 
 namespace Clipify.Domain.Entities
 {
