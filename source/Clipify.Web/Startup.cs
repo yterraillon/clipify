@@ -31,7 +31,6 @@ namespace Clipify.Web
             services.AddApplication();
             services.AddInfrastructure(Configuration);
 
-            services.AddSingleton<IAuthHub, AuthHub>();
             services.AddHttpContextAccessor();
 
             services.AddResponseCompression(opts =>
