@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Clipify.Infrastructure.SpotifyAuth
 {
@@ -14,14 +13,14 @@ namespace Clipify.Infrastructure.SpotifyAuth
     {
         private const string ClientId = "06e60e8e48db4378a95783a631ffbe60";
 
-        private SpotifyAuthClient Client { get; }
+        private readonly SpotifyAuthClient _client;
 
-        private SpotifyAuthSettings Settings { get; }
+        private readonly SpotifyAuthSettings _settings;
 
         public SpotifyAuthService(SpotifyAuthClient client, IOptions<SpotifyAuthSettings> settings)
         {
-            Client = client;
-            Settings = settings.Value;
+            _client = client;
+            _settings = settings.Value;
         }
 
         public Task<AccessTokenResponse> GetAccessTokenAsync(string verifier, string code)
@@ -31,11 +30,11 @@ namespace Clipify.Infrastructure.SpotifyAuth
                 {"client_id", ClientId},
                 {"grant_type", "authorization_code"},
                 {"code", code},
-                {"redirect_uri", Settings.AuthorizeRedirectUrl},
+                {"redirect_uri", _settings.AuthorizeRedirectUrl},
                 {"code_verifier", verifier}
             };
 
-            return Client.GetAccessTokenAsync(new Uri(Settings.AccessTokenUrl), parameters);
+            return _client.GetAccessTokenAsync(new Uri(_settings.AccessTokenUrl), parameters);
         }
     }
 }

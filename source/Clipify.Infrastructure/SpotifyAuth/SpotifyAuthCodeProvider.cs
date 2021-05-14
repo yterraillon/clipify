@@ -22,13 +22,11 @@ namespace Clipify.Infrastructure.SpotifyAuth
 
         public SpotifyAuthCodeProvider()
         {
-            char[] code = new char[128];
-            byte[] secureBytes = new byte[128];
+            var code = new char[128];
+            var secureBytes = new byte[128];
 
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                rng.GetBytes(secureBytes);
-            }
+            using var rng = new RNGCryptoServiceProvider();
+            rng.GetBytes(secureBytes);
 
             for (var i = 0; i < code.Length; i++)
             {

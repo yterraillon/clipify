@@ -8,7 +8,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
 {
     public class SpotifyAuthUriBuilder : IAuthUriBuilder
     {
-        private SpotifyAuthSettings Settings { get; }
+        private readonly SpotifyAuthSettings _settings;
 
         private const string ClientId = "06e60e8e48db4378a95783a631ffbe60"; // TODO: Get from github secret
 
@@ -18,7 +18,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
 
         public SpotifyAuthUriBuilder(IOptions<SpotifyAuthSettings> settings)
         {
-            Settings = settings.Value;
+            _settings = settings.Value;
         }
 
         public string GetAuthorizeUrl(string challenge, string scope, string state)
@@ -27,7 +27,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
             {
                 { "client_id", ClientId },
                 { "response_type", ResponseType },
-                { "redirect_uri", Settings.AuthorizeRedirectUrl },
+                { "redirect_uri", _settings.AuthorizeRedirectUrl },
                 { "code_challenge_method", CodeChallengeMethod },
                 { "code_challenge", challenge }
             };
@@ -37,7 +37,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
             if (!string.IsNullOrEmpty(state))
                 parameters.Add("state", state);
 
-            return QueryHelpers.AddQueryString(Settings.AuthorizeUrl, parameters);
+            return QueryHelpers.AddQueryString(_settings.AuthorizeUrl, parameters);
         }
     }
 }
