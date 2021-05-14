@@ -30,6 +30,8 @@ namespace Clipify.Web
             services.AddApplication();
             services.AddInfrastructure(Configuration);
 
+            services.AddHttpContextAccessor();
+
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(

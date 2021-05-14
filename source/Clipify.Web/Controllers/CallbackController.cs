@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Clipify.Application.Auth;
 using Clipify.Application.Auth.Requests.AccessTokenRequest;
 using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
 using Clipify.Infrastructure.SpotifyAuth.Hubs;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -32,9 +34,9 @@ namespace Clipify.Web.Controllers
                 Code = code,
             });
 
-            await _hubContext.Clients.User(state).Broadcast(response.AccessToken);
+            await _hubContext.Clients.All.Broadcast(response.AccessToken);
 
-            return Ok();
+            return Redirect("/");
         }
     }
 }

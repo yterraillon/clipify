@@ -1,22 +1,59 @@
 ﻿@page "/login"
 
 @using MediatR
+@using Microsoft.AspNetCore.SignalR.Client
 @using Clipify.Application.Auth.Requests.AuthorizeRequest
+@using System.Threading
+@inject NavigationManager NavigationManager
+@inject IMediator Mediator
+@inject IJSRuntime JsRuntime
+@implements IAsyncDisposable
+
 <h3>Login</h3>
 
-@inject IMediator Mediator
-
-<div class="container">
-    <p>@_authorizeUri</p>
-    <a href="@_authorizeUri" target="_blank">Spotify Auth</a>
-</div>
+<p>@Token</p>
 
 @code
 {
-    private string _authorizeUri = String.Empty;
+    private HubConnection? Connection { get; set; }
+
+    private string Token { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        _authorizeUri = await Mediator.Send(new Authorization.Request()).ConfigureAwait(false);
+        // NOTE: SignalR hubs are transient which means we get a new id for each request ?
+        Connection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/spotify-auth-hub"))
+            .Build();
+
+        if (Connection == null)
+        {
+            NavigationManager.NavigateTo("/");
+            return;
+        }
+
+        Connection.On("Broadcast", (string token) =>
+        {
+            Token = token;
+            StateHasChanged();
+        });
+
+        await Connection.StartAsync();
+
+        var uri = await Mediator.Send(new Authorization.Request
+        {
+            State = Connection.ConnectionId
+        });
+
+        if (string.IsNullOrEmpty(uri))
+            NavigationManager.NavigateTo("/");
+        else
+            await JsRuntime.InvokeAsync<object>("open", new CancellationToken(), new[] { uri, "_blank" });
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (Connection != null)
+            await Connection.DisposeAsync();
     }
 }
