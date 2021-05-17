@@ -1,4 +1,6 @@
-﻿using Clipify.Application;
+﻿using System.IO;
+using Clipify.Application;
+using Clipify.Domain.Common;
 using LiteDB;
 using Microsoft.Extensions.Configuration;
 
@@ -6,11 +8,12 @@ namespace Clipify.Infrastructure.Database
 {
     public class DbContext : IDbContext
     {
-        private readonly string _connectionString;
+        public LiteDatabase Database { get; }
+
 
         public DbContext(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("LiteDB");
+            Database = new LiteDatabase(string.Format(configuration.GetConnectionString("LiteDB"), Directory.GetCurrentDirectory()));
         }
     }
 }

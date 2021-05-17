@@ -5,8 +5,12 @@ namespace Clipify.Domain.Entities
 {
     public class User : Entity
     {
-        public string Username { get; set; } = String.Empty;
+        public string Username { get; set; } = string.Empty;
 
-        public string Password { get; set; } = String.Empty;
+        public string AccessToken { get; set; } = string.Empty;
+
+        public string RefreshToken { get; set; } = string.Empty;
+
+        public int ExpiresIn { get; set; }
     }
 }

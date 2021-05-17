@@ -1,7 +1,33 @@
 ﻿@page "/"
+@using Clipify.Application
+@using Clipify.Domain.Entities
+
+@inject IDbContext _context
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+<p>@AccessToken</p>
+<p>@RefreshToken</p>
+
+@code
+{
+    private string AccessToken { get; set; } = string.Empty;
+    private string RefreshToken { get; set; } = string.Empty;
+
+    protected override Task OnInitializedAsync()
+    {
+        var user = _context.Database.GetCollection<User>().FindAll().FirstOrDefault();
+
+        if (user == null)
+            return base.OnInitializedAsync();
+
+        AccessToken = user.AccessToken;
+        RefreshToken = user.RefreshToken;
+
+        return base.OnInitializedAsync();
+    }
+}

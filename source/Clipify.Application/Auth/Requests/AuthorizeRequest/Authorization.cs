@@ -25,7 +25,6 @@ namespace Clipify.Application.Auth.Requests.AuthorizeRequest
                 _codeProvider = codeProvider;
             }
 
-            // TODO: AuthorizeUrl object
             public Task<AuthorizationResponse> Handle(Request request, CancellationToken cancellationToken)
             {
                 return Task.FromResult(new AuthorizationResponse

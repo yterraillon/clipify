@@ -10,8 +10,6 @@ namespace Clipify.Infrastructure.SpotifyAuth
     {
         private readonly SpotifyAuthSettings _settings;
 
-        private const string ClientId = "06e60e8e48db4378a95783a631ffbe60"; // TODO: Get from github secret
-
         private const string ResponseType = "code";
 
         private const string CodeChallengeMethod = "S256";
@@ -25,7 +23,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
         {
             var parameters = new Dictionary<string, string>
             {
-                { "client_id", ClientId },
+                { "client_id", _settings.ClientId },
                 { "response_type", ResponseType },
                 { "redirect_uri", _settings.AuthorizeRedirectUrl },
                 { "code_challenge_method", CodeChallengeMethod },
