@@ -5,10 +5,11 @@
 @using Clipify.Application.Auth.Requests.AuthorizeRequest
 @using Clipify.Infrastructure.SpotifyAuth.Hubs
 @using System.Threading
+@using Clipify.Application.Auth
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 @inject IMediator Mediator
-@inject AuthHub AuthHub
+@inject IAuthHub AuthHub
 <h3>Login</h3>
 
 @Token

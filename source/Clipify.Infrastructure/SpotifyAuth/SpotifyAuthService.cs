@@ -30,7 +30,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
                 {"client_id", ClientId},
                 {"grant_type", "authorization_code"},
                 {"code", code},
-                {"redirect_uri", _settings.AuthorizeRedirectUrl},
+                {"redirect_uri", _settings.AccessTokenRedirectUrl},
                 {"code_verifier", verifier}
             };
 

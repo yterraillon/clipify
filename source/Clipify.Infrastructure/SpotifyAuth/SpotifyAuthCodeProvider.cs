@@ -50,12 +50,10 @@ namespace Clipify.Infrastructure.SpotifyAuth
             }
         }
 
-        private static string SafeToBase64String(byte[] bytes)
-        {
-            return Convert.ToBase64String(bytes)
+        private static string SafeToBase64String(byte[] bytes) =>
+            Convert.ToBase64String(bytes)
                 .TrimEnd('=')
                 .Replace('+', '-')
                 .Replace('/', '_');
-        }
     }
 }
