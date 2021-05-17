@@ -1,6 +1,8 @@
-﻿using Clipify.Application.Auth;
+﻿using Clipify.Application;
+using Clipify.Application.Auth;
 using Clipify.Application.Auth.Requests;
 using Clipify.Application.WeatherForecasts.Requests;
+using Clipify.Infrastructure.Database;
 using Clipify.Infrastructure.SpotifyAuth;
 using Clipify.Infrastructure.SpotifyAuth.Clients;
 using Clipify.Infrastructure.SpotifyAuth.Hubs;
@@ -19,6 +21,7 @@ namespace Clipify.Infrastructure
 
             services.AddHttpClient<SpotifyAuthClient>();
 
+            services.AddSingleton<IDbContext, DbContext>();
             services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
             services.AddSingleton<IAuthHub, AuthHub>();
 
