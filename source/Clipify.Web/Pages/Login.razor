@@ -26,14 +26,17 @@
             StateHasChanged();
         });
 
-        var uri = await Mediator.Send(new Authorization.Request
+        var response = await Mediator.Send(new Authorization.Request
         {
             State = await AuthHub.GetConnectionId()
         });
 
-        if (string.IsNullOrEmpty(uri))
+        if (string.IsNullOrEmpty(response.Url))
             NavigationManager.NavigateTo("/");
         else
-            await JSRuntime.InvokeAsync<object>("open", new CancellationToken(), new[] {uri, "_blank"});
+            await JSRuntime.InvokeAsync<string>("open", new CancellationToken(), new[]
+            {
+                response.Url, "_blank"
+            });
     }
 }
