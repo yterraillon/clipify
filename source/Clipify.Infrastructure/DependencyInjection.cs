@@ -23,7 +23,6 @@ namespace Clipify.Infrastructure
 
             services.AddSingleton<IDbContext, DbContext>();
             services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
-            services.AddSingleton<IAuthHub, AuthHub>();
 
             services.AddTransient<IAuthService, SpotifyAuthService>();
             services.AddTransient<IAuthUriBuilder, SpotifyAuthUriBuilder>();

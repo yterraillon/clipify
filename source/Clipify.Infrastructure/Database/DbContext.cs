@@ -15,7 +15,8 @@ namespace Clipify.Infrastructure.Database
 
         public DbContext(IConfiguration configuration)
         {
-            Database = new LiteDatabase(string.Format(configuration.GetConnectionString("LiteDB"), Directory.GetCurrentDirectory()));
+            //Database = new LiteDatabase(string.Format(configuration.GetConnectionString("LiteDB"), Directory.GetCurrentDirectory()));
+            Database = new LiteDatabase(configuration.GetConnectionString("LiteDB"));
 
             Users = Database.GetCollection<User>();
         }

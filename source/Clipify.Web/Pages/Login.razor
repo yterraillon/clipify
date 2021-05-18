@@ -9,27 +9,14 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 @inject IMediator Mediator
-@inject IAuthHub AuthHub
 <h3>Login</h3>
-
-@Token
 
 @code
 {
-    private string Token = string.Empty;
-
     protected override async Task OnInitializedAsync()
     {
-        AuthHub.Connection.On<string>("Broadcast", (token) =>
-        {
-            Token = token;
-            StateHasChanged();
-        });
 
-        var response = await Mediator.Send(new Authorization.Request
-        {
-            State = await AuthHub.GetConnectionId()
-        });
+        var response = await Mediator.Send(new Authorization.Request());
 
         if (string.IsNullOrEmpty(response.Url))
             NavigationManager.NavigateTo("/");

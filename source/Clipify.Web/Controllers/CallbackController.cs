@@ -1,9 +1,7 @@
 ﻿using Clipify.Application;
 using Clipify.Application.Auth.Requests.AccessTokenRequest;
-using Clipify.Infrastructure.SpotifyAuth.Hubs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 using Clipify.Domain.Entities;
 
@@ -12,13 +10,11 @@ namespace Clipify.Web.Controllers
     [Route("[controller]")]
     public class CallbackController : Controller
     {
-        private readonly IHubContext<SpotifyAuthHub, ISignalRHub> _hubContext;
         private readonly IMediator _mediator;
         private readonly IDbContext _context;
 
-        public CallbackController(IHubContext<SpotifyAuthHub, ISignalRHub> hubContext, IMediator mediator, IDbContext context)
+        public CallbackController(IMediator mediator, IDbContext context)
         {
-            _hubContext = hubContext;
             _mediator = mediator;
             _context = context;
         }
@@ -26,7 +22,7 @@ namespace Clipify.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string code, [FromQuery] string state)
         {
-            if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(state))
+            if (string.IsNullOrEmpty(code))
                 return BadRequest();
 
             var response = await _mediator.Send(new GetAccessToken.Request
@@ -46,10 +42,6 @@ namespace Clipify.Web.Controllers
                 ExpiresIn = response.ExpiresIn
             });
             collection.EnsureIndex(x => x.Id, true);
-
-            await _hubContext.Clients
-                .Client(state)
-                .Broadcast(response.AccessToken);
 
             return Redirect("/");
         }
