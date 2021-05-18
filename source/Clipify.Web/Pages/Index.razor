@@ -20,7 +20,7 @@ Welcome to your new app.
 
     protected override Task OnInitializedAsync()
     {
-        var user = _context.Database.GetCollection<User>().FindAll().FirstOrDefault();
+        var user = _context.Users.FindOne(x => x.AccessToken.Any());
 
         if (user == null)
             return base.OnInitializedAsync();
