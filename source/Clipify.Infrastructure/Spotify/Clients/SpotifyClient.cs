@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Clipify.Application.Spotify.Clients;
 using Clipify.Application.Spotify.Requests.ProfileRequest.Models;
@@ -16,11 +17,11 @@ namespace Clipify.Infrastructure.Spotify.Clients
             _client = client;
         }
 
-        public Task<ProfileResponse> GetUserProfileAsync(string token)
+        public Task<ProfileResponse> GetUserProfileAsync(string token, CancellationToken cancellationToken)
         {
             _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
-            return _client.PostRequestAsync<ProfileResponse>(new Uri("https://api.spotify.com/v1/me"), HttpMethod.Get, null);
+            return _client.PostRequestAsync<ProfileResponse>(new Uri("https://api.spotify.com/v1/me"), HttpMethod.Get, cancellationToken: cancellationToken);
         }
     }
 }
