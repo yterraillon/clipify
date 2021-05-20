@@ -5,7 +5,6 @@ using Clipify.Application.WeatherForecasts.Requests;
 using Clipify.Infrastructure.Database;
 using Clipify.Infrastructure.SpotifyAuth;
 using Clipify.Infrastructure.SpotifyAuth.Clients;
-using Clipify.Infrastructure.SpotifyAuth.Hubs;
 using Clipify.Infrastructure.SpotifyAuth.Models;
 using Clipify.Infrastructure.WeatherForecasts;
 using Microsoft.Extensions.Configuration;

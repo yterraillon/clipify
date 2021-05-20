@@ -33,15 +33,12 @@ namespace Clipify.Web.Controllers
             if (string.IsNullOrEmpty(response.AccessToken))
                 return BadRequest();
 
-            var collection = _context.Database.GetCollection<User>();
-
-            collection.Insert(new User()
+            _context.Users.Insert(new User()
             {
                 AccessToken = response.AccessToken,
                 RefreshToken = response.RefreshToken,
                 ExpiresIn = response.ExpiresIn
             });
-            collection.EnsureIndex(x => x.Id, true);
 
             return Redirect("/");
         }
