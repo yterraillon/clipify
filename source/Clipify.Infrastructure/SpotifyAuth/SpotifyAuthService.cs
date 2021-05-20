@@ -1,11 +1,11 @@
 ﻿using Clipify.Application.Auth.Requests;
-using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
 using Clipify.Infrastructure.SpotifyAuth.Clients;
 using Clipify.Infrastructure.SpotifyAuth.Models;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Clipify.Application.Auth.Requests.TokenRequest.Models;
 
 namespace Clipify.Infrastructure.SpotifyAuth
 {
@@ -21,7 +21,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
             _settings = settings.Value;
         }
 
-        public Task<AccessTokenResponse> GetAccessTokenAsync(string verifier, string code)
+        public Task<TokenResponse> GetAccessTokenAsync(string verifier, string code)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -32,7 +32,19 @@ namespace Clipify.Infrastructure.SpotifyAuth
                 {"code_verifier", verifier}
             };
 
-            return _client.GetAccessTokenAsync(new Uri(_settings.AccessTokenUrl), parameters);
+            return _client.GetTokenAsync(new Uri(_settings.AccessTokenUrl), parameters);
+        }
+
+        public Task<TokenResponse> RefreshTokenAsync(string refreshToken)
+        {
+            var parameters = new Dictionary<string, string>()
+            {
+                {"client_id", _settings.ClientId},
+                {"grant_type", "refresh_token"},
+                {"refresh_token", refreshToken}
+            };
+
+            return _client.GetTokenAsync(new Uri("https://accounts.spotify.com/api/token"), parameters);
         }
     }
 }
