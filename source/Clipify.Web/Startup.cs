@@ -1,6 +1,5 @@
 using Clipify.Application;
 using Clipify.Infrastructure;
-using Clipify.Infrastructure.SpotifyAuth.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -62,7 +61,6 @@ namespace Clipify.Web
             {
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
-                endpoints.MapHub<SpotifyAuthHub>("/spotify-auth-hub");
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
