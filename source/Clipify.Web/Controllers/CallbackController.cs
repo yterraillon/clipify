@@ -1,8 +1,8 @@
 ﻿using Clipify.Application;
-using Clipify.Application.Auth.Requests.AccessTokenRequest;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Clipify.Application.Auth.Requests.TokenRequest;
 using Clipify.Domain.Entities;
 
 namespace Clipify.Web.Controllers

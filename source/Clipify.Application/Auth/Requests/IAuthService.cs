@@ -1,10 +1,12 @@
-﻿using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Clipify.Application.Auth.Requests.TokenRequest.Models;
 
 namespace Clipify.Application.Auth.Requests
 {
     public interface IAuthService
     {
-        public Task<AccessTokenResponse> GetAccessTokenAsync(string verifier, string code);
+        public Task<TokenResponse> GetAccessTokenAsync(string verifier, string code);
+
+        public Task<TokenResponse> RefreshTokenAsync(string refreshToken);
     }
 }
