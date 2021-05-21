@@ -1,5 +1,7 @@
 ﻿using Clipify.Application;
+using Clipify.Application.Database;
 using Clipify.Domain.Entities;
+using Clipify.Infrastructure.Database.Dtos;
 using LiteDB;
 using Microsoft.Extensions.Configuration;
 
@@ -9,15 +11,13 @@ namespace Clipify.Infrastructure.Database
     {
         public LiteDatabase Database { get; }
 
-        public ILiteCollection<User> Users { get; }
-
         public DbContext(IConfiguration configuration)
         {
             Database = new LiteDatabase(configuration.GetConnectionString("LiteDB"));
 
-            Users = Database.GetCollection<User>();
+            Database.GetCollection<UserDto>()
+                .EnsureIndex(x => x.Id, true);
 
-            Users.EnsureIndex(x => x.Id, true);
         }
     }
 }
