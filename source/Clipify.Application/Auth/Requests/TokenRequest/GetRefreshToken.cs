@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using Clipify.Application.Auth.Requests.TokenRequest.Models;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.TokenRequest.Models;
-using MediatR;
+using Clipify.Application.Users;
 
 namespace Clipify.Application.Auth.Requests.TokenRequest
 {
@@ -16,17 +16,17 @@ namespace Clipify.Application.Auth.Requests.TokenRequest
         public class Handler : IRequestHandler<Request, TokenResponse>
         {
             private readonly IAuthService _authService;
-            private readonly IDbContext _context;
+            private readonly ICurrentUserService _currentUser;
 
-            public Handler(IAuthService authService, IDbContext context)
+            public Handler(IAuthService authService, ICurrentUserService currentUser)
             {
                 _authService = authService;
-                _context = context;
+                _currentUser = currentUser;
             }
 
             public Task<TokenResponse> Handle(Request request, CancellationToken cancellationToken)
             {
-                var refreshToken = _context.Users.FindOne(x => x.AccessToken.Any())?.RefreshToken;
+                var refreshToken = _currentUser.GetCurrentUser()?.RefreshToken;
 
                 // ReSharper disable once ConvertIfStatementToReturnStatement
                 if (refreshToken is null)
