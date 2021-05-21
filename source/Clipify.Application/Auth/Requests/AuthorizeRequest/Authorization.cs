@@ -1,7 +1,7 @@
-﻿using MediatR;
+﻿using Clipify.Application.Auth.Requests.AuthorizeRequest.Models;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.AuthorizeRequest.Models;
 
 namespace Clipify.Application.Auth.Requests.AuthorizeRequest
 {

@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.TokenRequest.Models;
+﻿using Clipify.Application.Auth.Requests.TokenRequest.Models;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Auth.Requests.TokenRequest
 {

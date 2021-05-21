@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Clipify.Application.Spotify.Clients;
+using Clipify.Application.Spotify.Requests.ProfileRequest.Models;
+using Clipify.Infrastructure.Extensions;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Spotify.Clients;
-using Clipify.Application.Spotify.Requests.ProfileRequest.Models;
-using Clipify.Infrastructure.Extensions;
 
 namespace Clipify.Infrastructure.Spotify.Clients
 {

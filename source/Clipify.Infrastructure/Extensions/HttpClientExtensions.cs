@@ -22,8 +22,7 @@ namespace Clipify.Infrastructure.Extensions
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content
-                    .ReadAsStringAsync()
-                    .ConfigureAwait(false);
+                    .ReadAsStringAsync();
 
                 return JsonConvert.DeserializeObject<T>(content, new JsonSerializerSettings
                 {

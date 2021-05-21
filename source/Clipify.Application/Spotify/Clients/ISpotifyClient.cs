@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using Clipify.Application.Spotify.Requests.ProfileRequest.Models;
+using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Spotify.Requests.ProfileRequest.Models;
 
 namespace Clipify.Application.Spotify.Clients
 {
