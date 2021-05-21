@@ -1,6 +1,4 @@
-﻿using Clipify.Application;
-using Clipify.Application.Database;
-using Clipify.Domain.Entities;
+﻿using Clipify.Application.Database;
 using Clipify.Infrastructure.Database.Dtos;
 using LiteDB;
 using Microsoft.Extensions.Configuration;

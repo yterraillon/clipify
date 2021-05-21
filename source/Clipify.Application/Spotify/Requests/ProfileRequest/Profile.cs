@@ -1,9 +1,9 @@
 ﻿using Clipify.Application.Spotify.Clients;
 using Clipify.Application.Spotify.Requests.ProfileRequest.Models;
+using Clipify.Application.Users;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Users;
 
 namespace Clipify.Application.Spotify.Requests.ProfileRequest
 {

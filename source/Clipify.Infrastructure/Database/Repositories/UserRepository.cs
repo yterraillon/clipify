@@ -21,5 +21,5 @@ namespace Clipify.Infrastructure.Database.Repositories
             });
         }
     }
-    
+
 }

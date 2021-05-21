@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Clipify.Domain.Common;
 
 namespace Clipify.Application.Database
 {

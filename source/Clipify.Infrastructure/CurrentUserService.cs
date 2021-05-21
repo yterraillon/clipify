@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Clipify.Application;
 using Clipify.Application.Database;
 using Clipify.Application.Users;
 using Clipify.Domain.Entities;

@@ -1,11 +1,9 @@
-﻿using Clipify.Application;
+﻿using Clipify.Application.Auth.Requests.TokenRequest;
+using Clipify.Application.Database;
+using Clipify.Application.Users.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.TokenRequest;
-using Clipify.Application.Database;
-using Clipify.Application.Users.Commands;
-using Clipify.Domain.Entities;
 
 namespace Clipify.Web.Controllers
 {

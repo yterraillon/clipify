@@ -1,5 +1,4 @@
 ﻿using Clipify.Domain.Common;
-using System;
 
 namespace Clipify.Domain.Entities
 {
