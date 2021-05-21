@@ -1,17 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Clipify.Application.Spotify.Requests.ProfileRequest.Models
 {
     public class ProfileResponse
     {
-        public ProfileResponse()
-        {
-            ExternalUrls = new List<ExternalUrl>();
-            Followers = new Followers();
-            Images = new List<Image>();
-        }
-
         public string Country { get; set; } = string.Empty;
 
         [JsonProperty("display_name")]
@@ -20,19 +14,21 @@ namespace Clipify.Application.Spotify.Requests.ProfileRequest.Models
         public string Email { get; set; } = string.Empty;
 
         [JsonProperty("external_urls")]
-        public ICollection<ExternalUrl> ExternalUrls { get; }
+        public IEnumerable<ExternalUrl> ExternalUrls { get; } = Enumerable.Empty<ExternalUrl>();
 
-        public Followers Followers { get; set; }
+        public Followers Followers { get; set; } = new Followers();
 
         public string Id { get; set; } = string.Empty;
 
-        public ICollection<Image> Images { get; }
+        public IEnumerable<Image> Images { get; } = Enumerable.Empty<Image>();
 
         public string Product { get; set; } = string.Empty;
 
         public string Type { get; set; } = string.Empty;
 
         public string Uri { get; set; } = string.Empty;
+
+        public static ProfileResponse Empty => new ProfileResponse();
     }
 
     public class ExternalUrl
