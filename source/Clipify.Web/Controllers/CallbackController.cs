@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Clipify.Application.Auth.Requests.TokenRequest;
+using Clipify.Application.Database;
+using Clipify.Application.Users.Commands;
 using Clipify.Domain.Entities;
 
 namespace Clipify.Web.Controllers
@@ -33,7 +35,7 @@ namespace Clipify.Web.Controllers
             if (string.IsNullOrEmpty(response.AccessToken))
                 return BadRequest();
 
-            _context.Users.Insert(new User()
+            await _mediator.Send(new CreateUser.Command
             {
                 AccessToken = response.AccessToken,
                 RefreshToken = response.RefreshToken,

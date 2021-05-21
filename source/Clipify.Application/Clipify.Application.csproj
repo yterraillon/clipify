@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Spotify\Clients\" />
+    <Folder Include="Users\Requests\" />
   </ItemGroup>
 
 </Project>
