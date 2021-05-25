@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Clipify.Application.Spotify.Requests.ProfileRequest
 {
-    public static class Profile
+    public static class GetProfile
     {
         public class Request : IRequest<ProfileResponse>
         {
@@ -29,11 +29,9 @@ namespace Clipify.Application.Spotify.Requests.ProfileRequest
             {
                 var token = _currentUser.GetCurrentUser()?.AccessToken;
 
-                // ReSharper disable once ConvertIfStatementToReturnStatement
-                if (string.IsNullOrEmpty(token))
-                    return Task.FromResult(new ProfileResponse());
-
-                return _client.GetUserProfileAsync(token, cancellationToken);
+                return string.IsNullOrEmpty(token)
+                    ? Task.FromResult(ProfileResponse.Empty)
+                    : _client.GetUserProfileAsync(token, cancellationToken);
             }
         }
     }
