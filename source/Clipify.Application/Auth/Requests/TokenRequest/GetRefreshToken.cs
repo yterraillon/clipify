@@ -28,11 +28,9 @@ namespace Clipify.Application.Auth.Requests.TokenRequest
             {
                 var refreshToken = _currentUser.GetCurrentUser()?.RefreshToken;
 
-                // ReSharper disable once ConvertIfStatementToReturnStatement
-                if (refreshToken is null)
-                    return Task.FromResult(new TokenResponse());
-
-                return _authService.RefreshTokenAsync(refreshToken);
+                return string.IsNullOrEmpty(refreshToken)
+                    ? Task.FromResult(TokenResponse.Empty)
+                    : _authService.RefreshTokenAsync(refreshToken);
             }
         }
     }

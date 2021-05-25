@@ -11,12 +11,10 @@ namespace Clipify.Web.Controllers
     public class CallbackController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly IDbContext _context;
 
-        public CallbackController(IMediator mediator, IDbContext context)
+        public CallbackController(IMediator mediator)
         {
             _mediator = mediator;
-            _context = context;
         }
 
         [HttpGet]

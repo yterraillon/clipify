@@ -37,5 +37,12 @@ namespace Clipify.Infrastructure.Extensions
                 return new T();
             }
         }
+
+        public static HttpClient ConfigureAuthorization(this HttpClient client, string token)
+        {
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
+            return client;
+        }
     }
 }

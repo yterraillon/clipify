@@ -19,9 +19,11 @@ namespace Clipify.Infrastructure.Spotify.Clients
 
         public Task<ProfileResponse> GetUserProfileAsync(string token, CancellationToken cancellationToken)
         {
-            _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
-
-            return _client.PostRequestAsync<ProfileResponse>(new Uri("https://api.spotify.com/v1/me"), HttpMethod.Get, cancellationToken: cancellationToken);
+            return _client.ConfigureAuthorization(token)
+                .PostRequestAsync<ProfileResponse>(
+                    new Uri("https://api.spotify.com/v1/me"),
+                    HttpMethod.Get,
+                    cancellationToken: cancellationToken);
         }
     }
 }
