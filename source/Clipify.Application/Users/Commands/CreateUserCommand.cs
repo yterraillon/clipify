@@ -2,6 +2,7 @@
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using Clipify.Domain.Entities;
 
 namespace Clipify.Application.Users.Commands
 {
@@ -18,16 +19,21 @@ namespace Clipify.Application.Users.Commands
 
         public class Handler : IRequestHandler<Command, Unit>
         {
-            private readonly IUserRepository _userRepository;
+            private readonly IRepository<User, string> _userRepository;
 
-            public Handler(IUserRepository userRepository)
+            public Handler(IRepository<User, string> userRepository)
             {
                 _userRepository = userRepository;
             }
 
             public Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                _userRepository.CreateUser(request.AccessToken, request.RefreshToken, request.ExpiresIn);
+                _userRepository.Add(new User
+                {
+                    AccessToken = request.AccessToken,
+                    RefreshToken = request.RefreshToken,
+                    ExpiresIn = request.ExpiresIn
+                });
 
                 return Task.FromResult(Unit.Value);
             }

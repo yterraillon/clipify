@@ -2,13 +2,13 @@
 
 namespace Clipify.Application.Database
 {
-    public interface IRepository<out TResult, in TEntity, in TId> where TResult : class
+    public interface IRepository<T, in TId> where T : class
     {
-        TResult Get(TId id);
+        T Get(TId id);
 
-        IEnumerable<TResult> GetAll();
+        IEnumerable<T> GetAll();
 
-        void Add(TEntity entity);
+        void Add(T entity);
 
         void Remove(TId id);
     }

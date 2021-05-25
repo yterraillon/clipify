@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 namespace Clipify.Infrastructure.Database.Repositories
 {
-    public class Repository<TResult, TEntity, TId> : IRepository<TResult, TEntity, TId>
-        where TResult : class
+    public class Repository<T, TEntity, TId> : IRepository<T, TId>
+        where T : class
         where TEntity : new()
     {
         protected readonly IMapper Mapper;
@@ -22,14 +22,14 @@ namespace Clipify.Infrastructure.Database.Repositories
             Collection = Context.Database.GetCollection<TEntity>();
         }
 
-        public void Add(TEntity entity)
-            => Collection.Insert(entity);
+        public void Add(T entity)
+            => Collection.Insert(Mapper.Map<TEntity>(entity));
 
-        public TResult Get(TId id)
-            => Mapper.Map<TResult>(Collection.FindById(new BsonValue(id)) ?? new TEntity());
+        public T Get(TId id)
+            => Mapper.Map<T>(Collection.FindById(new BsonValue(id)) ?? new TEntity());
 
-        public IEnumerable<TResult> GetAll()
-            => Mapper.Map<IEnumerable<TResult>>(Collection.FindAll());
+        public IEnumerable<T> GetAll()
+            => Mapper.Map<IEnumerable<T>>(Collection.FindAll());
 
         public void Remove(TId id)
             => Collection.Delete(new BsonValue(id));

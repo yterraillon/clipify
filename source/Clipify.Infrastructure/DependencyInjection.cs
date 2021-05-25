@@ -13,6 +13,8 @@ using Clipify.Infrastructure.WeatherForecasts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Clipify.Domain.Entities;
+using Clipify.Infrastructure.Database.Dtos;
 
 namespace Clipify.Infrastructure
 {
@@ -30,7 +32,7 @@ namespace Clipify.Infrastructure
             services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
 
             // Repositories
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IRepository<User, string>, Repository<User, UserDto, string>>();
 
             services.AddTransient<ICurrentUserService, CurrentUserService>();
             services.AddTransient<IAuthService, SpotifyAuthService>();
