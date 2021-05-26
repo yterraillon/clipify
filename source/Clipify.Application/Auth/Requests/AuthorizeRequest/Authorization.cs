@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Clipify.Application.Auth.Requests.AuthorizeRequest.Models;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -6,14 +7,14 @@ namespace Clipify.Application.Auth.Requests.AuthorizeRequest
 {
     public static class Authorization
     {
-        public class Request : IRequest<string>
+        public class Request : IRequest<AuthorizationResponse>
         {
             public string State { get; set; } = string.Empty;
 
             public string Scope { get; set; } = string.Empty;
         }
 
-        public class Handler : IRequestHandler<Request, string>
+        public class Handler : IRequestHandler<Request, AuthorizationResponse>
         {
             private readonly IAuthUriBuilder _authUriBuilder;
             private readonly IAuthCodeProvider _codeProvider;
@@ -24,9 +25,12 @@ namespace Clipify.Application.Auth.Requests.AuthorizeRequest
                 _codeProvider = codeProvider;
             }
 
-            public Task<string> Handle(Request request, CancellationToken cancellationToken)
+            public Task<AuthorizationResponse> Handle(Request request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(_authUriBuilder.GetAuthorizeUrl(_codeProvider.Challenge, request.Scope, request.State));
+                return Task.FromResult(new AuthorizationResponse
+                {
+                    Url = _authUriBuilder.GetAuthorizeUrl(_codeProvider.Challenge, request.Scope, request.State)
+                });
             }
         }
     }

@@ -1,9 +1,11 @@
-﻿using Clipify.Domain.Common;
+﻿using LiteDB;
 
-namespace Clipify.Domain.Entities
+namespace Clipify.Infrastructure.Database.Dtos
 {
-    public class User : Entity
+    public class UserDto
     {
+        public ObjectId Id { get; set; } = ObjectId.Empty;
+
         public string Username { get; set; } = string.Empty;
 
         public string AccessToken { get; set; } = string.Empty;
@@ -11,5 +13,7 @@ namespace Clipify.Domain.Entities
         public string RefreshToken { get; set; } = string.Empty;
 
         public int ExpiresIn { get; set; }
+
+        public static UserDto Empty => new UserDto();
     }
 }

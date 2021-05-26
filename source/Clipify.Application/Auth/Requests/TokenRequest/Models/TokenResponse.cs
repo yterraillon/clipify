@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Clipify.Application.Auth.Requests.AccessTokenRequest.Models
+namespace Clipify.Application.Auth.Requests.TokenRequest.Models
 {
-    public class AccessTokenResponse
+    public class TokenResponse
     {
         [JsonProperty("access_token")]
         public string AccessToken { get; set; } = string.Empty;
@@ -18,5 +18,7 @@ namespace Clipify.Application.Auth.Requests.AccessTokenRequest.Models
 
         [JsonProperty("refresh_token")]
         public string RefreshToken { get; set; } = string.Empty;
+
+        public static TokenResponse Empty => new TokenResponse();
     }
 }

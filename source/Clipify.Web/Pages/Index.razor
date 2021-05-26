@@ -1,7 +1,28 @@
 ﻿@page "/"
+@using Clipify.Application.Users.Requests
+@using MediatR
+
+@inject IMediator _mediator
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+<p>@AccessToken</p>
+<p>@RefreshToken</p>
+
+@code
+{
+    private string AccessToken { get; set; } = string.Empty;
+    private string RefreshToken { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await _mediator.Send(new GetUser.Request());
+
+        AccessToken = user.AccessToken;
+        RefreshToken = user.RefreshToken;
+    }
+}

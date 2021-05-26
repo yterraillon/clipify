@@ -1,18 +1,18 @@
-﻿using Clipify.Application.Auth.Requests.AccessTokenRequest.Models;
+﻿using Clipify.Application.Auth.Requests.TokenRequest.Models;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Clipify.Application.Auth.Requests.AccessTokenRequest
+namespace Clipify.Application.Auth.Requests.TokenRequest
 {
     public static class GetAccessToken
     {
-        public class Request : IRequest<AccessTokenResponse>
+        public class Request : IRequest<TokenResponse>
         {
             public string Code { get; set; } = string.Empty;
         }
 
-        public class Handler : IRequestHandler<Request, AccessTokenResponse>
+        public class Handler : IRequestHandler<Request, TokenResponse>
         {
             private readonly IAuthService _authService;
             private readonly IAuthCodeProvider _codeProvider;
@@ -23,7 +23,7 @@ namespace Clipify.Application.Auth.Requests.AccessTokenRequest
                 _codeProvider = codeProvider;
             }
 
-            public Task<AccessTokenResponse> Handle(Request request, CancellationToken cancellationToken)
+            public Task<TokenResponse> Handle(Request request, CancellationToken cancellationToken)
             {
                 return _authService.GetAccessTokenAsync(_codeProvider.Verifier, request.Code);
             }

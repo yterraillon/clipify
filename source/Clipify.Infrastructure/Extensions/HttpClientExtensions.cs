@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Clipify.Infrastructure.Extensions
 {
     public static class HttpClientExtensions
     {
-        public static async Task<T> PostRequestAsync<T>(this HttpClient client, Uri requestUri, HttpMethod method, IDictionary<string, string> parameters) where T : new()
+        public static async Task<T> PostRequestAsync<T>(this HttpClient client, Uri requestUri, HttpMethod method, IDictionary<string, string>? parameters = null, CancellationToken cancellationToken = new CancellationToken()) where T : new()
         {
             try
             {
@@ -16,13 +17,12 @@ namespace Clipify.Infrastructure.Extensions
                     .SendAsync(new HttpRequestMessage(method, requestUri)
                     {
                         Content = new FormUrlEncodedContent(parameters)
-                    });
+                    }, cancellationToken);
 
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content
-                    .ReadAsStringAsync()
-                    .ConfigureAwait(false);
+                    .ReadAsStringAsync();
 
                 return JsonConvert.DeserializeObject<T>(content, new JsonSerializerSettings
                 {
@@ -36,6 +36,13 @@ namespace Clipify.Infrastructure.Extensions
                 Console.WriteLine(e);
                 return new T();
             }
+        }
+
+        public static HttpClient ConfigureAuthorization(this HttpClient client, string token)
+        {
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
+            return client;
         }
     }
 }

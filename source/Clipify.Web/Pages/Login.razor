@@ -1,22 +1,28 @@
 ﻿@page "/login"
 
 @using MediatR
+@using Microsoft.AspNetCore.SignalR.Client
 @using Clipify.Application.Auth.Requests.AuthorizeRequest
-<h3>Login</h3>
-
+@using System.Threading
+@using Clipify.Application.Auth
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 @inject IMediator Mediator
-
-<div class="container">
-    <p>@_authorizeUri</p>
-    <a href="@_authorizeUri" target="_blank">Spotify Auth</a>
-</div>
+<h3>Login</h3>
 
 @code
 {
-    private string _authorizeUri = String.Empty;
-
     protected override async Task OnInitializedAsync()
     {
-        _authorizeUri = await Mediator.Send(new Authorization.Request()).ConfigureAwait(false);
+
+        var response = await Mediator.Send(new Authorization.Request());
+
+        if (string.IsNullOrEmpty(response.Url))
+            NavigationManager.NavigateTo("/");
+        else
+            await JSRuntime.InvokeAsync<string>("open", new CancellationToken(), new[]
+            {
+                response.Url, "_blank"
+            });
     }
 }
