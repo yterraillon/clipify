@@ -6,6 +6,9 @@ Copy and backup your Spotify playlists
     <a href="https://github.com/yterraillon/clipify/releases" target="_blank">
         <img src="https://img.shields.io/badge/version-v0.0.1-blue?style=for-the-badge&logo=none" alt="clipify version" />
     </a>
+    <a href="https://github.com/yterraillon/clipify/commits/main">
+        <img src="https://img.shields.io/github/last-commit//yterraillon/clipify.svg?style=for-the-badge&logo=github&logoColor=white" alt="GitHub last commit">
+    </a>
     <img src="https://img.shields.io/badge/license-mit-red?style=for-the-badge&logo=none" alt="license" />
 </p>
 <br>
@@ -15,8 +18,6 @@ Copy and backup your Spotify playlists
 - [Technologies](#Technologies)
 - [CI / CD](#ci)
 - [Quick Start](#quick-start)
-    - [Local](#local)
-    - [Docker](#docker)
 - [License](#license)
 
 
@@ -48,6 +49,7 @@ First of all, [download the latest release](https://github.com/yterraillon/clipi
 - Select Debug / Release configuration
 - Run using `IIS Express`
 
+<br>
 
 #### Using .NET Core CLI
 
