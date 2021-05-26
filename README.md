@@ -22,6 +22,7 @@ Copy and backup your Spotify playlists
 - [Technologies](#technologies)
 - [CI / CD](#ci)
 - [Quick Start](#quick-start)
+- [Open Issue](#open-an-issue)
 - [License](#license)
 
 
@@ -79,6 +80,8 @@ docker run --name=clipify clipify/clipifyweb:latest
 ```
 
 -----
+
+## Open an Issue
 
 ## License
 
