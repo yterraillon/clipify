@@ -1,9 +1,8 @@
 ﻿@page "/"
-@using Clipify.Application
-@using Clipify.Application.Users
-@using Clipify.Domain.Entities
+@using Clipify.Application.Users.Requests
+@using MediatR
 
-@inject ICurrentUserService _currentUser
+@inject IMediator _mediator
 
 <h1>Hello, world!</h1>
 
@@ -19,13 +18,11 @@ Welcome to your new app.
     private string AccessToken { get; set; } = string.Empty;
     private string RefreshToken { get; set; } = string.Empty;
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        var user = _currentUser.GetCurrentUser();
+        var user = await _mediator.Send(new GetUser.Request());
 
         AccessToken = user.AccessToken;
         RefreshToken = user.RefreshToken;
-
-        return base.OnInitializedAsync();
     }
 }
