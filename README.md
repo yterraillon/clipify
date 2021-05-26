@@ -1,4 +1,4 @@
-# clipify
+<h1 align="center">Clipify</h1>
 <p align="center">
 Copy and backup your Spotify playlists
 </p>
@@ -26,6 +26,8 @@ Copy and backup your Spotify playlists
 
 - C# 8.0
 - Blazor Server App
+
+-----
 
 ## CI
 
