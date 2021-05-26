@@ -1,11 +1,10 @@
-﻿using LiteDB;
-using System;
+﻿using System;
 
 namespace Clipify.Domain.Common
 {
     public abstract class Entity
     {
-        public ObjectId Id { get; set; } = ObjectId.Empty;
+        public string Id { get; set; } = string.Empty;
 
         public DateTime Created { get; set; }
 

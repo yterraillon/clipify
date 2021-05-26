@@ -19,6 +19,6 @@ namespace Clipify.Application.Auth.Requests.TokenRequest.Models
         [JsonProperty("refresh_token")]
         public string RefreshToken { get; set; } = string.Empty;
 
-        public static TokenResponse Empty = new TokenResponse();
+        public static TokenResponse Empty => new TokenResponse();
     }
 }
