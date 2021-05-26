@@ -6,9 +6,10 @@ Copy and backup your Spotify playlists
     <a href="https://github.com/yterraillon/clipify/releases" target="_blank">
         <img src="https://img.shields.io/badge/version-v0.0.1-blue?style=for-the-badge&logo=none" alt="clipify version" />
     </a>
-    <a href="https://github.com/yterraillon/clipify/actions/workflows/dotnet.yml">
-    <img src="https://img.shields.io/github/workflow/status/yterraillon/clipify/dotnet.yml/main.svg?style=for-the-badge"
+    <a href="https://github.com/yterraillon/clipify/actions/workflows/dotnet.yml" target="_blank">
+    <img src="https://img.shields.io/github/workflow/status/yterraillon/clipify/.NET/main.svg?style=for-the-badge"
       alt="Build Status" />
+    </a>
     <a href="https://github.com/yterraillon/clipify/commits/main">
         <img src="https://img.shields.io/github/last-commit/yterraillon/clipify.svg?style=for-the-badge&logo=github&logoColor=white" alt="GitHub last commit">
     </a>
@@ -18,7 +19,7 @@ Copy and backup your Spotify playlists
 
 ## Table of Content
 - [Architecture](#architecture)
-- [Technologies](#Technologies)
+- [Technologies](#technologies)
 - [CI / CD](#ci)
 - [Quick Start](#quick-start)
 - [License](#license)
