@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
       <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -11,9 +11,7 @@
 
   <ItemGroup>
     <Folder Include="Database\Dtos\" />
-    <Folder Include="SpotifyAuth\Models\" />
-    <Folder Include="Spotify\Playlists\" />
-    <Folder Include="WeatherForecasts\" />
+    <Folder Include="SpotifyAuth\Settings\" />
   </ItemGroup>
 
   <ItemGroup>

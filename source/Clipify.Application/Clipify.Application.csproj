@@ -19,7 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Spotify\Clients\" />
+    <Folder Include="Playlists\Commands\ForkPlaylist\" />
+    <Folder Include="Playlists\Commands\SyncPlaylists\" />
     <Folder Include="Users\Requests\" />
   </ItemGroup>
 

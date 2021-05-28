@@ -1,9 +1,9 @@
-﻿using Clipify.Application.Auth.Requests.TokenRequest.Models;
-using Clipify.Infrastructure.Extensions;
+﻿using Clipify.Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Clipify.Application.Auth.Requests.Models;
 
 namespace Clipify.Infrastructure.SpotifyAuth.Clients
 {

@@ -1,5 +1,4 @@
 ﻿using System;
-using Clipify.Domain.Common;
 
 namespace Clipify.Domain.Entities
 {
@@ -22,8 +21,10 @@ namespace Clipify.Domain.Entities
 
         public bool IsOutdated(string originalPlaylistSnapshotId) => !originalPlaylistSnapshotId.Equals(SnapshotId);
 
-        public void RegisterLastSync() => LastSync = DateTime.Now;
-
-        public void UpdateSnapshotId(string latestSnapshotId) => SnapshotId = latestSnapshotId;
+        public void RegisterLastSync(string latestSnapshotId)
+        {
+            SnapshotId = latestSnapshotId;
+            LastSync = DateTime.Now;
+        }
     }
 }

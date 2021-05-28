@@ -1,5 +1,5 @@
-﻿using Clipify.Application.Auth.Requests.TokenRequest.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Clipify.Application.Auth.Requests.Models;
 
 namespace Clipify.Application.Auth.Requests
 {

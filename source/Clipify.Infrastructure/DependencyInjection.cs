@@ -1,20 +1,19 @@
 ﻿using Clipify.Application.Auth.Requests;
-using Clipify.Application.Database;
-using Clipify.Application.Spotify.Clients;
 using Clipify.Application.Users;
-using Clipify.Application.WeatherForecasts.Requests;
 using Clipify.Infrastructure.Database;
 using Clipify.Infrastructure.Database.Repositories;
-using Clipify.Infrastructure.Spotify.Clients;
 using Clipify.Infrastructure.SpotifyAuth;
 using Clipify.Infrastructure.SpotifyAuth.Clients;
-using Clipify.Infrastructure.SpotifyAuth.Models;
-using Clipify.Infrastructure.WeatherForecasts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Clipify.Application;
+using Clipify.Application.Auth.Requests.Authorization;
+using Clipify.Application.Profile.Requests.GetProfile;
 using Clipify.Domain.Entities;
 using Clipify.Infrastructure.Database.Dtos;
+using Clipify.Infrastructure.Spotify.UserProfile;
+using Clipify.Infrastructure.SpotifyAuth.Settings;
 
 namespace Clipify.Infrastructure
 {
@@ -28,7 +27,7 @@ namespace Clipify.Infrastructure
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddSingleton<IDbContext, DbContext>();
-            services.AddSingleton<ISpotifyClient, SpotifyClient>();
+            services.AddSingleton<IUserProfileClient, UserProfileClient>();
             services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
 
             // Repositories
@@ -37,7 +36,6 @@ namespace Clipify.Infrastructure
             services.AddTransient<ICurrentUserService, CurrentUserService>();
             services.AddTransient<IAuthService, SpotifyAuthService>();
             services.AddTransient<IAuthUriBuilder, SpotifyAuthUriBuilder>();
-            services.AddTransient<IWeatherForecastService, WeatherForecastService>();
 
             return services;
         }

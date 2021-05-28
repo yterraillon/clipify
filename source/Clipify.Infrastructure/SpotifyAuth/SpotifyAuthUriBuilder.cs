@@ -1,8 +1,9 @@
 ﻿using Clipify.Application.Auth.Requests;
-using Clipify.Infrastructure.SpotifyAuth.Models;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using Clipify.Application.Auth.Requests.Authorization;
+using Clipify.Infrastructure.SpotifyAuth.Settings;
 
 namespace Clipify.Infrastructure.SpotifyAuth
 {

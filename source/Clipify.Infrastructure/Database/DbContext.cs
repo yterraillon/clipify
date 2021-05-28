@@ -1,5 +1,4 @@
-﻿using Clipify.Application.Database;
-using Clipify.Infrastructure.Database.Dtos;
+﻿using Clipify.Infrastructure.Database.Dtos;
 using LiteDB;
 using Microsoft.Extensions.Configuration;
 
@@ -15,7 +14,6 @@ namespace Clipify.Infrastructure.Database
 
             Database.GetCollection<UserDto>()
                 .EnsureIndex(x => x.Id, true);
-
         }
     }
 }
