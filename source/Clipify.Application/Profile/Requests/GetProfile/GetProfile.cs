@@ -1,16 +1,16 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Profile.Requests.GetProfile.Models;
 using Clipify.Application.Users;
 using MediatR;
 
 namespace Clipify.Application.Profile.Requests.GetProfile
 {
+    using Models;
+
     public static class GetProfile
     {
         public class Request : IRequest<ProfileResponse>
         {
-
         }
 
         public class Handler : IRequestHandler<Request, ProfileResponse>

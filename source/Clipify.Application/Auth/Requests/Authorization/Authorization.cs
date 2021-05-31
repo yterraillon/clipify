@@ -1,10 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.Authorization.Models;
 using MediatR;
 
 namespace Clipify.Application.Auth.Requests.Authorization
 {
+    using Models;
+
     public static class Authorization
     {
         public class Request : IRequest<AuthorizationResponse>

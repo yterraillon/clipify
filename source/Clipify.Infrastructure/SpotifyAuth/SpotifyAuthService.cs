@@ -1,14 +1,15 @@
 ﻿using Clipify.Application.Auth.Requests;
-using Clipify.Infrastructure.SpotifyAuth.Clients;
+using Clipify.Application.Auth.Requests.Models;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.Models;
-using Clipify.Infrastructure.SpotifyAuth.Settings;
 
 namespace Clipify.Infrastructure.SpotifyAuth
 {
+    using Clients;
+    using Settings;
+
     public class SpotifyAuthService : IAuthService
     {
         private readonly SpotifyAuthClient _client;

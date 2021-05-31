@@ -1,16 +1,16 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.Models;
 using Clipify.Application.Users;
 using MediatR;
 
 namespace Clipify.Application.Auth.Requests.GetRefreshToken
 {
+    using Models;
+
     public static class GetRefreshToken
     {
         public class Request : IRequest<TokenResponse>
         {
-
         }
 
         public class Handler : IRequestHandler<Request, TokenResponse>

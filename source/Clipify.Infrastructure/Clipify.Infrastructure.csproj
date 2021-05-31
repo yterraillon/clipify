@@ -12,6 +12,7 @@
   <ItemGroup>
     <Folder Include="Database\Dtos\" />
     <Folder Include="SpotifyAuth\Settings\" />
+    <Folder Include="Spotify\Playlists\" />
   </ItemGroup>
 
   <ItemGroup>

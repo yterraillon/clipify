@@ -1,10 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.Models;
 using MediatR;
 
 namespace Clipify.Application.Auth.Requests.GetAccessToken
 {
+    using Models;
+
     public static class GetAccessToken
     {
         public class Request : IRequest<TokenResponse>

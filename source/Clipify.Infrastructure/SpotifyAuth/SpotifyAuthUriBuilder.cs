@@ -1,12 +1,12 @@
-﻿using Clipify.Application.Auth.Requests;
-using Microsoft.AspNetCore.WebUtilities;
+﻿using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using Clipify.Application.Auth.Requests.Authorization;
-using Clipify.Infrastructure.SpotifyAuth.Settings;
 
 namespace Clipify.Infrastructure.SpotifyAuth
 {
+    using Settings;
+
     public class SpotifyAuthUriBuilder : IAuthUriBuilder
     {
         private readonly SpotifyAuthSettings _settings;
@@ -15,10 +15,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
 
         private const string CodeChallengeMethod = "S256";
 
-        public SpotifyAuthUriBuilder(IOptions<SpotifyAuthSettings> settings)
-        {
-            _settings = settings.Value;
-        }
+        public SpotifyAuthUriBuilder(IOptions<SpotifyAuthSettings> settings) => _settings = settings.Value;
 
         public string GetAuthorizeUrl(string challenge, string scope, string state)
         {

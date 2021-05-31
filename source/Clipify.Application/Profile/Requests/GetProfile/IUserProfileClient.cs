@@ -1,9 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Profile.Requests.GetProfile.Models;
 
 namespace Clipify.Application.Profile.Requests.GetProfile
 {
+    using Models;
+
     public interface IUserProfileClient
     {
         Task<ProfileResponse> GetUserProfileAsync(string token,
