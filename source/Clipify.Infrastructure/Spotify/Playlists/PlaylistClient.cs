@@ -14,20 +14,28 @@ namespace Clipify.Infrastructure.Spotify.Playlists
     {
         private readonly HttpClient _client;
 
-        private static string PlaylistEndpoint = "https://api.spotify.com/v1/users/{USERNAME}/playlists";
+        private const string PlaylistEndpoint = "https://api.spotify.com/v1/users/{USER_ID}/playlists";
 
         public PlaylistClient(HttpClient client)
         {
             _client = client;
         }
 
-        public Task<Playlist> GetPlaylistAsync(string token, string username, string playlistId,
-            CancellationToken cancellationToken = new CancellationToken())
+        public Task<PlaylistResponse> GetPlaylistAsync(string token, string userId, string playlistId,
+            CancellationToken cancellationToken)
         {
-            var uri = new Uri(PlaylistEndpoint.Replace("{USERNAME}", username));
+            var uri = new Uri($"{PlaylistEndpoint.Replace("{USER_ID}", userId)}/{playlistId}");
 
             return _client.ConfigureAuthorization(token)
-                .PostRequestAsync<Playlist>(uri, HttpMethod.Get, cancellationToken: cancellationToken);
+                .PostRequestAsync<PlaylistResponse>(uri, HttpMethod.Get, cancellationToken: cancellationToken);
+        }
+
+        public Task<PlaylistResponse> GetPlaylistAsync(string token, string userId, CancellationToken cancellationToken = new CancellationToken())
+        {
+            var uri = new Uri(PlaylistEndpoint.Replace("{USER_ID}", userId));
+
+            return _client.ConfigureAuthorization(token)
+                .PostRequestAsync<PlaylistResponse>(uri, HttpMethod.Get, cancellationToken: cancellationToken);
         }
     }
 }

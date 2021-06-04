@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using AutoMapper.Extensions.ExpressionMapping;
+using Clipify.Application.Playlists;
+using Clipify.Infrastructure.Spotify.Playlists;
 
 namespace Clipify.Infrastructure
 {
@@ -33,6 +35,7 @@ namespace Clipify.Infrastructure
 
             services.AddSingleton<IDbContext, DbContext>();
             services.AddTransient<IUserProfileClient, UserProfileClient>();
+            services.AddTransient<IPlaylistClient, PlaylistClient>();
             services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
 
             // Repositories

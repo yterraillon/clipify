@@ -1,0 +1,29 @@
+﻿@page "/playlists"
+@using MediatR
+@using Clipify.Application.Playlists.Requests.GetPlaylists
+@using Clipify.Application.Playlists.Models
+
+@inject IMediator _mediator
+
+<h3>Playlists</h3>
+
+<div class="container">
+    @foreach (var playlist in _playlists.Items)
+    {
+        <div class="card">
+            <div class="card-title">@playlist.Name</div>
+            <div class="card-subtitle">@playlist.Description</div>
+            <div class="card-body">@playlist.Id / @playlist.SnapshotId</div>
+        </div>
+    }
+</div>
+
+@code
+{
+    private PlaylistResponse _playlists = new PlaylistResponse();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _playlists = await _mediator.Send(new GetPlaylists.Request());
+    }
+}
