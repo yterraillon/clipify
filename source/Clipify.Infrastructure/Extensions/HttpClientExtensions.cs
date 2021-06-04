@@ -16,7 +16,7 @@ namespace Clipify.Infrastructure.Extensions
                 var response = await client
                     .SendAsync(new HttpRequestMessage(method, requestUri)
                     {
-                        Content = new FormUrlEncodedContent(parameters)
+                        Content = parameters != null ? new FormUrlEncodedContent(parameters) : null
                     }, cancellationToken);
 
                 response.EnsureSuccessStatusCode();

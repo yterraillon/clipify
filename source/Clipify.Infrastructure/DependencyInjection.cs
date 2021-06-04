@@ -14,6 +14,7 @@ using Clipify.Infrastructure.SpotifyAuth.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using AutoMapper.Extensions.ExpressionMapping;
 
 namespace Clipify.Infrastructure
 {
@@ -24,10 +25,14 @@ namespace Clipify.Infrastructure
             services.Configure<SpotifyAuthSettings>(configuration.GetSection("SpotifyAuth"));
 
             services.AddHttpClient<SpotifyAuthClient>();
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddMaps(Assembly.GetExecutingAssembly());
+                cfg.AddExpressionMapping();
+            });
 
             services.AddSingleton<IDbContext, DbContext>();
-            services.AddSingleton<IUserProfileClient, UserProfileClient>();
+            services.AddTransient<IUserProfileClient, UserProfileClient>();
             services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
 
             // Repositories
