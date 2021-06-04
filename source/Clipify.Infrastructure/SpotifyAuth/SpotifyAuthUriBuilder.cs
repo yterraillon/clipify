@@ -33,6 +33,15 @@ namespace Clipify.Infrastructure.SpotifyAuth
             if (!string.IsNullOrEmpty(state))
                 parameters.Add("state", state);
 
+            var scopes = string.Join(" ",
+                SpotifyConstants.PlaylistReadPrivate,
+                SpotifyConstants.PlaylistReadCollaborative);
+
+            if (parameters.ContainsKey("scope"))
+                parameters["scope"] += scopes;
+            else
+                parameters.Add("scope", scopes);
+
             return QueryHelpers.AddQueryString(_settings.AuthorizeUrl, parameters);
         }
     }
