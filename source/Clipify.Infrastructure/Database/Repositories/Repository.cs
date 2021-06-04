@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Clipify.Application.Database;
 using LiteDB;
 using System.Collections.Generic;
+using Clipify.Application;
 
 namespace Clipify.Infrastructure.Database.Repositories
 {

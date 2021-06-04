@@ -1,6 +1,4 @@
-﻿using Clipify.Domain.Common;
-
-namespace Clipify.Domain.Entities
+﻿namespace Clipify.Domain.Entities
 {
     public class User : Entity
     {

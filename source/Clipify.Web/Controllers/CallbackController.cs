@@ -1,6 +1,5 @@
-﻿using Clipify.Application.Auth.Requests.TokenRequest;
-using Clipify.Application.Database;
-using Clipify.Application.Users.Commands;
+﻿using Clipify.Application.Auth.Requests.GetAccessToken;
+using Clipify.Application.Users.Commands.CreateLocalUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -12,10 +11,7 @@ namespace Clipify.Web.Controllers
     {
         private readonly IMediator _mediator;
 
-        public CallbackController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public CallbackController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string code, [FromQuery] string state)
@@ -31,7 +27,7 @@ namespace Clipify.Web.Controllers
             if (string.IsNullOrEmpty(response.AccessToken))
                 return BadRequest();
 
-            await _mediator.Send(new CreateUser.Command
+            await _mediator.Send(new CreateLocalUser.Command
             {
                 AccessToken = response.AccessToken,
                 RefreshToken = response.RefreshToken,
