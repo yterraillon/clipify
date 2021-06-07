@@ -24,5 +24,8 @@ namespace Clipify.Infrastructure.Database
 
             return _mapper.Map<User>(user ?? UserDto.Empty);
         }
+
+        public bool IsUserLoggedIn(User user)
+            => !string.IsNullOrEmpty(user.Id) && !string.IsNullOrEmpty(user.AccessToken);
     }
 }

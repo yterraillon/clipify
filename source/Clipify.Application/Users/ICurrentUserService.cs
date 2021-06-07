@@ -5,5 +5,7 @@ namespace Clipify.Application.Users
     public interface ICurrentUserService
     {
         User GetCurrentUser();
+
+        bool IsUserLoggedIn(User user);
     }
 }

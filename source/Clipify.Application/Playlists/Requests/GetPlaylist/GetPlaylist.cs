@@ -28,7 +28,7 @@ namespace Clipify.Application.Playlists.Requests.GetPlaylist
             {
                 var user = _currentUser.GetCurrentUser();
 
-                if (string.IsNullOrEmpty(user.UserId) || string.IsNullOrEmpty(user.AccessToken))
+                if (!_currentUser.IsUserLoggedIn(user))
                     return PlaylistResponse.Empty;
 
                 if (!string.IsNullOrEmpty(request.PlaylistId))
