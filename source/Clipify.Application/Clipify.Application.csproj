@@ -21,7 +21,6 @@
   <ItemGroup>
     <Folder Include="Playlists\Commands\ForkPlaylist\" />
     <Folder Include="Playlists\Commands\SyncPlaylists\" />
-    <Folder Include="Playlists\Requests\GetPlaylists\" />
     <Folder Include="Users\Requests\" />
   </ItemGroup>
 

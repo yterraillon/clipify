@@ -1,7 +1,7 @@
 ﻿@page "/playlists"
 @using MediatR
-@using Clipify.Application.Playlists.Requests.GetPlaylists
 @using Clipify.Application.Playlists.Models
+@using Clipify.Application.Playlists.Requests.GetPlaylist
 
 @inject IMediator _mediator
 
@@ -24,6 +24,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _playlists = await _mediator.Send(new GetPlaylists.Request());
+        _playlists = await _mediator.Send(new GetPlaylist.Request());
     }
 }

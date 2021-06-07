@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Clipify.Application.Playlists.Models;
 using Clipify.Application.Users;
-using Clipify.Domain.Entities;
 using MediatR;
 
-namespace Clipify.Application.Playlists.Requests.GetPlaylists
+namespace Clipify.Application.Playlists.Requests.GetPlaylist
 {
-    public static class GetPlaylists
+    public static class GetPlaylist
     {
         public class Request : IRequest<PlaylistResponse>
         {
@@ -40,7 +37,7 @@ namespace Clipify.Application.Playlists.Requests.GetPlaylists
                         cancellationToken);
                 }
 
-                return await _client.GetPlaylistAsync(user.AccessToken, user.UserId, cancellationToken);
+                return await _client.GetPlaylistsAsync(user.AccessToken, user.UserId, cancellationToken);
             }
         }
     }
