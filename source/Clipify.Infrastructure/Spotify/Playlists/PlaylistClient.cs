@@ -30,7 +30,7 @@ namespace Clipify.Infrastructure.Spotify.Playlists
                 .PostRequestAsync<PlaylistResponse>(uri, HttpMethod.Get, cancellationToken: cancellationToken);
         }
 
-        public Task<PlaylistResponse> GetPlaylistAsync(string token, string userId, CancellationToken cancellationToken = new CancellationToken())
+        public Task<PlaylistResponse> GetPlaylistsAsync(string token, string userId, CancellationToken cancellationToken = new CancellationToken())
         {
             var uri = new Uri(PlaylistEndpoint.Replace("{USER_ID}", userId));
 

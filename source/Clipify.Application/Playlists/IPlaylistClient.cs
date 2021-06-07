@@ -10,7 +10,7 @@ namespace Clipify.Application.Playlists
         Task<PlaylistResponse> GetPlaylistAsync(string token, string userId, string playlistId,
             CancellationToken cancellationToken = new CancellationToken());
 
-        Task<PlaylistResponse> GetPlaylistAsync(string token, string userId,
+        Task<PlaylistResponse> GetPlaylistsAsync(string token, string userId,
             CancellationToken cancellationToken = new CancellationToken());
     }
 }
