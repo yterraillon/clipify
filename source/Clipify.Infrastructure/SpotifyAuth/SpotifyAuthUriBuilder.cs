@@ -34,8 +34,8 @@ namespace Clipify.Infrastructure.SpotifyAuth
                 parameters.Add("state", state);
 
             var scopes = string.Join(" ",
-                SpotifyConstants.PlaylistReadPrivate,
-                SpotifyConstants.PlaylistReadCollaborative);
+                SpotifyScopes.PlaylistReadPrivate,
+                SpotifyScopes.PlaylistReadCollaborative);
 
             if (parameters.ContainsKey("scope"))
                 parameters["scope"] += scopes;

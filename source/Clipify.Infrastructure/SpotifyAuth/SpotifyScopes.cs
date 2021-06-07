@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Clipify.Infrastructure.SpotifyAuth
 {
-    public static class SpotifyConstants
+    public static class SpotifyScopes
     {
         public static string PlaylistReadPrivate => "playlist-read-private";
 
