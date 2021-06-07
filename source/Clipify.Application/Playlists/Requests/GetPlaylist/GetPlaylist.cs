@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Clipify.Application.Playlists.Models;
 using Clipify.Application.Users;
+using FluentValidation;
 using MediatR;
 
 namespace Clipify.Application.Playlists.Requests.GetPlaylist
@@ -31,13 +32,16 @@ namespace Clipify.Application.Playlists.Requests.GetPlaylist
                 if (!_currentUser.IsUserLoggedIn(user))
                     return PlaylistResponse.Empty;
 
-                if (!string.IsNullOrEmpty(request.PlaylistId))
-                {
-                    return await _client.GetPlaylistAsync(user.AccessToken, user.UserId, request.PlaylistId,
+                return await _client.GetPlaylistAsync(user.AccessToken, user.UserId, request.PlaylistId,
                         cancellationToken);
-                }
+            }
+        }
 
-                return await _client.GetPlaylistsAsync(user.AccessToken, user.UserId, cancellationToken);
+        public class GetPlaylistValidator : AbstractValidator<GetPlaylist.Request>
+        {
+            public GetPlaylistValidator()
+            {
+                RuleFor(x => x.PlaylistId).NotEmpty().NotNull();
             }
         }
     }
