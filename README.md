@@ -28,19 +28,21 @@ Copy and backup your Spotify playlists
 
 ## Architecture
 
+Hexagonal Architecture based on [ASP.NET Core Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture).
+
+
 ## Technologies
 
 - C# 8.0
 - Blazor Server App
+- MediatR · AutoMapper · FluentValidation · LiteDB
 
------
 
 ## CI
 
-[Docker Hub](https://hub.docker.com/r/clipify/clipifyweb)
+[GitHub Actions](https://github.com/yterraillon/clipify/actions/workflows/dotnet.yml) · [Docker Hub](https://hub.docker.com/r/clipify/clipifyweb)
 
 
------
 
 ## Quick Start
 
@@ -79,9 +81,10 @@ If you don't want to install Clipify on your system, feel free to use our offici
 docker run --name=clipify clipify/clipifyweb:latest
 ```
 
------
 
 ## Open an Issue
+
+If you want to report a bug or request a new feature, you can [open a new issue](https://github.com/yterraillon/clipify/issues/new/choose)
 
 ## License
 
