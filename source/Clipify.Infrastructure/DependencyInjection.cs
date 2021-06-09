@@ -17,6 +17,7 @@ using System.Reflection;
 using AutoMapper.Extensions.ExpressionMapping;
 using Clipify.Application.Playlists;
 using Clipify.Infrastructure.Spotify.Playlists;
+using Clipify.Infrastructure.Spotify.Settings;
 
 namespace Clipify.Infrastructure
 {
@@ -25,6 +26,7 @@ namespace Clipify.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<SpotifyAuthSettings>(configuration.GetSection("SpotifyAuth"));
+            services.Configure<SpotifyApiSettings>(configuration.GetSection("SpotifyEndpoints"));
 
             services.AddHttpClient<SpotifyAuthClient>();
             services.AddAutoMapper(cfg =>

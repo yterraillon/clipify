@@ -6,6 +6,6 @@ namespace Clipify.Application.Users
     {
         User GetCurrentUser();
 
-        bool IsUserLoggedIn(User user);
+        bool IsUserLoggedIn();
     }
 }

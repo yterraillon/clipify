@@ -24,6 +24,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _playlists = await _mediator.Send(new GetPlaylist.Request());
+        _playlists = await _mediator.Send(new GetPlaylist.Request
+        {
+            PlaylistId = "00000"
+        });
     }
 }
