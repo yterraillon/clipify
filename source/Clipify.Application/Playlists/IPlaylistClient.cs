@@ -7,10 +7,10 @@ namespace Clipify.Application.Playlists
 {
     public interface IPlaylistClient
     {
-        Task<PlaylistResponse> GetPlaylistAsync(string token, string userId, string playlistId,
+        Task<PlaylistViewModel> GetPlaylistAsync(string token, string userId, string playlistId,
             CancellationToken cancellationToken = new CancellationToken());
 
-        Task<PlaylistResponse> GetPlaylistsAsync(string token, string userId,
+        Task<IEnumerable<PlaylistViewModel>> GetPlaylistsAsync(string token, string userId,
             CancellationToken cancellationToken = new CancellationToken());
     }
 }
