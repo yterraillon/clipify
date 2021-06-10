@@ -8,26 +8,36 @@
 <h3>Playlists</h3>
 
 <div class="container">
-    <div class="d-inline-flex flex-row">
-        <div class="card shadow rounded bg-white" style="width: 18rem;">
-            <img class="card-img-top" src="@_playlists.Images.FirstOrDefault()?.Url" alt=""/>
-            <div class="card-body">
-                <div class="card-title">@_playlists.Name</div>
-                <div class="card-text">@((MarkupString) _playlists.Description)</div>
-            </div>
+    <div class="max-w-sm rounded overflow-hidden shadow-lg">
+        <img class="w-full" src="@_playlist.Images.FirstOrDefault()?.Url" alt="Cover">
+        <div class="px-6 py-4">
+            <div class="font-bold text-xl mb-2 text-center">@_playlist.Name</div>
+            <div class="text-sm text-gray-500">@((MarkupString)_playlist.Description)</div>
+        </div>
+        <div class="text-center my-4">
+            <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto" onclick="@SavePlaylistAsync(_playlist.Id)">
+                Save Playlist
+            </button>
         </div>
     </div>
 </div>
 
 @code
 {
-    private PlaylistViewModel _playlists = new PlaylistViewModel();
+    private const string PlaylistId = "37i9dQZF1EIZIgnGqUa6kD";
+
+    private PlaylistViewModel _playlist = PlaylistViewModel.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        _playlists = await _mediator.Send(new GetPlaylist.Request
+        _playlist = await _mediator.Send(new GetPlaylist.Request
         {
-            PlaylistId = "37i9dQZF1EIZIgnGqUa6kD"
+            PlaylistId = PlaylistId
         });
+    }
+
+    private async Task SavePlaylistAsync(string playlistId)
+    {
+
     }
 }
