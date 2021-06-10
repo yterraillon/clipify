@@ -12,11 +12,12 @@ Welcome to your new app.
 
 <p>@AccessToken</p>
 <p>@RefreshToken</p>
-
+<p>@UserId</p>
 @code
 {
     private string AccessToken { get; set; } = string.Empty;
     private string RefreshToken { get; set; } = string.Empty;
+    private string UserId { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -24,5 +25,6 @@ Welcome to your new app.
 
         AccessToken = user.AccessToken;
         RefreshToken = user.RefreshToken;
+        UserId = user.UserId;
     }
 }

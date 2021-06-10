@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Clipify.Domain.Entities;
 using Clipify.Infrastructure.Database.Dtos;
+using LiteDB;
 
 namespace Clipify.Infrastructure.Database
 {
@@ -8,7 +9,11 @@ namespace Clipify.Infrastructure.Database
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<UserDto, User>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id.ToString()));
+
+            CreateMap<User, UserDto>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => new ObjectId(s.Id)));
         }
     }
 }

@@ -28,12 +28,27 @@ namespace Clipify.Infrastructure.SpotifyAuth
                 { "code_challenge", challenge }
             };
 
-            if (!string.IsNullOrEmpty(scope))
-                parameters.Add("scope", scope);
             if (!string.IsNullOrEmpty(state))
                 parameters.Add("state", state);
 
+            BuildScopes(parameters, scope);
+
             return QueryHelpers.AddQueryString(_settings.AuthorizeUrl, parameters);
+        }
+
+        private static void BuildScopes(IDictionary<string, string> parameters, string scope)
+        {
+            if (!string.IsNullOrEmpty(scope))
+                parameters.Add("scope", scope);
+
+            var scopes = string.Join(" ",
+                SpotifyScopes.PlaylistReadPrivate,
+                SpotifyScopes.PlaylistReadCollaborative);
+
+            if (parameters.ContainsKey("scope"))
+                parameters["scope"] += scopes;
+            else
+                parameters.Add("scope", scopes);
         }
     }
 }
