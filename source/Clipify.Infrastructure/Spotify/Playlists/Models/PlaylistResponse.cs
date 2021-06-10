@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Clipify.Application.Playlists.Models
+namespace Clipify.Infrastructure.Spotify.Playlists.Models
 {
-    public class Item
+    public class PlaylistResponse
     {
         [JsonProperty("id")]
         public string Id { get; set; } = string.Empty;
@@ -25,15 +25,9 @@ namespace Clipify.Application.Playlists.Models
 
         [JsonProperty("collaborative")]
         public bool Collaborative { get; set; }
-    }
 
-    public class PlaylistResponse
-    {
-        [JsonProperty("href")]
-        public string Link { get; set; } = string.Empty;
-
-        [JsonProperty("items")]
-        public IEnumerable<Item> Items { get; set; } = new List<Item>();
+        [JsonProperty("images")]
+        public IEnumerable<PlaylistImageResponse> Images { get; set; } = new List<PlaylistImageResponse>();
 
         public static PlaylistResponse Empty => new PlaylistResponse();
     }
