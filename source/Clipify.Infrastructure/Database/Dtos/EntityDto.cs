@@ -5,6 +5,7 @@ namespace Clipify.Infrastructure.Database.Dtos
 {
     public class EntityDto
     {
+        [BsonId]
         public ObjectId Id { get; set; } = ObjectId.Empty;
 
         public DateTime Created { get; set; }

@@ -2,6 +2,7 @@
 @using Clipify.Domain.Entities
 @using MediatR
 @using Clipify.Application.Playlists.Requests.GetLocalPlaylists
+@using Clipify.Application.Playlists.Commands.DeleteLocalPlaylist
 
 @inject IMediator _mediator
 
@@ -10,12 +11,16 @@
 <div class="container flex flex-wrap flex-auto">
     @foreach (var playlist in _playlists)
     {
+        var currentPlaylist = playlist;
+
         <div class="max-w-sm m-3 rounded overflow-hidden shadow-lg">
             <div class="px-6 py-4">
                 <div class="font-bold text-xl mb-2 text-center h-12 min-h-full">@playlist.Title</div>
+                <div>@playlist.Id / @playlist.PlaylistId</div>
             </div>
             <div class="text-center my-2">
-                <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-red-500 shadow-md m-auto">
+                <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-red-500 shadow-md m-auto"
+                        @onclick="@(() => DeleteAsync(currentPlaylist.Id))">
                     Delete
                 </button>
             </div>
@@ -32,4 +37,13 @@
         _playlists = await _mediator.Send(new GetLocalPlaylists.Request());
     }
 
+    private async Task DeleteAsync(string id)
+    {
+        var r = await _mediator.Send(new DeleteLocalPlaylist.Command
+        {
+            PlaylistId = id
+        });
+
+        Console.WriteLine(r);
+    }
 }

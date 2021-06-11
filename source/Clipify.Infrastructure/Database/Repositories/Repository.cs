@@ -39,10 +39,15 @@ namespace Clipify.Infrastructure.Database.Repositories
             public IEnumerable<T> GetAll()
             => Mapper.Map<IEnumerable<T>>(Collection.FindAll());
 
-        public void Remove(TId id)
-            => Collection.Delete(new BsonValue(id));
+            public bool Remove(TId id)
+            {
+                //if (!Collection.Exists(Query.EQ("Id", new BsonValue(id))))
+                //    return false;
 
-        public void Update(T entity)
+                return Collection.Delete(new BsonValue(id));
+            }
+
+            public void Update(T entity)
             => Collection.Update(Mapper.Map<TEntity>(entity));
     }
 }

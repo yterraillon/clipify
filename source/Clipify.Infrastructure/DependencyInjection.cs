@@ -1,4 +1,5 @@
-﻿using Clipify.Application;
+﻿using System;
+using Clipify.Application;
 using Clipify.Application.Auth.Requests;
 using Clipify.Application.Auth.Requests.Authorization;
 using Clipify.Application.Profile.Requests.GetProfile;
