@@ -17,13 +17,20 @@ namespace Clipify.Infrastructure.Spotify.UserProfile
             _client = client;
         }
 
-        public Task<ProfileResponse> GetUserProfileAsync(string token, CancellationToken cancellationToken)
+        public async Task<ProfileResponse> GetUserProfileAsync(string token, CancellationToken cancellationToken)
         {
-            return _client.ConfigureAuthorization(token)
-                .PostRequestAsync<ProfileResponse>(
-                    new Uri("https://api.spotify.com/v1/me"),
-                    HttpMethod.Get,
-                    cancellationToken: cancellationToken);
+            try
+            {
+                return await _client.ConfigureAuthorization(token)
+                    .PostRequestAsync<ProfileResponse>(
+                        new Uri("https://api.spotify.com/v1/me"),
+                        HttpMethod.Get,
+                        cancellationToken: cancellationToken);
+            }
+            catch (Exception)
+            {
+                return ProfileResponse.Empty;
+            }
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Clipify.Infrastructure.Database.Dtos
 {
-    public class UserDto
+    public class UserDto : EntityDto
     {
-        public ObjectId Id { get; set; } = ObjectId.Empty;
+        public string UserId { get; set; } = string.Empty;
 
         public string Username { get; set; } = string.Empty;
 

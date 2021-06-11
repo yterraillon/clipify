@@ -1,5 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Clipify.Application.Profile.Requests.GetProfile;
+using Clipify.Application.Profile.Requests.GetProfile.Models;
 using Clipify.Domain.Entities;
 using MediatR;
 
@@ -20,21 +22,36 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
         {
             private readonly IRepository<User, string> _userRepository;
 
-            public Handler(IRepository<User, string> userRepository)
+            private readonly IUserProfileClient _userProfileClient;
+
+            public Handler(IRepository<User, string> userRepository, IUserProfileClient userProfileClient)
             {
                 _userRepository = userRepository;
+                _userProfileClient = userProfileClient;
             }
 
-            public Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                _userRepository.Add(new User
-                {
-                    AccessToken = request.AccessToken,
-                    RefreshToken = request.RefreshToken,
-                    ExpiresIn = request.ExpiresIn
-                });
+                var profile = await _userProfileClient.GetUserProfileAsync(request.AccessToken, cancellationToken);
 
-                return Task.FromResult(Unit.Value);
+                if (profile.Equals(ProfileResponse.Empty))
+                    return Unit.Value;
+
+                var user = _userRepository.Get(x => x.UserId == profile.Id);
+
+                if (string.IsNullOrEmpty(user.UserId))
+                {
+                    _userRepository.Add(new User
+                    {
+                        UserId = profile.Id,
+                        Username = profile.DisplayName,
+                        AccessToken = request.AccessToken,
+                        RefreshToken = request.RefreshToken,
+                        ExpiresIn = request.ExpiresIn
+                    });
+                }
+
+                return Unit.Value;
             }
         }
     }

@@ -1,15 +1,11 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="sidebar">
+<div class="bg-gradient-to-b from-blue-800 to-purple-800 bg-opacity-75 w-64 md:h-screen sticky top-0">
     <NavMenu />
 </div>
 
-<div class="main">
-    <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-    </div>
-
-    <div class="content px-4">
+<div class="flex-1">
+    <div class="m-3">
         @Body
     </div>
 </div>
