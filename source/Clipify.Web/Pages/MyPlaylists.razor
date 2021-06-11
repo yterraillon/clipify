@@ -1,0 +1,35 @@
+﻿@page "/my-playlists"
+@using Clipify.Domain.Entities
+@using MediatR
+@using Clipify.Application.Playlists.Requests.GetLocalPlaylists
+
+@inject IMediator _mediator
+
+<h3>MyPlaylists</h3>
+
+<div class="container flex flex-wrap flex-auto">
+    @foreach (var playlist in _playlists)
+    {
+        <div class="max-w-sm m-3 rounded overflow-hidden shadow-lg">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2 text-center h-12 min-h-full">@playlist.Title</div>
+            </div>
+            <div class="text-center my-2">
+                <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-red-500 shadow-md m-auto">
+                    Delete
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@code
+{
+    private IEnumerable<Playlist> _playlists = Enumerable.Empty<Playlist>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _playlists = await _mediator.Send(new GetLocalPlaylists.Request());
+    }
+
+}
