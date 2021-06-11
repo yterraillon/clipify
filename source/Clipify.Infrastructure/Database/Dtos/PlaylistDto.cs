@@ -4,6 +4,8 @@ namespace Clipify.Infrastructure.Database.Dtos
 {
     public class PlaylistDto : EntityDto
     {
+        public string PlaylistId { get; set; } = string.Empty;
+
         public string SnapshotId { get; set; } = string.Empty;
 
         public string Title { get; set; } = string.Empty;

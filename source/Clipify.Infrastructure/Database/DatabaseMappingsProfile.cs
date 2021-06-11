@@ -5,9 +5,9 @@ using LiteDB;
 
 namespace Clipify.Infrastructure.Database
 {
-    public class DatabaseProfile : Profile
+    public class DatabaseMappingsProfile : Profile
     {
-        public DatabaseProfile()
+        public DatabaseMappingsProfile()
         {
             CreateMap<EntityDto, Entity>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id.ToString()));

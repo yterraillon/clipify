@@ -4,6 +4,8 @@ namespace Clipify.Domain.Entities
 {
     public class Playlist : Entity
     {
+        public string PlaylistId { get; set; } = string.Empty;
+
         public string SnapshotId { get; set; } = string.Empty;
 
         public string Title { get; set; } = string.Empty;
