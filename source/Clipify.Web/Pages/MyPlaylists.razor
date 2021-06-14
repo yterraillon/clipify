@@ -4,11 +4,20 @@
 @using Clipify.Application.Playlists.Requests.GetLocalPlaylists
 @using Clipify.Application.Playlists.Commands.DeleteLocalPlaylist
 @using Clipify.Application.Playlists.Commands.ForkPlaylist
+@using System.Collections.ObjectModel
+@using System.Collections.Specialized
+@using Clipify.Application.Playlists.Requests.GetPlaylist
 
 @inject IMediator _mediator
 
 <h3>MyPlaylists</h3>
 
+<div class="text-center">
+    <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto"
+            @onclick="@(CompareAsync)">
+        Compare
+    </button>
+</div>
 <div class="container flex flex-wrap flex-auto">
     @foreach (var playlist in _playlists)
     {
@@ -35,11 +44,13 @@
 
 @code
 {
-    private IEnumerable<Playlist> _playlists = Enumerable.Empty<Playlist>();
+    private ObservableCollection<Playlist> _playlists = new ObservableCollection<Playlist>();
 
     protected override async Task OnInitializedAsync()
     {
-        _playlists = await _mediator.Send(new GetLocalPlaylists.Request());
+        var response = await _mediator.Send(new GetLocalPlaylists.Request());
+
+        _playlists = new ObservableCollection<Playlist>(response);
     }
 
     private async Task DeleteAsync(string id)
@@ -56,5 +67,22 @@
         {
             OriginalPlaylistId = id
         });
+    }
+
+    private async Task CompareAsync()
+    {
+        foreach (var playlist in _playlists)
+        {
+            var response = await _mediator.Send(new GetPlaylist.Request
+            {
+                PlaylistId = playlist.PlaylistId
+            });
+
+            if (response.SnapshotId == playlist.SnapshotId)
+                continue;
+
+            playlist.Title += " (Outdated)";
+        }
+        
     }
 }
