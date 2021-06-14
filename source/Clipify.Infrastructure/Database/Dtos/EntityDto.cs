@@ -3,7 +3,7 @@ using LiteDB;
 
 namespace Clipify.Infrastructure.Database.Dtos
 {
-    public class EntityDto
+    public abstract class EntityDto
     {
         [BsonId]
         public ObjectId Id { get; set; } = ObjectId.Empty;

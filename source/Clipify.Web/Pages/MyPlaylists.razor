@@ -3,6 +3,7 @@
 @using MediatR
 @using Clipify.Application.Playlists.Requests.GetLocalPlaylists
 @using Clipify.Application.Playlists.Commands.DeleteLocalPlaylist
+@using Clipify.Application.Playlists.Commands.ForkPlaylist
 
 @inject IMediator _mediator
 
@@ -23,6 +24,10 @@
                         @onclick="@(() => DeleteAsync(currentPlaylist.Id))">
                     Delete
                 </button>
+                <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto"
+                        @onclick="@(() => ForkAsync(currentPlaylist.Id))">
+                    Fork
+                </button>
             </div>
         </div>
     }
@@ -39,11 +44,17 @@
 
     private async Task DeleteAsync(string id)
     {
-        var r = await _mediator.Send(new DeleteLocalPlaylist.Command
+        await _mediator.Send(new DeleteLocalPlaylist.Command
         {
             PlaylistId = id
         });
+    }
 
-        Console.WriteLine(r);
+    private async Task ForkAsync(string id)
+    {
+        await _mediator.Send(new ForkPlaylist.Request
+        {
+            OriginalPlaylistId = id
+        });
     }
 }

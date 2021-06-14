@@ -9,7 +9,7 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
 {
     public static class CreateLocalUser
     {
-        public class Command : IRequest<Unit>
+        public class Command : IRequest
         {
             public string AccessToken { get; set; } = string.Empty;
 
@@ -18,7 +18,7 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
             public int ExpiresIn { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Unit>
+        public class Handler : AsyncRequestHandler<Command>
         {
             private readonly IRepository<User, string> _userRepository;
 
@@ -30,12 +30,12 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
                 _userProfileClient = userProfileClient;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            protected override async Task Handle(Command request, CancellationToken cancellationToken)
             {
                 var profile = await _userProfileClient.GetUserProfileAsync(request.AccessToken, cancellationToken);
 
                 if (profile.Equals(ProfileResponse.Empty))
-                    return Unit.Value;
+                    return;
 
                 var user = _userRepository.Get(x => x.UserId == profile.Id);
 
@@ -50,8 +50,14 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
                         ExpiresIn = request.ExpiresIn
                     });
                 }
+                else
+                {
+                    user.AccessToken = request.AccessToken;
+                    user.RefreshToken = request.RefreshToken;
+                    user.ExpiresIn = request.ExpiresIn;
 
-                return Unit.Value;
+                    _userRepository.Update(user);
+                }
             }
         }
     }

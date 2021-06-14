@@ -18,7 +18,7 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
             public string Title { get; set; } = string.Empty;
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : AsyncRequestHandler<Command>
         {
             private readonly IRepository<Playlist, string> _playlistRepository;
 
@@ -30,7 +30,7 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
                 _currentUserService = currentUserService;
             }
 
-            public Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            protected override Task Handle(Command request, CancellationToken cancellationToken)
             {
                 if (!_currentUserService.IsUserLoggedIn())
                     return Unit.Task;
@@ -58,8 +58,7 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
                     throw;
                 }
 
-
-                return Unit.Task;
+                return Task.CompletedTask;
             }
         }
     }

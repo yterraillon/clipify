@@ -44,6 +44,7 @@ namespace Clipify.Infrastructure
             // Repositories
             services.AddTransient<IRepository<User, string>, Repository<User, UserDto, string>>();
             services.AddTransient<IRepository<Playlist, string>, Repository<Playlist, PlaylistDto, string>>();
+            services.AddTransient<IRepository<ForkedPlaylist, string>, Repository<ForkedPlaylist, ForkedPlaylistDto, string>>();
 
             services.AddTransient<ICurrentUserService, CurrentUserService>();
             services.AddTransient<IAuthService, SpotifyAuthService>();

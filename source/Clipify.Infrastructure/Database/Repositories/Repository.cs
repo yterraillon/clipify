@@ -2,9 +2,7 @@
 using AutoMapper;
 using LiteDB;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using AutoMapper.QueryableExtensions;
 using Clipify.Application;
 
 namespace Clipify.Infrastructure.Database.Repositories
@@ -33,21 +31,24 @@ namespace Clipify.Infrastructure.Database.Repositories
             => Mapper.Map<T>(Collection.FindById(new BsonValue(id)) ?? new TEntity());
 
         public T Get(Expression<Func<T, bool>> predicate)
-            => Mapper.Map<T>(Collection.FindOne(Mapper.Map<Expression<Func<TEntity, bool>>>(predicate)) ?? new TEntity());
-        
+        {
+            var expr = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
 
-            public IEnumerable<T> GetAll()
+            return Mapper.Map<T>(Collection.FindOne(expr) ?? new TEntity());
+        }
+
+        public IEnumerable<T> GetAll()
             => Mapper.Map<IEnumerable<T>>(Collection.FindAll());
 
-            public bool Remove(TId id)
-            {
-                //if (!Collection.Exists(Query.EQ("Id", new BsonValue(id))))
-                //    return false;
+        public bool Remove(TId id)
+        {
+            //if (!Collection.Exists(Query.EQ("_id", new BsonValue(id))))
+            //    return false;
 
-                return Collection.Delete(new BsonValue(id));
-            }
+            return Collection.Delete(new BsonValue(id));
+        }
 
-            public void Update(T entity)
+        public void Update(T entity)
             => Collection.Update(Mapper.Map<TEntity>(entity));
     }
 }

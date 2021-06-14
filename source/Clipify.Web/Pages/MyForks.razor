@@ -1,0 +1,34 @@
+﻿@page "/my-forks"
+
+@using MediatR
+@using Clipify.Domain.Entities
+@using Clipify.Application.Playlists.Requests.GetForks
+@inject IMediator _mediator
+
+<div class="container flex flex-wrap flex-auto">
+    @foreach (var playlist in _forkedPlaylists)
+    {
+        var currentPlaylist = playlist;
+
+        <div class="max-w-sm m-3 rounded overflow-hidden shadow-lg">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2 text-center h-12 min-h-full">@playlist.Id</div>
+                <div>Original Playlist: @playlist.OriginalPlaylistId</div>
+            </div>
+            <div class="text-center my-2">
+                <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-blue-500 shadow-md m-auto">
+                    Synchronize
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+
+@code
+{
+    private IEnumerable<ForkedPlaylist> _forkedPlaylists = Enumerable.Empty<ForkedPlaylist>();
+
+    protected override async Task OnInitializedAsync()
+        => _forkedPlaylists = await _mediator.Send(new GetForks.Request());
+}
