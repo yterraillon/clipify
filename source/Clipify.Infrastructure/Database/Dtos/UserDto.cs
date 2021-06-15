@@ -12,7 +12,7 @@ namespace Clipify.Infrastructure.Database.Dtos
 
         public string RefreshToken { get; set; } = string.Empty;
 
-        public DateTime ExpirationDate { get; set; }
+        public DateTime TokenExpirationDate { get; set; }
 
         public static UserDto Empty => new UserDto();
     }

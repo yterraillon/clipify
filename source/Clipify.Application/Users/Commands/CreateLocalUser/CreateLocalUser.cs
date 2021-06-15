@@ -42,20 +42,19 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
 
                 if (string.IsNullOrEmpty(user.UserId))
                 {
-                    _userRepository.Add(new User
-                    {
-                        UserId = profile.Id,
-                        Username = profile.DisplayName,
-                        AccessToken = request.AccessToken,
-                        RefreshToken = request.RefreshToken,
-                        ExpirationDate = DateTime.UtcNow.AddSeconds(request.ExpiresIn)
-                    });
+                    _userRepository.Add(User.Create(
+                        profile.Id,
+                        profile.DisplayName,
+                        request.AccessToken,
+                        request.RefreshToken,
+                        request.ExpiresIn
+                    ));
                 }
                 else
                 {
                     user.AccessToken = request.AccessToken;
                     user.RefreshToken = request.RefreshToken;
-                    user.ExpirationDate = DateTime.UtcNow.AddSeconds(request.ExpiresIn);
+                    user.TokenExpirationDate = DateTime.UtcNow.AddSeconds(request.ExpiresIn);
 
                     _userRepository.Update(user);
                 }

@@ -7,7 +7,7 @@ using Clipify.Application;
 
 namespace Clipify.Infrastructure.Database.Repositories
 {
-    public class Repository<T, TEntity, TId> : IRepository<T, TId>
+    public class Repository<T, TEntity, TId> : IRepository<T, TId> where TId : notnull
         where T : class
         where TEntity : new()
     {
@@ -28,7 +28,7 @@ namespace Clipify.Infrastructure.Database.Repositories
             => Collection.Insert(Mapper.Map<TEntity>(entity));
 
         public T Get(TId id)
-            => Mapper.Map<T>(Collection.FindById(new BsonValue(id)) ?? new TEntity());
+            => Mapper.Map<T>(Collection.FindById(ToLiteDbId(id)) ?? new TEntity());
 
         public T Get(Expression<Func<T, bool>> predicate)
         {
@@ -45,9 +45,7 @@ namespace Clipify.Infrastructure.Database.Repositories
 
         public void Update(T entity)
             => Collection.Update(Mapper.Map<TEntity>(entity));
-
-
-        // TODO : probablement à porter sur le Get aussi. S'assurer que ça ne pète pas au niveau des types qu'on peut avoir
+        
         private static ObjectId ToLiteDbId(TId id) => new ObjectId(id.ToString());
     }
 }
