@@ -20,15 +20,10 @@ namespace Clipify.Application.Playlists.Requests.GetPlaylist
             private readonly IPlaylistClient _client;
 
             public Handler(IPlaylistClient client, ICurrentUserService currentUserService) : base(currentUserService)
-            {
-                _client = client;
-            }
+              => _client = client;
 
             public async Task<PlaylistViewModel> Handle(Request request, CancellationToken cancellationToken)
-            {
-                return await _client.GetPlaylistAsync(CurrentUser.AccessToken, CurrentUser.UserId, request.PlaylistId,
-                        cancellationToken);
-            }
+              => await _client.GetPlaylistAsync(CurrentUser.AccessToken, CurrentUser.UserId, request.PlaylistId, cancellationToken);
         }
 
         public class GetPlaylistValidator : AbstractValidator<GetPlaylist.Request>
