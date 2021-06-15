@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Domain.Entities;
+﻿using Clipify.Domain.Entities;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Playlists.Commands.ForkPlaylist
 {
@@ -12,11 +12,22 @@ namespace Clipify.Application.Playlists.Commands.ForkPlaylist
             public string OriginalPlaylistId { get; set; } = string.Empty;
         }
 
-        public class Handler : IRequestHandler<Request>
+        public class Handler : AsyncRequestHandler<Request>
         {
-            public Task<Unit> Handle(Request request, CancellationToken cancellationToken)
+            private readonly IRepository<Playlist, string> _playlistRepository;
+            private readonly IRepository<ForkedPlaylist, string> _forkedRepository;
+
+            public Handler(IRepository<Playlist, string> playlistRepository, IRepository<ForkedPlaylist, string> forkedRepository)
             {
-                throw new System.NotImplementedException();
+                _playlistRepository = playlistRepository;
+                _forkedRepository = forkedRepository;
+            }
+
+            protected override Task Handle(Request request, CancellationToken cancellationToken)
+            {
+                _forkedRepository.Add(ForkedPlaylist.Create(request.OriginalPlaylistId));
+
+                return Task.CompletedTask;
             }
         }
     }

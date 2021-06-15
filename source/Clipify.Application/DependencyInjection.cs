@@ -1,8 +1,9 @@
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using Clipify.Application.Common.Behaviours;
 using FluentValidation;
+using MediatR;
+using MediatR.Pipeline;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Clipify.Application
 {
@@ -13,6 +14,8 @@ namespace Clipify.Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
+            services.AddTransient(typeof(IRequestPreProcessor<>), typeof(RefreshTokenBehaviour<>));
 
             return services;
         }

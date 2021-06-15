@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Clipify.Application.Profile.Requests.GetProfile;
+using Clipify.Application.Profile.Requests.GetProfile.Models;
+using Clipify.Infrastructure.Extensions;
+using Clipify.Infrastructure.Spotify.Settings;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Profile.Requests.GetProfile;
-using Clipify.Application.Profile.Requests.GetProfile.Models;
-using Clipify.Infrastructure.Extensions;
 
 namespace Clipify.Infrastructure.Spotify.UserProfile
 {
@@ -12,9 +13,12 @@ namespace Clipify.Infrastructure.Spotify.UserProfile
     {
         private readonly HttpClient _client;
 
-        public UserProfileClient(HttpClient client)
+        private readonly SpotifyApiSettings _apiSettings;
+
+        public UserProfileClient(HttpClient client, SpotifyApiSettings apiSettings)
         {
             _client = client;
+            _apiSettings = apiSettings;
         }
 
         public async Task<ProfileResponse> GetUserProfileAsync(string token, CancellationToken cancellationToken)
@@ -23,7 +27,7 @@ namespace Clipify.Infrastructure.Spotify.UserProfile
             {
                 return await _client.ConfigureAuthorization(token)
                     .PostRequestAsync<ProfileResponse>(
-                        new Uri("https://api.spotify.com/v1/me"),
+                        new Uri(_apiSettings.BaseUrl + _apiSettings.ProfileEndpoint),
                         HttpMethod.Get,
                         cancellationToken: cancellationToken);
             }

@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Application.Users;
+﻿using Clipify.Application.Users;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Auth.Requests.GetRefreshToken
 {

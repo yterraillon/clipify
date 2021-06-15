@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Clipify.Application.Playlists;
 using Clipify.Application.Playlists.Models;
 using Clipify.Infrastructure.Extensions;
 using Clipify.Infrastructure.Spotify.Playlists.Models;
 using Clipify.Infrastructure.Spotify.Settings;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Infrastructure.Spotify.Playlists
 {

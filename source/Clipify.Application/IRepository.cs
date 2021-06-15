@@ -14,7 +14,7 @@ namespace Clipify.Application
 
         void Add(T entity);
 
-        void Remove(TId id);
+        bool Remove(TId id);
 
         void Update(T entity);
     }

@@ -1,10 +1,11 @@
-﻿using System;
-using LiteDB;
+﻿using LiteDB;
+using System;
 
 namespace Clipify.Infrastructure.Database.Dtos
 {
-    public class EntityDto
+    public abstract class EntityDto
     {
+        [BsonId]
         public ObjectId Id { get; set; } = ObjectId.Empty;
 
         public DateTime Created { get; set; }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Clipify.Infrastructure.SpotifyAuth
+﻿namespace Clipify.Infrastructure.SpotifyAuth
 {
     public static class SpotifyScopes
     {

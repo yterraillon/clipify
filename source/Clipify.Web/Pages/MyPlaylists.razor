@@ -1,0 +1,88 @@
+﻿@page "/my-playlists"
+@using Clipify.Domain.Entities
+@using MediatR
+@using Clipify.Application.Playlists.Requests.GetLocalPlaylists
+@using Clipify.Application.Playlists.Commands.DeleteLocalPlaylist
+@using Clipify.Application.Playlists.Commands.ForkPlaylist
+@using System.Collections.ObjectModel
+@using System.Collections.Specialized
+@using Clipify.Application.Playlists.Requests.GetPlaylist
+
+@inject IMediator _mediator
+
+<h3>MyPlaylists</h3>
+
+<div class="text-center">
+    <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto"
+            @onclick="@(CompareAsync)">
+        Compare
+    </button>
+</div>
+<div class="container flex flex-wrap flex-auto">
+    @foreach (var playlist in _playlists)
+    {
+        var currentPlaylist = playlist;
+
+        <div class="max-w-sm m-3 rounded overflow-hidden shadow-lg">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2 text-center h-12 min-h-full">@playlist.Title</div>
+                <div>@playlist.Id / @playlist.PlaylistId</div>
+            </div>
+            <div class="text-center my-2">
+                <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-red-500 shadow-md m-auto"
+                        @onclick="@(() => DeleteAsync(currentPlaylist.Id))">
+                    Delete
+                </button>
+                <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto"
+                        @onclick="@(() => ForkAsync(currentPlaylist.Id))">
+                    Fork
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@code
+{
+    private ObservableCollection<Playlist> _playlists = new ObservableCollection<Playlist>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await _mediator.Send(new GetLocalPlaylists.Request());
+
+        _playlists = new ObservableCollection<Playlist>(response);
+    }
+
+    private async Task DeleteAsync(string id)
+    {
+        await _mediator.Send(new DeleteLocalPlaylist.Command
+        {
+            PlaylistId = id
+        });
+    }
+
+    private async Task ForkAsync(string id)
+    {
+        await _mediator.Send(new ForkPlaylist.Request
+        {
+            OriginalPlaylistId = id
+        });
+    }
+
+    private async Task CompareAsync()
+    {
+        foreach (var playlist in _playlists)
+        {
+            var response = await _mediator.Send(new GetPlaylist.Request
+            {
+                PlaylistId = playlist.PlaylistId
+            });
+
+            if (response.SnapshotId == playlist.SnapshotId)
+                continue;
+
+            playlist.Title += " (Outdated)";
+        }
+        
+    }
+}

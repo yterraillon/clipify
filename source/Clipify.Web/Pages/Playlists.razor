@@ -1,43 +1,56 @@
 ﻿@page "/playlists"
 @using MediatR
 @using Clipify.Application.Playlists.Models
-@using Clipify.Application.Playlists.Requests.GetPlaylist
+@using Clipify.Application.Playlists.Requests.GetPlaylists
+@using Clipify.Application.Playlists.Commands.SavePlaylist
 
 @inject IMediator _mediator
 
 <h3>Playlists</h3>
 
-<div class="container">
-    <div class="max-w-sm rounded overflow-hidden shadow-lg">
-        <img class="w-full" src="@_playlist.Images.FirstOrDefault()?.Url" alt="Cover">
-        <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2 text-center">@_playlist.Name</div>
-            <div class="text-sm text-gray-500">@((MarkupString)_playlist.Description)</div>
+<div class="container flex flex-wrap flex-auto">
+    @foreach (var playlist in _playlists)
+    {
+        var currentPlaylist = playlist;
+
+        <div class="max-w-sm m-3 rounded overflow-hidden shadow-lg">
+            @if (playlist.Images.Any())
+            {
+                <img class="w-full" src="@playlist.Images.FirstOrDefault()?.Url" alt="Cover">
+            }
+            else
+            {
+                <img class="w-full" src="https://via.placeholder.com/384" alt="Cover"/>
+            }
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2 text-center h-12 min-h-full">@playlist.Name</div>
+                <div class="text-sm py-3 text-gray-500 h-20 min-h-full">@((MarkupString) playlist.Description)</div>
+            </div>
+            <div class="text-center my-2 py-1">
+                
+                <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto"
+                        @onclick="@(() => SavePlaylistAsync(currentPlaylist))">
+                    Save Playlist
+                </button>
+            </div>
         </div>
-        <div class="text-center my-4">
-            <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto" onclick="@SavePlaylistAsync(_playlist.Id)">
-                Save Playlist
-            </button>
-        </div>
-    </div>
+    }
 </div>
 
 @code
 {
-    private const string PlaylistId = "37i9dQZF1EIZIgnGqUa6kD";
-
-    private PlaylistViewModel _playlist = PlaylistViewModel.Empty;
+    private IEnumerable<PlaylistViewModel> _playlists = Enumerable.Empty<PlaylistViewModel>();
 
     protected override async Task OnInitializedAsync()
     {
-        _playlist = await _mediator.Send(new GetPlaylist.Request
+        _playlists = await _mediator.Send(new GetPlaylists.Request());
+    }
+
+    private Task SavePlaylistAsync(PlaylistViewModel playlist)
+        => _mediator.Send(new SavePlaylist.Command
         {
-            PlaylistId = PlaylistId
+            PlaylistId = playlist.Id,
+            SnapshotId = playlist.SnapshotId,
+            Title = playlist.Name
         });
-    }
-
-    private async Task SavePlaylistAsync(string playlistId)
-    {
-
-    }
 }

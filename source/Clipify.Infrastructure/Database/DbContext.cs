@@ -14,6 +14,9 @@ namespace Clipify.Infrastructure.Database
 
             Database.GetCollection<UserDto>()
                 .EnsureIndex(x => x.Id, true);
+
+            Database.GetCollection<PlaylistDto>()
+                .EnsureIndex(x => x.Id, true);
         }
     }
 }

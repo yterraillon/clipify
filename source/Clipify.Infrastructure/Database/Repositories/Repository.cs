@@ -1,15 +1,13 @@
-﻿using System;
-using AutoMapper;
-using LiteDB;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using AutoMapper.QueryableExtensions;
+﻿using AutoMapper;
 using Clipify.Application;
+using LiteDB;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Clipify.Infrastructure.Database.Repositories
 {
-    public class Repository<T, TEntity, TId> : IRepository<T, TId>
+    public class Repository<T, TEntity, TId> : IRepository<T, TId> where TId : notnull
         where T : class
         where TEntity : new()
     {
@@ -30,19 +28,24 @@ namespace Clipify.Infrastructure.Database.Repositories
             => Collection.Insert(Mapper.Map<TEntity>(entity));
 
         public T Get(TId id)
-            => Mapper.Map<T>(Collection.FindById(new BsonValue(id)) ?? new TEntity());
+            => Mapper.Map<T>(Collection.FindById(ToLiteDbId(id)) ?? new TEntity());
 
         public T Get(Expression<Func<T, bool>> predicate)
-            => Mapper.Map<T>(Collection.FindOne(Mapper.Map<Expression<Func<TEntity, bool>>>(predicate)) ?? new TEntity());
-        
+        {
+            var expr = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
 
-            public IEnumerable<T> GetAll()
+            return Mapper.Map<T>(Collection.FindOne(expr) ?? new TEntity());
+        }
+
+        public IEnumerable<T> GetAll()
             => Mapper.Map<IEnumerable<T>>(Collection.FindAll());
 
-        public void Remove(TId id)
-            => Collection.Delete(new BsonValue(id));
+        public bool Remove(TId id)
+            => Collection.Delete(ToLiteDbId(id));
 
         public void Update(T entity)
             => Collection.Update(Mapper.Map<TEntity>(entity));
+
+        private static ObjectId ToLiteDbId(TId id) => new ObjectId(id.ToString());
     }
 }

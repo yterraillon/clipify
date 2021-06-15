@@ -1,15 +1,16 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Application.Profile.Requests.GetProfile;
+﻿using Clipify.Application.Profile.Requests.GetProfile;
 using Clipify.Application.Profile.Requests.GetProfile.Models;
 using Clipify.Domain.Entities;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Users.Commands.CreateLocalUser
 {
     public static class CreateLocalUser
     {
-        public class Command : IRequest<Unit>
+        public class Command : IRequest
         {
             public string AccessToken { get; set; } = string.Empty;
 
@@ -18,7 +19,7 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
             public int ExpiresIn { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Unit>
+        public class Handler : AsyncRequestHandler<Command>
         {
             private readonly IRepository<User, string> _userRepository;
 
@@ -30,28 +31,33 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
                 _userProfileClient = userProfileClient;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            protected override async Task Handle(Command request, CancellationToken cancellationToken)
             {
                 var profile = await _userProfileClient.GetUserProfileAsync(request.AccessToken, cancellationToken);
 
                 if (profile.Equals(ProfileResponse.Empty))
-                    return Unit.Value;
+                    return;
 
                 var user = _userRepository.Get(x => x.UserId == profile.Id);
 
                 if (string.IsNullOrEmpty(user.UserId))
                 {
-                    _userRepository.Add(new User
-                    {
-                        UserId = profile.Id,
-                        Username = profile.DisplayName,
-                        AccessToken = request.AccessToken,
-                        RefreshToken = request.RefreshToken,
-                        ExpiresIn = request.ExpiresIn
-                    });
+                    _userRepository.Add(User.Create(
+                        profile.Id,
+                        profile.DisplayName,
+                        request.AccessToken,
+                        request.RefreshToken,
+                        request.ExpiresIn
+                    ));
                 }
+                else
+                {
+                    user.AccessToken = request.AccessToken;
+                    user.RefreshToken = request.RefreshToken;
+                    user.TokenExpirationDate = DateTime.UtcNow.AddSeconds(request.ExpiresIn);
 
-                return Unit.Value;
+                    _userRepository.Update(user);
+                }
             }
         }
     }
