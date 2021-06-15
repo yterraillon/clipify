@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Clipify.Application.Profile.Requests.GetProfile;
 using Clipify.Application.Profile.Requests.GetProfile.Models;
@@ -47,14 +48,14 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
                         Username = profile.DisplayName,
                         AccessToken = request.AccessToken,
                         RefreshToken = request.RefreshToken,
-                        ExpiresIn = request.ExpiresIn
+                        ExpirationDate = DateTime.UtcNow.AddSeconds(request.ExpiresIn)
                     });
                 }
                 else
                 {
                     user.AccessToken = request.AccessToken;
                     user.RefreshToken = request.RefreshToken;
-                    user.ExpiresIn = request.ExpiresIn;
+                    user.ExpirationDate = DateTime.UtcNow.AddSeconds(request.ExpiresIn);
 
                     _userRepository.Update(user);
                 }

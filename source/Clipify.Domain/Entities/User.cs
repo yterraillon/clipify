@@ -1,4 +1,6 @@
-﻿namespace Clipify.Domain.Entities
+﻿using System;
+
+namespace Clipify.Domain.Entities
 {
     public class User : Entity
     {
@@ -10,7 +12,7 @@
 
         public string RefreshToken { get; set; } = string.Empty;
 
-        public int ExpiresIn { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
         public static User Empty => new User();
     }

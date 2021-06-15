@@ -41,12 +41,7 @@ namespace Clipify.Infrastructure.Database.Repositories
             => Mapper.Map<IEnumerable<T>>(Collection.FindAll());
 
         public bool Remove(TId id)
-        {
-            //if (!Collection.Exists(Query.EQ("_id", new BsonValue(id))))
-            //    return false;
-
-            return Collection.Delete(ToLiteDbId(id));
-        }
+            => Collection.Delete(ToLiteDbId(id));
 
         public void Update(T entity)
             => Collection.Update(Mapper.Map<TEntity>(entity));

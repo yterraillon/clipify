@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Clipify.Application.Auth.Requests.Authorization;
+using Clipify.Application.Auth.Requests.GetAccessToken;
 using Clipify.Application.Users;
 using Clipify.Application.Users.Commands.CreateLocalUser;
 using MediatR;
@@ -18,7 +20,10 @@ namespace Clipify.Application.Common.Behaviours
 
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            if (request is CreateLocalUser.Command)
+            // TODO: C# 9.0 type test pattern.
+            if (request is CreateLocalUser.Command
+                || request is Authorization.Request
+                || request is GetAccessToken.Request)
                 return next();
 
             if (!_currentUserService.IsUserLoggedIn())

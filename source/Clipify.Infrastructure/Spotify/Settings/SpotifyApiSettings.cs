@@ -4,6 +4,8 @@
     {
         public string BaseUrl { get; set; } = string.Empty;
 
+        public string ProfileEndpoint { get; set; } = string.Empty;
+
         public string PlaylistEndpoint { get; set; } = string.Empty;
     }
 }

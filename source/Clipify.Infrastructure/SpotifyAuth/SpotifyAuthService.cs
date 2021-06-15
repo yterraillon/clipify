@@ -45,7 +45,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
                 {"refresh_token", refreshToken}
             };
 
-            return _client.GetTokenAsync(new Uri("https://accounts.spotify.com/api/token"), parameters);
+            return _client.GetTokenAsync(new Uri(_settings.AccessTokenUrl), parameters);
         }
     }
 }
