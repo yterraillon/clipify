@@ -45,10 +45,14 @@ namespace Clipify.Infrastructure.Database.Repositories
             //if (!Collection.Exists(Query.EQ("_id", new BsonValue(id))))
             //    return false;
 
-            return Collection.Delete(new BsonValue(id));
+            return Collection.Delete(ToLiteDbId(id));
         }
 
         public void Update(T entity)
             => Collection.Update(Mapper.Map<TEntity>(entity));
+
+
+        // TODO : probablement à porter sur le Get aussi. S'assurer que ça ne pète pas au niveau des types qu'on peut avoir
+        private static ObjectId ToLiteDbId(TId id) => new ObjectId(id.ToString());
     }
 }
