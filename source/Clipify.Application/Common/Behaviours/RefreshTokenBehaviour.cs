@@ -10,7 +10,6 @@ namespace Clipify.Application.Common.Behaviours
 {
     public class RefreshTokenBehaviour<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
     {
-
         private readonly ICurrentUserService _currentUserService;
 
         private readonly IRepository<User, string> _userRepository;

@@ -33,18 +33,12 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
             {
                 try
                 {
-                    _playlistRepository.Add(new Playlist
-                    {
-                        Created = DateTime.Now,
-                        CreatedBy = CurrentUser.Id,
-                        PlaylistId = request.PlaylistId,
-                        LastCheckedDate = DateTime.UtcNow,
-                        LastModifiedDate = DateTime.UtcNow,
-                        SnapshotId = request.SnapshotId,
-                        Title = request.Title,
-                        Updated = DateTime.UtcNow,
-                        UpdatedBy = CurrentUser.Id
-                    });
+                    _playlistRepository.Add(Playlist.Create(
+                        request.PlaylistId,
+                        request.SnapshotId,
+                        CurrentUser.UserId,
+                        request.Title
+                    ));
                 }
                 catch (Exception e)
                 {

@@ -20,10 +20,7 @@ namespace Clipify.Application.Common.Behaviours
 
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            // TODO: C# 9.0 type test pattern.
-            if (request is CreateLocalUser.Command
-                || request is Authorization.Request
-                || request is GetAccessToken.Request)
+            if (IsAuthorizationNotRequired(request))
                 return next();
 
             if (!_currentUserService.IsUserLoggedIn())
@@ -31,5 +28,10 @@ namespace Clipify.Application.Common.Behaviours
 
             return next();
         }
+
+        private static bool IsAuthorizationNotRequired(TRequest request)
+            // TODO: C# 9.0 type test pattern.
+            => request is CreateLocalUser.Command || request is Authorization.Request ||
+               request is GetAccessToken.Request;
     }
 }
