@@ -19,7 +19,7 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
             public string Title { get; set; } = string.Empty;
         }
 
-        public class Handler : BaseHandler, IRequestHandler<Command>
+        public class Handler : BaseUserHandler, IRequestHandler<Command>
         {
             private readonly IRepository<Playlist, string> _playlistRepository;
 

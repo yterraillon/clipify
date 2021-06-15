@@ -8,7 +8,7 @@ namespace Clipify.Domain.Entities
 
         public string SnapshotId { get; private set; } = string.Empty;
 
-        public string Title { get; private set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
 
         public DateTime LastCheckedDate { get; private set; }
 
