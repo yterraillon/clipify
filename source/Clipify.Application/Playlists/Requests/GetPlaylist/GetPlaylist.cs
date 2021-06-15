@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Clipify.Application.Common;
 using Clipify.Application.Playlists.Models;
 using Clipify.Application.Users;
-using Clipify.Domain.Entities;
 using FluentValidation;
 using MediatR;
 
@@ -15,25 +15,18 @@ namespace Clipify.Application.Playlists.Requests.GetPlaylist
             public string PlaylistId { get; set; } = string.Empty;
         }
 
-        public class Handler : IRequestHandler<Request, PlaylistViewModel>
+        public class Handler : BaseHandler, IRequestHandler<Request, PlaylistViewModel>
         {
             private readonly IPlaylistClient _client;
-            private readonly ICurrentUserService _currentUserService;
 
-            public Handler(IPlaylistClient client, ICurrentUserService currentUser)
+            public Handler(IPlaylistClient client, ICurrentUserService currentUserService) : base(currentUserService)
             {
                 _client = client;
-                _currentUserService = currentUser;
             }
 
             public async Task<PlaylistViewModel> Handle(Request request, CancellationToken cancellationToken)
             {
-                if (!_currentUserService.IsUserLoggedIn())
-                    return PlaylistViewModel.Empty;
-
-                var user = _currentUserService.GetCurrentUser();
-
-                return await _client.GetPlaylistAsync(user.AccessToken, user.UserId, request.PlaylistId,
+                return await _client.GetPlaylistAsync(CurrentUser.AccessToken, CurrentUser.UserId, request.PlaylistId,
                         cancellationToken);
             }
         }
