@@ -10,7 +10,7 @@ namespace Clipify.Application.Users.Requests
     {
         public class Request : IRequest<User> { }
 
-        public class Handler : BaseHandler, IRequestHandler<Request, User>
+        public class Handler : BaseUserHandler, IRequestHandler<Request, User>
         {
             public Handler(ICurrentUserService currentUserService) : base(currentUserService) { }
 

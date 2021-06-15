@@ -12,7 +12,7 @@ namespace Clipify.Application.Profile.Requests.GetProfile
     {
         public class Request : IRequest<ProfileResponse> { }
 
-        public class Handler : BaseHandler, IRequestHandler<Request, ProfileResponse>
+        public class Handler : BaseUserHandler, IRequestHandler<Request, ProfileResponse>
         {
             private readonly IUserProfileClient _client;
 

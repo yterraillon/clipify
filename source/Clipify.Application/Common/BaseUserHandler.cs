@@ -3,7 +3,7 @@ using Clipify.Domain.Entities;
 
 namespace Clipify.Application.Common
 {
-    public class BaseHandler
+    public class BaseUserHandler
     {
         private readonly ICurrentUserService _currentUserService;
 
@@ -11,7 +11,7 @@ namespace Clipify.Application.Common
 
         protected User CurrentUser => _currentUser ??= _currentUserService.GetCurrentUser();
 
-        public BaseHandler(ICurrentUserService currentUserService)
+        public BaseUserHandler(ICurrentUserService currentUserService)
         {
             _currentUserService = currentUserService;
         }

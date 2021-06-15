@@ -15,7 +15,7 @@ namespace Clipify.Application.Playlists.Requests.GetPlaylist
             public string PlaylistId { get; set; } = string.Empty;
         }
 
-        public class Handler : BaseHandler, IRequestHandler<Request, PlaylistViewModel>
+        public class Handler : BaseUserHandler, IRequestHandler<Request, PlaylistViewModel>
         {
             private readonly IPlaylistClient _client;
 

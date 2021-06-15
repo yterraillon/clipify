@@ -14,7 +14,7 @@ namespace Clipify.Application.Playlists.Commands.DeleteLocalPlaylist
             public string PlaylistId { get; set; } = string.Empty;
         }
 
-        public class Handler : BaseHandler, IRequestHandler<Command, bool>
+        public class Handler : BaseUserHandler, IRequestHandler<Command, bool>
         {
             private readonly IRepository<Playlist, string> _playlistRepository;
 
