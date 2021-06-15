@@ -1,9 +1,9 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
+using Clipify.Application;
 using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Clipify.Application;
 
 namespace Clipify.Infrastructure.Database.Repositories
 {
@@ -37,9 +37,6 @@ namespace Clipify.Infrastructure.Database.Repositories
             return Mapper.Map<T>(Collection.FindOne(expr) ?? new TEntity());
         }
 
-        public T Get(Expression<Func<T, bool>> predicate)
-            => Mapper.Map<T>(Collection.FindOne(Mapper.Map<Expression<Func<TEntity, bool>>>(predicate)) ?? new TEntity());
-        
         public IEnumerable<T> GetAll()
             => Mapper.Map<IEnumerable<T>>(Collection.FindAll());
 
@@ -48,7 +45,7 @@ namespace Clipify.Infrastructure.Database.Repositories
 
         public void Update(T entity)
             => Collection.Update(Mapper.Map<TEntity>(entity));
-        
+
         private static ObjectId ToLiteDbId(TId id) => new ObjectId(id.ToString());
     }
 }

@@ -2,7 +2,6 @@
 using Clipify.Application.Users;
 using Clipify.Domain.Entities;
 using Clipify.Infrastructure.Database.Dtos;
-using Microsoft.AspNetCore.Http.Features;
 
 namespace Clipify.Infrastructure.Database
 {

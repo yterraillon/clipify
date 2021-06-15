@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Clipify.Application.Playlists.Models;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Application.Playlists.Models;
 
 namespace Clipify.Application.Playlists
 {

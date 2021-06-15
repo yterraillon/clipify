@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Application.Common;
+﻿using Clipify.Application.Common;
 using Clipify.Application.Playlists.Models;
 using Clipify.Application.Users;
 using MediatR;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Playlists.Requests.GetPlaylists
 {

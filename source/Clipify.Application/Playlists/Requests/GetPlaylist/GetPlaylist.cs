@@ -1,10 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Application.Common;
+﻿using Clipify.Application.Common;
 using Clipify.Application.Playlists.Models;
 using Clipify.Application.Users;
 using FluentValidation;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Playlists.Requests.GetPlaylist
 {

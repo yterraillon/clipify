@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests;
+﻿using Clipify.Application.Auth.Requests;
 using Clipify.Application.Users;
 using Clipify.Domain.Entities;
 using MediatR.Pipeline;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Common.Behaviours
 {

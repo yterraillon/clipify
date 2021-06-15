@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Domain.Entities;
+﻿using Clipify.Domain.Entities;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Playlists.Commands.ForkPlaylist
 {

@@ -1,8 +1,8 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Application.Common;
+﻿using Clipify.Application.Common;
 using Clipify.Application.Users;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Profile.Requests.GetProfile
 {
@@ -17,7 +17,7 @@ namespace Clipify.Application.Profile.Requests.GetProfile
             private readonly IUserProfileClient _client;
 
             public Handler(IUserProfileClient client, ICurrentUserService currentUserService) : base(currentUserService)
-                =>_client = client;
+                => _client = client;
 
             public Task<ProfileResponse> Handle(Request request, CancellationToken cancellationToken)
             {

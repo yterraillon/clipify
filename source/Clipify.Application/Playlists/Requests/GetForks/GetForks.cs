@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Clipify.Domain.Entities;
+using MediatR;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Clipify.Domain.Entities;
-using MediatR;
 
 namespace Clipify.Application.Playlists.Requests.GetForks
 {

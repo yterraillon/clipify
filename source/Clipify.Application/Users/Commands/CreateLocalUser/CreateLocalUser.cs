@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Application.Profile.Requests.GetProfile;
+﻿using Clipify.Application.Profile.Requests.GetProfile;
 using Clipify.Application.Profile.Requests.GetProfile.Models;
 using Clipify.Domain.Entities;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Users.Commands.CreateLocalUser
 {

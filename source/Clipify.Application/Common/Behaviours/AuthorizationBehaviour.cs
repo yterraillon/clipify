@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.Authorization;
+﻿using Clipify.Application.Auth.Requests.Authorization;
 using Clipify.Application.Auth.Requests.GetAccessToken;
 using Clipify.Application.Users;
 using Clipify.Application.Users.Commands.CreateLocalUser;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Common.Behaviours
 {

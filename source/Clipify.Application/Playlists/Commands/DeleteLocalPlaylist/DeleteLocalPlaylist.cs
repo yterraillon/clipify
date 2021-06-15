@@ -1,9 +1,9 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Application.Common;
+﻿using Clipify.Application.Common;
 using Clipify.Application.Users;
 using Clipify.Domain.Entities;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Application.Playlists.Commands.DeleteLocalPlaylist
 {

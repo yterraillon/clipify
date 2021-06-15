@@ -1,11 +1,11 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Clipify.Application.Profile.Requests.GetProfile;
+﻿using Clipify.Application.Profile.Requests.GetProfile;
 using Clipify.Application.Profile.Requests.GetProfile.Models;
 using Clipify.Infrastructure.Extensions;
 using Clipify.Infrastructure.Spotify.Settings;
+using System;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Clipify.Infrastructure.Spotify.UserProfile
 {

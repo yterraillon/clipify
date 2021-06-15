@@ -1,13 +1,16 @@
-﻿using System;
+﻿using AutoMapper.Extensions.ExpressionMapping;
 using Clipify.Application;
 using Clipify.Application.Auth.Requests;
 using Clipify.Application.Auth.Requests.Authorization;
+using Clipify.Application.Playlists;
 using Clipify.Application.Profile.Requests.GetProfile;
 using Clipify.Application.Users;
 using Clipify.Domain.Entities;
 using Clipify.Infrastructure.Database;
 using Clipify.Infrastructure.Database.Dtos;
 using Clipify.Infrastructure.Database.Repositories;
+using Clipify.Infrastructure.Spotify.Playlists;
+using Clipify.Infrastructure.Spotify.Settings;
 using Clipify.Infrastructure.Spotify.UserProfile;
 using Clipify.Infrastructure.SpotifyAuth;
 using Clipify.Infrastructure.SpotifyAuth.Clients;
@@ -15,10 +18,6 @@ using Clipify.Infrastructure.SpotifyAuth.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using AutoMapper.Extensions.ExpressionMapping;
-using Clipify.Application.Playlists;
-using Clipify.Infrastructure.Spotify.Playlists;
-using Clipify.Infrastructure.Spotify.Settings;
 
 namespace Clipify.Infrastructure
 {

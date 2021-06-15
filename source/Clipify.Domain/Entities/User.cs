@@ -18,7 +18,7 @@ namespace Clipify.Domain.Entities
 
         public static User Create(string userId, string username, string accessToken, string refreshToken,
             int expiresIn) => new User
-        {
+            {
                 UserId = userId,
                 Username = username,
                 AccessToken = accessToken,
@@ -26,6 +26,6 @@ namespace Clipify.Domain.Entities
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
                 TokenExpirationDate = DateTime.UtcNow.AddSeconds(expiresIn)
-        };
+            };
     }
 }
