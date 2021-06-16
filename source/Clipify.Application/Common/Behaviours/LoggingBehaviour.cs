@@ -1,14 +1,30 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
+using Clipify.Application.Users;
+using MediatR.Pipeline;
+using Microsoft.Extensions.Logging;
 
 namespace Clipify.Application.Common.Behaviours
 {
-    public class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+    public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
     {
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        private readonly ILogger _logger;
+
+        private readonly ICurrentUserService _currentUserService;
+
+        public LoggingBehaviour(ILogger<LoggingBehaviour<TRequest>> logger, ICurrentUserService currentUserService)
         {
-            throw new System.NotImplementedException();
+            _logger = logger;
+            _currentUserService = currentUserService;
+        }
+
+        public Task Process(TRequest request, CancellationToken cancellationToken)
+        {
+            var user = _currentUserService.GetCurrentUser();
+
+            _logger.LogInformation($"Request: {typeof(TRequest).DeclaringType?.Name}\nUserId: {user.Id}\nUsername: {user.Username}\n Content:{request}");
+
+            return Task.CompletedTask;
         }
     }
 }

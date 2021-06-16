@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using Serilog;
+using Serilog.Events;
 
 namespace Clipify.Web
 {
@@ -30,6 +31,7 @@ namespace Clipify.Web
             services.AddControllers();
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddLogging();
 
             services.AddResponseCompression(opts =>
             {
@@ -44,7 +46,20 @@ namespace Clipify.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSerilogRequestLogging();
+                app.UseSerilogRequestLogging(options =>
+                {
+                    options.MessageTemplate = "Handled {RequestPath}";
+
+                    // Emit debug-level events instead of the defaults
+                    options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Debug;
+
+                    // Attach additional properties to the request completion event
+                    options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+                    {
+                        diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+                        diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+                    };
+                });
             }
             else
             {
