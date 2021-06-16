@@ -35,7 +35,7 @@ Hexagonal Architecture based on [ASP.NET Core Clean Architecture](https://github
 
 ## Technologies
 
-- .NET Core 3.1 (C# 8.0)
+- .NET Core 5.0 (C# 9.0)
 - Blazor Server App
 - MediatR · AutoMapper · FluentValidation · LiteDB
 
