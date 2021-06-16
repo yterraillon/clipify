@@ -4,6 +4,7 @@ using Clipify.Application.Users;
 using Clipify.Application.Users.Commands.CreateLocalUser;
 using MediatR;
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,8 +31,12 @@ namespace Clipify.Application.Common.Behaviours
         }
 
         private static bool IsAuthorizationNotRequired(TRequest request)
-            // TODO: C# 9.0 type test pattern.
-            => request is CreateLocalUser.Command || request is Authorization.Request ||
-               request is GetAccessToken.Request;
+            => request switch
+            {
+                CreateLocalUser.Command => true,
+                Authorization.Request => true,
+                GetAccessToken.Request => true,
+                _ => false
+            };
     }
 }
