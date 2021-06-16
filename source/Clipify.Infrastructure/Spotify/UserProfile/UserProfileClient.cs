@@ -6,6 +6,7 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace Clipify.Infrastructure.Spotify.UserProfile
 {
@@ -15,10 +16,10 @@ namespace Clipify.Infrastructure.Spotify.UserProfile
 
         private readonly SpotifyApiSettings _apiSettings;
 
-        public UserProfileClient(HttpClient client, SpotifyApiSettings apiSettings)
+        public UserProfileClient(HttpClient client, IOptions<SpotifyApiSettings> apiSettings)
         {
             _client = client;
-            _apiSettings = apiSettings;
+            _apiSettings = apiSettings.Value;
         }
 
         public async Task<ProfileResponse> GetUserProfileAsync(string token, CancellationToken cancellationToken)
