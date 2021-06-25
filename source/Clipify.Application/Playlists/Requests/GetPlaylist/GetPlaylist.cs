@@ -10,10 +10,7 @@ namespace Clipify.Application.Playlists.Requests.GetPlaylist
 {
     public static class GetPlaylist
     {
-        public class Request : IRequest<PlaylistViewModel>
-        {
-            public string PlaylistId { get; set; } = string.Empty;
-        }
+        public record Request(string PlaylistId) : IRequest<PlaylistViewModel>;
 
         public class Handler : BaseUserHandler, IRequestHandler<Request, PlaylistViewModel>
         {

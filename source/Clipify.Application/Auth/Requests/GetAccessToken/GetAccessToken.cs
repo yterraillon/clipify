@@ -8,10 +8,7 @@ namespace Clipify.Application.Auth.Requests.GetAccessToken
 
     public static class GetAccessToken
     {
-        public class Request : IRequest<TokenResponse>
-        {
-            public string Code { get; set; } = string.Empty;
-        }
+        public record Request(string Code) : IRequest<TokenResponse>;
 
         public class Handler : IRequestHandler<Request, TokenResponse>
         {
@@ -25,9 +22,7 @@ namespace Clipify.Application.Auth.Requests.GetAccessToken
             }
 
             public Task<TokenResponse> Handle(Request request, CancellationToken cancellationToken)
-            {
-                return _authService.GetAccessTokenAsync(_codeProvider.Verifier, request.Code);
-            }
+                => _authService.GetAccessTokenAsync(_codeProvider.Verifier, request.Code);
         }
     }
 }

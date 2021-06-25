@@ -7,10 +7,7 @@ namespace Clipify.Application.Playlists.Commands.ForkPlaylist
 {
     public static class ForkPlaylist
     {
-        public class Request : IRequest
-        {
-            public string OriginalPlaylistId { get; set; } = string.Empty;
-        }
+        public record Request(string OriginalPlaylistId) : IRequest;
 
         public class Handler : AsyncRequestHandler<Request>
         {

@@ -23,7 +23,6 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
         {
             private readonly IRepository<Playlist, string> _playlistRepository;
 
-
             public Handler(IRepository<Playlist, string> playlistRepository, ICurrentUserService currentUserService) : base(currentUserService)
             {
                 _playlistRepository = playlistRepository;
