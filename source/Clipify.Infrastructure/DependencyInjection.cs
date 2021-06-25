@@ -25,8 +25,6 @@ namespace Clipify.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            var e = configuration.GetSection("SpotifyEndpoints");
-
             services.Configure<SpotifyAuthSettings>(configuration.GetSection("SpotifyAuth"));
             services.Configure<SpotifyApiSettings>(configuration.GetSection("SpotifyEndpoints"));
 

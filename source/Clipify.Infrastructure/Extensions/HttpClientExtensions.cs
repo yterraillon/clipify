@@ -16,21 +16,21 @@ namespace Clipify.Infrastructure.Extensions
                 var response = await client
                     .SendAsync(new HttpRequestMessage(method, requestUri)
                     {
-                        Content = parameters != null ? new FormUrlEncodedContent(parameters) : null
+                        Content = parameters != null ? new FormUrlEncodedContent(parameters!) : null
                     }, cancellationToken);
 
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content
-                    .ReadAsStringAsync();
+                    .ReadAsStringAsync(cancellationToken);
 
                 return JsonConvert.DeserializeObject<T>(content, new JsonSerializerSettings
                 {
                     DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
                     NullValueHandling = NullValueHandling.Ignore
-                });
+                }) ?? throw new JsonSerializationException("Failed to deserialize response content.");
             }
-            catch (HttpRequestException e)
+            catch (Exception e)
             {
                 // TODO: Error handling.
                 Console.WriteLine(e);
