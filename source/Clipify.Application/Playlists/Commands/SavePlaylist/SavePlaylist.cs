@@ -17,6 +17,12 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
             public string SnapshotId { get; set; } = string.Empty;
 
             public string Title { get; set; } = string.Empty;
+
+            /// <inheritdoc />
+            public override string ToString()
+            {
+                return $"{nameof(PlaylistId)}: {PlaylistId}, {nameof(SnapshotId)}: {SnapshotId}, {nameof(Title)}: {Title}";
+            }
         }
 
         public class Handler : BaseUserHandler, IRequestHandler<Command>
@@ -24,9 +30,7 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
             private readonly IRepository<Playlist, string> _playlistRepository;
 
             public Handler(IRepository<Playlist, string> playlistRepository, ICurrentUserService currentUserService) : base(currentUserService)
-            {
-                _playlistRepository = playlistRepository;
-            }
+                => _playlistRepository = playlistRepository;
 
             public Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {

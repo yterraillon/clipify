@@ -17,6 +17,12 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
             public string RefreshToken { get; set; } = string.Empty;
 
             public int ExpiresIn { get; set; }
+
+            /// <inheritdoc />
+            public override string ToString()
+            {
+                return $"{nameof(AccessToken)}: {AccessToken}, {nameof(RefreshToken)}: {RefreshToken}, {nameof(ExpiresIn)}: {ExpiresIn}";
+            }
         }
 
         public class Handler : AsyncRequestHandler<Command>

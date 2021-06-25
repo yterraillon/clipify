@@ -9,7 +9,14 @@ namespace Clipify.Application.Playlists.Commands.DeleteLocalPlaylist
 {
     public static class DeleteLocalPlaylist
     {
-        public record Command(string PlaylistId) : IRequest<bool>;
+        public record Command(string PlaylistId) : IRequest<bool>
+        {
+            /// <inheritdoc />
+            public override string ToString()
+            {
+                return $"{nameof(PlaylistId)}: {PlaylistId}";
+            }
+        }
 
         public class Handler : BaseUserHandler, IRequestHandler<Command, bool>
         {

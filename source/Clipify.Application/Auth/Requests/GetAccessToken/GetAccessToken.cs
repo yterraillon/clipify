@@ -8,7 +8,14 @@ namespace Clipify.Application.Auth.Requests.GetAccessToken
 
     public static class GetAccessToken
     {
-        public record Request(string Code) : IRequest<TokenResponse>;
+        public record Request(string Code) : IRequest<TokenResponse>
+        {
+            /// <inheritdoc />
+            public override string ToString()
+            {
+                return $"{nameof(Code)}: {Code}";
+            }
+        }
 
         public class Handler : IRequestHandler<Request, TokenResponse>
         {

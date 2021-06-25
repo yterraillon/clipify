@@ -17,10 +17,10 @@ namespace Clipify.Application.Common.Behaviours
             _validators = validators;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             if (!_validators.Any())
-                return await next();
+                return next();
 
             var context = new ValidationContext<TRequest>(request);
 
@@ -33,7 +33,7 @@ namespace Clipify.Application.Common.Behaviours
             if (validationFailures.Any())
                 throw new ValidatorException(validationFailures);
 
-            return await next();
+            return next();
         }
     }
 }

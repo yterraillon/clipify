@@ -8,7 +8,14 @@ namespace Clipify.Application.Auth.Requests.Authorization
 
     public static class Authorization
     {
-        public record Request(string State, string Scope) : IRequest<AuthorizationResponse>;
+        public record Request(string State, string Scope) : IRequest<AuthorizationResponse>
+        {
+            /// <inheritdoc />
+            public override string ToString()
+            {
+                return $"{nameof(State)}: {State}, {nameof(Scope)}: {Scope}";
+            }
+        }
 
         public class Handler : IRequestHandler<Request, AuthorizationResponse>
         {
@@ -22,10 +29,9 @@ namespace Clipify.Application.Auth.Requests.Authorization
             }
 
             public Task<AuthorizationResponse> Handle(Request request, CancellationToken cancellationToken)
-                => Task.FromResult(new AuthorizationResponse
-                {
-                    Url = _authUriBuilder.GetAuthorizeUrl(_codeProvider.Challenge, request.Scope, request.State)
-                });
+                => Task.FromResult(new AuthorizationResponse(
+                    _authUriBuilder.GetAuthorizeUrl(_codeProvider.Challenge, request.Scope, request.State)
+                ));
         }
     }
 }

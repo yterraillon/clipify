@@ -10,7 +10,7 @@ namespace Clipify.Application.Profile.Requests.GetProfile
 
     public static class GetProfile
     {
-        public class Request : IRequest<ProfileResponse> { }
+        public record Request : IRequest<ProfileResponse>;
 
         public class Handler : BaseUserHandler, IRequestHandler<Request, ProfileResponse>
         {
