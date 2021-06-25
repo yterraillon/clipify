@@ -8,6 +8,6 @@
 
         public int Height { get; set; }
 
-        public static PlaylistImageResponse Empty => new PlaylistImageResponse();
+        public static PlaylistImageResponse Empty => new();
     }
 }

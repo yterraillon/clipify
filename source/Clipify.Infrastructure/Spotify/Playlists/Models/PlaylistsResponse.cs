@@ -11,6 +11,6 @@ namespace Clipify.Infrastructure.Spotify.Playlists.Models
         [JsonProperty("items")]
         public IEnumerable<PlaylistResponse> Items { get; set; } = new List<PlaylistResponse>();
 
-        public static PlaylistsResponse Empty => new PlaylistsResponse();
+        public static PlaylistsResponse Empty => new();
     }
 }

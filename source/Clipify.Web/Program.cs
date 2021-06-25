@@ -17,12 +17,12 @@ namespace Clipify.Web
 
             try
             {
-                Log.Debug("Starting WebHost.");
+                Log.Debug("Starting WebHost");
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception e)
             {
-                Log.Error(e.Message);
+                Log.Error(e, "Error: {Message}", e.Message);
                 throw;
             }
             finally
@@ -31,7 +31,7 @@ namespace Clipify.Web
             }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog(ConfigureSerilog)
                 .ConfigureWebHostDefaults(webBuilder =>
@@ -41,11 +41,9 @@ namespace Clipify.Web
 
         private static void ConfigureSerilog(HostBuilderContext context, IServiceProvider services,
             LoggerConfiguration configuration)
-        {
-            configuration
+            => configuration
                 .ReadFrom.Configuration(context.Configuration)
                 .ReadFrom.Services(services)
                 .WriteTo.Console();
-        }
     }
 }

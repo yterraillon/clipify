@@ -9,7 +9,7 @@ namespace Clipify.Infrastructure.Extensions
 {
     public static class HttpClientExtensions
     {
-        public static async Task<T> PostRequestAsync<T>(this HttpClient client, Uri requestUri, HttpMethod method, IDictionary<string, string>? parameters = null, CancellationToken cancellationToken = new CancellationToken())
+        public static async Task<T> PostRequestAsync<T>(this HttpClient client, Uri requestUri, HttpMethod method, IDictionary<string, string>? parameters = null, CancellationToken cancellationToken = new())
         {
             try
             {
@@ -32,7 +32,7 @@ namespace Clipify.Infrastructure.Extensions
             }
             catch (Exception e)
             {
-                // TODO: Error handling.
+                // TODO: Logger?
                 Console.WriteLine(e);
                 throw;
             }

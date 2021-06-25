@@ -11,9 +11,10 @@ namespace Clipify.Infrastructure.SpotifyAuth.Clients
     {
         private readonly HttpClient _client;
 
-        public SpotifyAuthClient(HttpClient client) => _client = client;
+        public SpotifyAuthClient(HttpClient client)
+            => _client = client;
 
-        public Task<TokenResponse> GetTokenAsync(Uri requestUri, IDictionary<string, string> parameters) =>
-            _client.PostRequestAsync<TokenResponse>(requestUri, HttpMethod.Post, parameters);
+        public Task<TokenResponse> GetTokenAsync(Uri requestUri, IDictionary<string, string> parameters)
+            => _client.PostRequestAsync<TokenResponse>(requestUri, HttpMethod.Post, parameters);
     }
 }
