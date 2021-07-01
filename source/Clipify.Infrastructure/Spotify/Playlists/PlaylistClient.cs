@@ -36,7 +36,7 @@ namespace Clipify.Infrastructure.Spotify.Playlists
             var response = await _client.ConfigureAuthorization(token)
                 .PostRequestAsync<PlaylistResponse>(uri, HttpMethod.Get, cancellationToken: cancellationToken);
 
-            return _mapper.Map<PlaylistViewModel>(response ?? PlaylistResponse.Empty);
+            return _mapper.Map<PlaylistViewModel>(response);
         }
 
         public async Task<IEnumerable<PlaylistViewModel>> GetPlaylistsAsync(string token, string userId, CancellationToken cancellationToken = new CancellationToken())

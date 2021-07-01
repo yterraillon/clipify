@@ -9,9 +9,7 @@ namespace Clipify.Application.Auth.Requests.GetRefreshToken
 
     public static class GetRefreshToken
     {
-        public class Request : IRequest<TokenResponse>
-        {
-        }
+        public record Request : IRequest<TokenResponse>;
 
         public class Handler : IRequestHandler<Request, TokenResponse>
         {

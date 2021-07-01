@@ -14,6 +14,6 @@ namespace Clipify.Infrastructure.Database.Dtos
 
         public DateTime TokenExpirationDate { get; set; }
 
-        public static UserDto Empty => new UserDto();
+        public static UserDto Empty => new();
     }
 }

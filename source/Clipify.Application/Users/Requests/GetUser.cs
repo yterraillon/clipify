@@ -8,7 +8,7 @@ namespace Clipify.Application.Users.Requests
 {
     public static class GetUser
     {
-        public class Request : IRequest<User> { }
+        public record Request : IRequest<User>;
 
         public class Handler : BaseUserHandler, IRequestHandler<Request, User>
         {

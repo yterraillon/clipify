@@ -1,13 +1,11 @@
 ﻿@page "/login"
 
 @using MediatR
-@using Microsoft.AspNetCore.SignalR.Client
 @using System.Threading
-@using Clipify.Application.Auth
 @using Clipify.Application.Auth.Requests.Authorization
-@inject NavigationManager NavigationManager
-@inject IJSRuntime JSRuntime
-@inject IMediator Mediator
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
+@inject IMediator _mediator
 <h3>Login</h3>
 
 @code
@@ -15,12 +13,12 @@
     protected override async Task OnInitializedAsync()
     {
 
-        var response = await Mediator.Send(new Authorization.Request());
+        var response = await _mediator.Send(new Authorization.Request(string.Empty, string.Empty));
 
         if (string.IsNullOrEmpty(response.Url))
-            NavigationManager.NavigateTo("/");
+            _navigationManager.NavigateTo("/");
         else
-            await JSRuntime.InvokeAsync<string>("open", new CancellationToken(), new[]
+            await _jsRuntime.InvokeAsync<string>("open", new CancellationToken(), new object?[]
             {
                 response.Url, "_blank"
             });

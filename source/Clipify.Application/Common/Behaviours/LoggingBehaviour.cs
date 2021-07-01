@@ -22,7 +22,8 @@ namespace Clipify.Application.Common.Behaviours
         {
             var user = _currentUserService.GetCurrentUser();
 
-            _logger.LogInformation($"Request: {typeof(TRequest).DeclaringType?.Name}\nUserId: {user.Id}\nUsername: {user.Username}\n Content:{request}");
+            _logger.LogInformation("Request: {Name}\nUserId: {UserId}\nUsername: {Username}\n Content:{@Request}",
+                typeof(TRequest).DeclaringType?.Name, user.Id, user.Username, request);
 
             return Task.CompletedTask;
         }
