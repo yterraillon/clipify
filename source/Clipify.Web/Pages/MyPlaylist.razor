@@ -1,0 +1,22 @@
+﻿@page "/playlist/{PlaylistId}"
+@using MediatR
+@using Clipify.Application.Playlists.Requests.GetPlaylist
+
+@inject IMediator _mediator
+
+<h3>Playlist</h3>
+
+@code
+{
+    [Parameter]
+    public string PlaylistId { get; set; } = string.Empty;
+
+    protected override Task OnInitializedAsync()
+    {
+        var response = _mediator.Send(new GetPlaylist.Request(PlaylistId));
+
+
+        return base.OnInitializedAsync();
+    }
+
+}

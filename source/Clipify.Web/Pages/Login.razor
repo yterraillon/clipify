@@ -10,9 +10,8 @@
 
 @code
 {
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-
         var response = await _mediator.Send(new Authorization.Request(string.Empty, string.Empty));
 
         if (string.IsNullOrEmpty(response.Url))
