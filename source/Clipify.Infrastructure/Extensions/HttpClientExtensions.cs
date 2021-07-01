@@ -9,30 +9,30 @@ namespace Clipify.Infrastructure.Extensions
 {
     public static class HttpClientExtensions
     {
-        public static async Task<T> PostRequestAsync<T>(this HttpClient client, Uri requestUri, HttpMethod method, IDictionary<string, string>? parameters = null, CancellationToken cancellationToken = new CancellationToken())
+        public static async Task<T> PostRequestAsync<T>(this HttpClient client, Uri requestUri, HttpMethod method, IDictionary<string, string>? parameters = null, CancellationToken cancellationToken = new())
         {
             try
             {
                 var response = await client
                     .SendAsync(new HttpRequestMessage(method, requestUri)
                     {
-                        Content = parameters != null ? new FormUrlEncodedContent(parameters) : null
+                        Content = parameters != null ? new FormUrlEncodedContent(parameters!) : null
                     }, cancellationToken);
 
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content
-                    .ReadAsStringAsync();
+                    .ReadAsStringAsync(cancellationToken);
 
                 return JsonConvert.DeserializeObject<T>(content, new JsonSerializerSettings
                 {
                     DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
                     NullValueHandling = NullValueHandling.Ignore
-                });
+                }) ?? throw new JsonSerializationException("Failed to deserialize response content.");
             }
-            catch (HttpRequestException e)
+            catch (Exception e)
             {
-                // TODO: Error handling.
+                // TODO: Logger?
                 Console.WriteLine(e);
                 throw;
             }

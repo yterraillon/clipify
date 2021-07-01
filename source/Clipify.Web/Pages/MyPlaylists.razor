@@ -5,7 +5,6 @@
 @using Clipify.Application.Playlists.Commands.DeleteLocalPlaylist
 @using Clipify.Application.Playlists.Commands.ForkPlaylist
 @using System.Collections.ObjectModel
-@using System.Collections.Specialized
 @using Clipify.Application.Playlists.Requests.GetPlaylist
 
 @inject IMediator _mediator
@@ -55,32 +54,22 @@
 
     private async Task DeleteAsync(string id)
     {
-        await _mediator.Send(new DeleteLocalPlaylist.Command
-        {
-            PlaylistId = id
-        });
+        await _mediator.Send(new DeleteLocalPlaylist.Command(id));
     }
 
     private async Task ForkAsync(string id)
     {
-        await _mediator.Send(new ForkPlaylist.Request
-        {
-            OriginalPlaylistId = id
-        });
+        await _mediator.Send(new ForkPlaylist.Request(id));
     }
 
     private async Task CompareAsync()
     {
         foreach (var playlist in _playlists)
         {
-            var response = await _mediator.Send(new GetPlaylist.Request
-            {
-                PlaylistId = playlist.PlaylistId
-            });
+            var response = await _mediator.Send(new GetPlaylist.Request(playlist.PlaylistId));
 
             if (response.SnapshotId == playlist.SnapshotId)
                 continue;
-
             playlist.Title += " (Outdated)";
         }
         

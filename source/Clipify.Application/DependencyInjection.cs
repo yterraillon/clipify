@@ -16,6 +16,7 @@ namespace Clipify.Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ExceptionBehaviour<,>));
+            services.AddTransient(typeof(IRequestPreProcessor<>), typeof(LoggingBehaviour<>));
             services.AddTransient(typeof(IRequestPreProcessor<>), typeof(RefreshTokenBehaviour<>));
 
             return services;

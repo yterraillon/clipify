@@ -14,10 +14,10 @@ namespace Clipify.Domain.Entities
 
         public DateTime TokenExpirationDate { get; set; }
 
-        public static User Empty => new User();
+        public static User Empty => new();
 
-        public static User Create(string userId, string username, string accessToken, string refreshToken,
-            int expiresIn) => new User
+        public static User Create(string userId, string username, string accessToken, string refreshToken, int expiresIn)
+            => new()
             {
                 UserId = userId,
                 Username = username,

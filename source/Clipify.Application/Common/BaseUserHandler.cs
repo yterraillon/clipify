@@ -7,11 +7,11 @@ namespace Clipify.Application.Common
     {
         private readonly ICurrentUserService _currentUserService;
 
-        private User? _currentUser = null;
+        private User? _currentUser;
 
         protected User CurrentUser => _currentUser ??= _currentUserService.GetCurrentUser();
 
-        public BaseUserHandler(ICurrentUserService currentUserService)
+        protected BaseUserHandler(ICurrentUserService currentUserService)
         {
             _currentUserService = currentUserService;
         }

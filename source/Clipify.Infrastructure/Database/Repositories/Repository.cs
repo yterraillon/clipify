@@ -11,41 +11,38 @@ namespace Clipify.Infrastructure.Database.Repositories
         where T : class
         where TEntity : new()
     {
-        protected readonly IMapper Mapper;
-        protected readonly IDbContext Context;
+        private readonly IMapper _mapper;
 
-        protected readonly ILiteCollection<TEntity> Collection;
+        private readonly ILiteCollection<TEntity> _collection;
 
         public Repository(IMapper mapper, IDbContext context)
         {
-            Mapper = mapper;
-            Context = context;
-
-            Collection = Context.Database.GetCollection<TEntity>();
+            _mapper = mapper;
+            _collection = context.Database.GetCollection<TEntity>();
         }
 
         public void Add(T entity)
-            => Collection.Insert(Mapper.Map<TEntity>(entity));
+            => _collection.Insert(_mapper.Map<TEntity>(entity));
 
         public T Get(TId id)
-            => Mapper.Map<T>(Collection.FindById(ToLiteDbId(id)) ?? new TEntity());
+            => _mapper.Map<T>(_collection.FindById(ToLiteDbId(id)) ?? new TEntity());
 
         public T Get(Expression<Func<T, bool>> predicate)
         {
-            var expr = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
+            var expr = _mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
 
-            return Mapper.Map<T>(Collection.FindOne(expr) ?? new TEntity());
+            return _mapper.Map<T>(_collection.FindOne(expr) ?? new TEntity());
         }
 
         public IEnumerable<T> GetAll()
-            => Mapper.Map<IEnumerable<T>>(Collection.FindAll());
+            => _mapper.Map<IEnumerable<T>>(_collection.FindAll());
 
         public bool Remove(TId id)
-            => Collection.Delete(ToLiteDbId(id));
+            => _collection.Delete(ToLiteDbId(id));
 
         public void Update(T entity)
-            => Collection.Update(Mapper.Map<TEntity>(entity));
+            => _collection.Update(_mapper.Map<TEntity>(entity));
 
-        private static ObjectId ToLiteDbId(TId id) => new ObjectId(id.ToString());
+        private static ObjectId ToLiteDbId(TId id) => new(id.ToString());
     }
 }

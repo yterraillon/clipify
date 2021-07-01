@@ -8,9 +8,7 @@ namespace Clipify.Application.Playlists.Requests.GetForks
 {
     public static class GetForks
     {
-        public class Request : IRequest<IEnumerable<ForkedPlaylist>>
-        {
-        }
+        public record Request : IRequest<IEnumerable<ForkedPlaylist>>;
 
         public class Handler : IRequestHandler<Request, IEnumerable<ForkedPlaylist>>
         {

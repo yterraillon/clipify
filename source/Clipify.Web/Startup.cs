@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using Serilog;
+using Serilog.Events;
 
 namespace Clipify.Web
 {
@@ -17,7 +19,7 @@ namespace Clipify.Web
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -29,6 +31,7 @@ namespace Clipify.Web
             services.AddControllers();
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddLogging();
 
             services.AddResponseCompression(opts =>
             {
@@ -43,6 +46,20 @@ namespace Clipify.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSerilogRequestLogging(options =>
+                {
+                    options.MessageTemplate = "Handled {RequestPath}";
+
+                    // Emit debug-level events instead of the defaults
+                    options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Debug;
+
+                    // Attach additional properties to the request completion event
+                    options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+                    {
+                        diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+                        diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+                    };
+                });
             }
             else
             {

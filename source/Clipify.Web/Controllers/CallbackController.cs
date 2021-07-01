@@ -19,10 +19,7 @@ namespace Clipify.Web.Controllers
             if (string.IsNullOrEmpty(code))
                 return BadRequest();
 
-            var response = await _mediator.Send(new GetAccessToken.Request
-            {
-                Code = code,
-            });
+            var response = await _mediator.Send(new GetAccessToken.Request(code));
 
             if (string.IsNullOrEmpty(response.AccessToken))
                 return BadRequest();

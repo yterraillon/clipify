@@ -14,9 +14,7 @@ namespace Clipify.Application.Common.Behaviours
         private readonly ICurrentUserService _currentUserService;
 
         public AuthorizationBehaviour(ICurrentUserService currentUserService)
-        {
-            _currentUserService = currentUserService;
-        }
+            => _currentUserService = currentUserService;
 
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
@@ -30,8 +28,12 @@ namespace Clipify.Application.Common.Behaviours
         }
 
         private static bool IsAuthorizationNotRequired(TRequest request)
-            // TODO: C# 9.0 type test pattern.
-            => request is CreateLocalUser.Command || request is Authorization.Request ||
-               request is GetAccessToken.Request;
+            => request switch
+            {
+                CreateLocalUser.Command => true,
+                Authorization.Request => true,
+                GetAccessToken.Request => true,
+                _ => false
+            };
     }
 }
