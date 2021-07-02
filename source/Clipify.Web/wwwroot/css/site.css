@@ -21657,7 +21657,7 @@ video {
 }
 
 .active {
-  border-bottom: 1px solid hsl(160, 84%, 39%);
+  border-bottom: 2px solid hsl(160, 84%, 39%);
   font-weight: 600;
   color: hsl(60, 2%, 12%);
 }

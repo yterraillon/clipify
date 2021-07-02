@@ -43,7 +43,8 @@ namespace Clipify.Infrastructure.SpotifyAuth
 
             var scopes = string.Join(" ",
                 SpotifyScopes.PlaylistReadPrivate,
-                SpotifyScopes.PlaylistReadCollaborative);
+                SpotifyScopes.PlaylistReadCollaborative,
+                SpotifyScopes.UserReadPrivate);
 
             if (parameters.ContainsKey("scope"))
                 parameters["scope"] += scopes;

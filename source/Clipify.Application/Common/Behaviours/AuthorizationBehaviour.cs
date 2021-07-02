@@ -6,6 +6,7 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Clipify.Application.Users.Requests;
 
 namespace Clipify.Application.Common.Behaviours
 {
@@ -33,6 +34,7 @@ namespace Clipify.Application.Common.Behaviours
                 CreateLocalUser.Command => true,
                 Authorization.Request => true,
                 GetAccessToken.Request => true,
+                GetUser.Request => true,
                 _ => false
             };
     }

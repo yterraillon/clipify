@@ -1,0 +1,44 @@
+﻿@using MediatR
+@using System.Threading
+@using Clipify.Application.Auth.Requests.Authorization
+@using Clipify.Application.Users.Requests
+@using Clipify.Domain.Entities
+
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
+@inject IMediator _mediator
+
+@if (!string.IsNullOrEmpty(_currentUser.Username))
+{
+<div class="flex flex-row items-center align-baseline rounded-full">
+    <img class="rounded-full h-10 w-10 flex" src="@_currentUser.Avatar" alt="User Avatar" />
+</div>
+}
+else
+{
+    <button @onclick="@(LoginAsync)">
+        Login
+    </button>
+}
+@code {
+
+    private User _currentUser = User.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _currentUser = await _mediator.Send(new GetUser.Request());
+    }
+
+    private async Task LoginAsync()
+    {
+        var response = await _mediator.Send(new Authorization.Request(string.Empty, string.Empty));
+
+        if (string.IsNullOrEmpty(response.Url))
+            _navigationManager.NavigateTo("/");
+        else
+            await _jsRuntime.InvokeAsync<string>("open", new CancellationToken(), new object?[]
+            {
+                response.Url, "_blank"
+            });
+    }
+}
