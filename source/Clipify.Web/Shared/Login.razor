@@ -11,7 +11,8 @@
 @if (!string.IsNullOrEmpty(_currentUser.Username))
 {
 <div class="flex flex-row items-center align-baseline rounded-full">
-    <img class="rounded-full h-10 w-10 flex" src="@_currentUser.Avatar" alt="User Avatar" />
+    @*<img class="rounded-full h-8 w-8 flex" src="@_currentUser.Avatar" alt="User Avatar" />*@
+    @_currentUser.Username
 </div>
 }
 else
