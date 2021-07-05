@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Clipify.Application.Playlists.Models
 {
@@ -14,7 +15,9 @@ namespace Clipify.Application.Playlists.Models
 
         public string Url { get; set; } = string.Empty;
 
-        public IEnumerable<PlaylistImageViewModel> Images { get; set; } = new List<PlaylistImageViewModel>();
+        public IEnumerable<PlaylistImageViewModel> Images { get; set; } = Enumerable.Empty<PlaylistImageViewModel>();
+        
+        public IEnumerable<TrackViewModel> Tracks { get; set; } = Enumerable.Empty<TrackViewModel>();
 
         public static PlaylistViewModel Empty => new PlaylistViewModel();
     }
