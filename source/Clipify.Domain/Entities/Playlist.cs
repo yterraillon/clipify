@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Clipify.Domain.Entities
 {
@@ -14,6 +15,8 @@ namespace Clipify.Domain.Entities
 
         public DateTime LastModifiedDate { get; private set; }
 
+        public ICollection<string> TrackIds { get; } = new HashSet<string>();
+        
         public static Playlist Create(string playlistId, string snapshotId, string userId, string title) => new Playlist
         {
             PlaylistId = playlistId,

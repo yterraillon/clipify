@@ -22,6 +22,10 @@ namespace Clipify.Infrastructure.Database
             CreateMap<PlaylistDto, Playlist>()
                 .IncludeBase<EntityDto, Entity>()
                 .ReverseMap();
+            
+            CreateMap<TrackDto, Track>()
+                .IncludeBase<EntityDto, Entity>()
+                .ReverseMap();
         }
     }
 }
