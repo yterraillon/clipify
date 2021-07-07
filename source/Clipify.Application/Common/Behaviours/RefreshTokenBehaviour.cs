@@ -1,5 +1,8 @@
 ﻿using Clipify.Application.Auth.Requests;
+using Clipify.Application.Auth.Requests.Authorization;
+using Clipify.Application.Auth.Requests.GetAccessToken;
 using Clipify.Application.Users;
+using Clipify.Application.Users.Commands.CreateLocalUser;
 using Clipify.Domain.Entities;
 using MediatR.Pipeline;
 using System;
@@ -27,6 +30,9 @@ namespace Clipify.Application.Common.Behaviours
         {
             if (!_currentUserService.IsUserLoggedIn())
                 return;
+            
+            if (!IsVerificationRequired(request))
+                return;
 
             var user = _currentUserService.GetCurrentUser();
 
@@ -41,5 +47,14 @@ namespace Clipify.Application.Common.Behaviours
                 _userRepository.Update(user);
             }
         }
+        
+        private static bool IsVerificationRequired(TRequest request)
+            => request switch
+            {
+                CreateLocalUser.Command => false,
+                Authorization.Request => false,
+                GetAccessToken.Request => false,
+                _ => true
+            };
     }
 }
