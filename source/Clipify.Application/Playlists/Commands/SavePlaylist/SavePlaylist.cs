@@ -3,6 +3,7 @@ using Clipify.Application.Users;
 using Clipify.Domain.Entities;
 using MediatR;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -53,11 +54,14 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
                     request.Title
                 );
 
+
                 foreach (var track in response.Tracks)
                 {
-                    _trackRepository.Add(Track.Create(track.Id, playlist.Id));
-                    playlist.TrackIds.Add(track.Id);
-                } 
+                    var t = Track.Create(track.Id, playlist.Id);
+                    
+                    playlist.TrackIds.Add(t.Id);
+                    _trackRepository.Add(t);
+                }
                 
                 _playlistRepository.Add(playlist);
 
