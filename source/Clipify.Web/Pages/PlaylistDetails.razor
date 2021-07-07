@@ -1,0 +1,38 @@
+﻿@page "/Playlist/{PlaylistId}"
+@using MediatR
+@using Clipify.Application.Playlists.Requests.GetPlaylistWithTracks
+@using Clipify.Application.Playlists.Models
+
+@inject IMediator _mediator
+
+<div class="m-auto">
+    <div class="my-3 flex justify-start items-end">
+        <img class="max-w-xs w-full" src="@_model.Images.FirstOrDefault()?.Url" alt="Cover">
+        <div>
+            <div class="ml-2 text-gray-900 text-xl font-semibold uppercase tracking-wide">@_model.Name</div>
+            <span class="ml-2 text-gray-700 text-md">@((MarkupString)_model.Description)</span>
+        </div>
+    </div>
+    <span class="border-b border-gray-200"></span>
+    @foreach (var track in _model.Tracks)
+    {
+        <div class="flex items-center justify-start">
+            <span class="text-lg font-semibold text-gray-600 mr-3">@track.TrackNumber</span>
+            <span class="text-md text-gray-800">@track.Name</span>
+        </div>
+    }
+</div>
+
+@code
+{
+    [Parameter]
+    public string PlaylistId { get; set; } = string.Empty;
+    
+    private PlaylistViewModel _model = PlaylistViewModel.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _model = await _mediator.Send(new GetPlaylistWithTracks.Request(PlaylistId));
+    }
+
+}

@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Clipify.Infrastructure.Spotify.Playlists.Models
+namespace Clipify.Infrastructure.Spotify.Models.Playlist
 {
-    public class PlaylistResponse
+    public class PlaylistWithTracksResponse
     {
         [JsonProperty("id")]
         public string Id { get; set; } = string.Empty;
@@ -27,8 +28,12 @@ namespace Clipify.Infrastructure.Spotify.Playlists.Models
         public bool Collaborative { get; set; }
 
         [JsonProperty("images")]
-        public IEnumerable<PlaylistImageResponse> Images { get; set; } = new List<PlaylistImageResponse>();
+        public IEnumerable<PlaylistImageResponse> Images { get; set; } = Enumerable.Empty<PlaylistImageResponse>();
 
+        [JsonProperty("tracks")]
+        public PlaylistTrackResponse Tracks { get; set; } = PlaylistTrackResponse.Empty;
+        
+        [JsonIgnore]
         public static PlaylistResponse Empty => new();
     }
 }

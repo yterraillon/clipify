@@ -19,7 +19,7 @@ namespace Clipify.Application.Common.Behaviours
 
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            if (IsAuthorizationNotRequired(request))
+            if (!IsAuthorizationRequired(request))
                 return next();
 
             if (!_currentUserService.IsUserLoggedIn())
@@ -28,14 +28,13 @@ namespace Clipify.Application.Common.Behaviours
             return next();
         }
 
-        private static bool IsAuthorizationNotRequired(TRequest request)
+        private static bool IsAuthorizationRequired(TRequest request)
             => request switch
             {
-                CreateLocalUser.Command => true,
-                Authorization.Request => true,
-                GetAccessToken.Request => true,
-                GetUser.Request => true,
-                _ => false
+                CreateLocalUser.Command => false,
+                Authorization.Request => false,
+                GetAccessToken.Request => false,
+                _ => true
             };
     }
 }

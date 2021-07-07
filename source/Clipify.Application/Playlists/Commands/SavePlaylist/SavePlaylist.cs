@@ -3,6 +3,7 @@ using Clipify.Application.Users;
 using Clipify.Domain.Entities;
 using MediatR;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,27 +30,42 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
         {
             private readonly IRepository<Playlist, string> _playlistRepository;
 
-            public Handler(IRepository<Playlist, string> playlistRepository, ICurrentUserService currentUserService) : base(currentUserService)
-                => _playlistRepository = playlistRepository;
+            private readonly IRepository<Track, string> _trackRepository;
 
-            public Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            private readonly IPlaylistClient _playlistClient;
+
+            public Handler(IRepository<Playlist, string> playlistRepository, ICurrentUserService currentUserService,
+                IPlaylistClient playlistClient, IRepository<Track, string> trackRepository) : base(currentUserService)
             {
-                try
-                {
-                    _playlistRepository.Add(Playlist.Create(
-                        request.PlaylistId,
-                        request.SnapshotId,
-                        CurrentUser.UserId,
-                        request.Title
-                    ));
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                _playlistRepository = playlistRepository;
+                _playlistClient = playlistClient;
+                _trackRepository = trackRepository;
+            }
 
-                return Unit.Task;
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var response = await _playlistClient.GetPlaylistWithTracksAsync(CurrentUser.AccessToken, request.PlaylistId,
+                    cancellationToken);
+
+                var playlist = Playlist.Create(
+                    request.PlaylistId,
+                    request.SnapshotId,
+                    CurrentUser.UserId,
+                    request.Title
+                );
+
+
+                foreach (var track in response.Tracks)
+                {
+                    var t = Track.Create(track.Id, playlist.Id);
+                    
+                    playlist.TrackIds.Add(t.Id);
+                    _trackRepository.Add(t);
+                }
+                
+                _playlistRepository.Add(playlist);
+
+                return Unit.Value;
             }
         }
     }

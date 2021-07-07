@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Clipify.Infrastructure.Spotify.Playlists.Models
+namespace Clipify.Infrastructure.Spotify.Models.Playlist
 {
     public class PlaylistsResponse
     {
@@ -11,6 +11,7 @@ namespace Clipify.Infrastructure.Spotify.Playlists.Models
         [JsonProperty("items")]
         public IEnumerable<PlaylistResponse> Items { get; set; } = new List<PlaylistResponse>();
 
+        [JsonIgnore]
         public static PlaylistsResponse Empty => new();
     }
 }
