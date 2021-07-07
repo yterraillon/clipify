@@ -55,7 +55,7 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
 
                 foreach (var track in response.Tracks)
                 {
-                    _trackRepository.Add(Track.Create(track.Id));
+                    _trackRepository.Add(Track.Create(track.Id, playlist.Id));
                     playlist.TrackIds.Add(track.Id);
                 } 
                 

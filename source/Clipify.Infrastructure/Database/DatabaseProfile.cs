@@ -10,10 +10,10 @@ namespace Clipify.Infrastructure.Database
         public DatabaseProfile()
         {
             CreateMap<EntityDto, Entity>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id.ToString()));
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()));
 
             CreateMap<Entity, EntityDto>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => new ObjectId(s.Id)));
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => new ObjectId(src.Id)));
 
             CreateMap<UserDto, User>()
                 .IncludeBase<EntityDto, Entity>()

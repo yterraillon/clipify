@@ -13,8 +13,8 @@ namespace Clipify.Infrastructure.Spotify.Playlists
             CreateMap<PlaylistImageResponse, PlaylistImageViewModel>();
             CreateMap<PlaylistResponse, PlaylistViewModel>();
             CreateMap<PlaylistWithTracksResponse, PlaylistViewModel>()
-                .ForMember(d => d.Tracks,
-                    o => o.MapFrom(s => s.Tracks.Items.Select(t => t.Track)));
+                .ForMember(dest => dest.Tracks,
+                    opt => opt.MapFrom(src => src.Tracks.Items.Select(item => item.Track)));
             CreateMap<TrackResponse, TrackViewModel>();
         }
     }
