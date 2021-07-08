@@ -1,5 +1,6 @@
 using Clipify.Application;
 using Clipify.Application.Playlists;
+using Clipify.Application.Playlists.Models;
 using Clipify.Domain.Entities;
 using System.Collections.Generic;
 
@@ -17,11 +18,11 @@ namespace Clipify.Infrastructure.Spotify.Playlists
             _trackRepository = trackRepository;
         }
 
-        public void AddPlaylistWithTracks(Playlist playlist, IEnumerable<string> trackIds)
+        public void AddPlaylistWithTracks(Playlist playlist, IEnumerable<TrackViewModel> tracks)
         {
-            foreach (var trackId in trackIds)
+            foreach (var track in tracks)
             {
-                var t = Track.Create(playlist.Id, trackId);
+                var t = Track.Create(playlist.Id, track.Id, track.Uri);
                 
                 playlist.TrackIds.Add(t.Id);
                 _trackRepository.Add(t);

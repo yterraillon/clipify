@@ -33,9 +33,16 @@ namespace Clipify.Infrastructure.Database.Repositories
 
             return _mapper.Map<T>(_collection.FindOne(expr) ?? new TEntity());
         }
-
+        
         public IEnumerable<T> GetAll()
             => _mapper.Map<IEnumerable<T>>(_collection.FindAll());
+        
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate)
+        {
+            var expr = _mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
+
+            return _mapper.Map<IEnumerable<T>>(_collection.Find(expr));
+        }
 
         public bool Remove(TId id)
             => _collection.Delete(ToLiteDbId(id));

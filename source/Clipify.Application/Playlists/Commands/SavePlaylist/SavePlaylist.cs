@@ -11,14 +11,8 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
 {
     public static class SavePlaylist
     {
-        public class Command : IRequest
+        public record Command(string PlaylistId, string SnapshotId, string Title) : IRequest
         {
-            public string PlaylistId { get; set; } = string.Empty;
-
-            public string SnapshotId { get; set; } = string.Empty;
-
-            public string Title { get; set; } = string.Empty;
-
             /// <inheritdoc />
             public override string ToString()
             {
@@ -51,7 +45,7 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
                     request.Title
                 );
                 
-                _playlistService.AddPlaylistWithTracks(playlist, response.Tracks.Select(track => track.Id));
+                _playlistService.AddPlaylistWithTracks(playlist, response.Tracks);
 
                 return Unit.Value;
             }
