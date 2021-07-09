@@ -1,14 +1,18 @@
 ﻿using AutoMapper;
 using Clipify.Application.Playlists;
 using Clipify.Application.Playlists.Models;
+using Clipify.Domain.Entities;
 using Clipify.Infrastructure.Extensions;
 using Clipify.Infrastructure.Spotify.Models.Playlist;
 using Clipify.Infrastructure.Spotify.Settings;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -65,5 +69,30 @@ namespace Clipify.Infrastructure.Spotify.Playlists
 
             return _mapper.Map<PlaylistViewModel>(response);
         }
-    }
+
+        public async Task<PlaylistViewModel> CreatePlaylistAsync(string token, string userId, string name, CancellationToken cancellationToken)
+        {
+            var uri = _settings.BaseUrl + _settings.UserPlaylistsEndpoint.Replace("{USER_ID}", userId);
+            var response = await _client.ConfigureAuthorization(token)
+                .PostRequestAsJsonAsync<CreatePlaylistRequest, PlaylistResponse>(uri, new CreatePlaylistRequest
+                {
+                    Name = name
+                }, cancellationToken);
+
+            return _mapper.Map<PlaylistViewModel>(response);
+        }
+
+        public async Task<string> AddTracksToPlaylistAsync(string token, string playlistId, IEnumerable<Track> tracks, CancellationToken cancellationToken)
+        {
+            var uri = _settings.BaseUrl + _settings.PlaylistTracksEndpoint.Replace("{PLAYLIST_ID}", playlistId);
+            var response = await _client.ConfigureAuthorization(token)
+                .PostRequestAsJsonAsync<AddTracksToPlaylistRequest, AddTracksToPlaylistResponse>(uri,
+                    new AddTracksToPlaylistRequest
+                    {
+                        Uris = tracks.Select(x => x.PlaylistUri)
+                    }, cancellationToken);
+
+            return response.SnapshotId;
+        }
+    } 
 }

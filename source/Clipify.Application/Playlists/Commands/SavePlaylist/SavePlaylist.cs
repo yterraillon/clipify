@@ -11,14 +11,8 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
 {
     public static class SavePlaylist
     {
-        public class Command : IRequest
+        public record Command(string PlaylistId, string SnapshotId, string Title) : IRequest
         {
-            public string PlaylistId { get; set; } = string.Empty;
-
-            public string SnapshotId { get; set; } = string.Empty;
-
-            public string Title { get; set; } = string.Empty;
-
             /// <inheritdoc />
             public override string ToString()
             {
@@ -28,24 +22,21 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
 
         public class Handler : BaseUserHandler, IRequestHandler<Command>
         {
-            private readonly IRepository<Playlist, string> _playlistRepository;
-
-            private readonly IRepository<Track, string> _trackRepository;
-
+            private readonly IPlaylistService _playlistService;
+            
             private readonly IPlaylistClient _playlistClient;
 
-            public Handler(IRepository<Playlist, string> playlistRepository, ICurrentUserService currentUserService,
-                IPlaylistClient playlistClient, IRepository<Track, string> trackRepository) : base(currentUserService)
+            public Handler(ICurrentUserService currentUserService, IPlaylistClient playlistClient,
+                IPlaylistService playlistService) : base(currentUserService)
             {
-                _playlistRepository = playlistRepository;
                 _playlistClient = playlistClient;
-                _trackRepository = trackRepository;
+                _playlistService = playlistService;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var response = await _playlistClient.GetPlaylistWithTracksAsync(CurrentUser.AccessToken, request.PlaylistId,
-                    cancellationToken);
+                var response = await _playlistClient.GetPlaylistWithTracksAsync(
+                    CurrentUser.AccessToken, request.PlaylistId, cancellationToken);
 
                 var playlist = Playlist.Create(
                     request.PlaylistId,
@@ -54,16 +45,7 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
                     request.Title
                 );
 
-
-                foreach (var track in response.Tracks)
-                {
-                    var t = Track.Create(track.Id, playlist.Id);
-                    
-                    playlist.TrackIds.Add(t.Id);
-                    _trackRepository.Add(t);
-                }
-                
-                _playlistRepository.Add(playlist);
+                _playlistService.CreatePlaylistWithTracks(playlist, response.Tracks);
 
                 return Unit.Value;
             }

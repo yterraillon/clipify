@@ -1,4 +1,7 @@
-﻿using Clipify.Domain.Entities;
+﻿using Clipify.Application.Common;
+using Clipify.Application.Playlists.Models;
+using Clipify.Application.Users;
+using Clipify.Domain.Entities;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +10,7 @@ namespace Clipify.Application.Playlists.Commands.ForkPlaylist
 {
     public static class ForkPlaylist
     {
-        public record Request(string OriginalPlaylistId) : IRequest
+        public record Request(string Name, string OriginalPlaylistId) : IRequest<PlaylistViewModel>
         {
             /// <inheritdoc />
             public override string ToString()
@@ -16,22 +19,36 @@ namespace Clipify.Application.Playlists.Commands.ForkPlaylist
             }
         }
 
-        public class Handler : AsyncRequestHandler<Request>
+        public class Handler : BaseUserHandler, IRequestHandler<Request, PlaylistViewModel>
         {
-            private readonly IRepository<Playlist, string> _playlistRepository;
             private readonly IRepository<ForkedPlaylist, string> _forkedRepository;
 
-            public Handler(IRepository<Playlist, string> playlistRepository, IRepository<ForkedPlaylist, string> forkedRepository)
+            private readonly IRepository<Track, string> _trackRepository;
+            
+            private readonly IPlaylistClient _playlistClient;
+
+            public Handler(ICurrentUserService currentUserService, IRepository<ForkedPlaylist, string> forkedRepository,
+                IPlaylistClient playlistClient, IRepository<Track, string> trackRepository) : base(currentUserService)
             {
-                _playlistRepository = playlistRepository;
                 _forkedRepository = forkedRepository;
+                _playlistClient = playlistClient;
+                _trackRepository = trackRepository;
             }
 
-            protected override Task Handle(Request request, CancellationToken cancellationToken)
+            /// <inheritdoc />
+            public async Task<PlaylistViewModel> Handle(Request request, CancellationToken cancellationToken)
             {
-                _forkedRepository.Add(ForkedPlaylist.Create(request.OriginalPlaylistId));
+                _forkedRepository.Add(ForkedPlaylist.Create(request.Name, request.OriginalPlaylistId));
+                
+                var response = await _playlistClient.CreatePlaylistAsync(CurrentUser.AccessToken, CurrentUser.UserId, request.Name,
+                    cancellationToken);
+                var tracks = _trackRepository.GetAll(x => x.PlaylistId == request.OriginalPlaylistId);
 
-                return Task.CompletedTask;
+                await _playlistClient.AddTracksToPlaylistAsync(CurrentUser.AccessToken, response.Id, tracks,
+                    cancellationToken);
+                
+                return response;
+
             }
         }
     }

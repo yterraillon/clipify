@@ -36,9 +36,9 @@ namespace Clipify.Infrastructure
             });
 
             services.AddSingleton<IDbContext, DbContext>();
-            services.AddTransient<IUserProfileClient, UserProfileClient>();
+            
             services.AddTransient<IPlaylistClient, PlaylistClient>();
-            services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
+            services.AddTransient<IPlaylistService, PlaylistService>();
 
             // Repositories
             services.AddTransient<IRepository<User, string>, Repository<User, UserDto, string>>();
@@ -47,8 +47,11 @@ namespace Clipify.Infrastructure
             services.AddTransient<IRepository<ForkedPlaylist, string>, Repository<ForkedPlaylist, ForkedPlaylistDto, string>>();
 
             services.AddTransient<ICurrentUserService, CurrentUserService>();
+            services.AddTransient<IUserProfileClient, UserProfileClient>();
+
             services.AddTransient<IAuthService, SpotifyAuthService>();
             services.AddTransient<IAuthUriBuilder, SpotifyAuthUriBuilder>();
+            services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
 
             return services;
         }

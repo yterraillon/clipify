@@ -52,10 +52,5 @@
     }
 
     private Task SavePlaylistAsync(PlaylistViewModel playlist)
-        => _mediator.Send(new SavePlaylist.Command
-        {
-            PlaylistId = playlist.Id,
-            SnapshotId = playlist.SnapshotId,
-            Title = playlist.Name
-        });
+        => _mediator.Send(new SavePlaylist.Command(playlist.Id, playlist.SnapshotId, playlist.Name));
 }

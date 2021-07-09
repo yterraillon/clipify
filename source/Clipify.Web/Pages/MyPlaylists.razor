@@ -34,7 +34,7 @@
                     Delete
                 </button>
                 <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto"
-                        @onclick="@(() => ForkAsync(currentPlaylist.Id))">
+                        @onclick="@(() => ForkAsync(currentPlaylist.Title, currentPlaylist.Id))">
                     Fork
                 </button>
             </div>
@@ -58,9 +58,9 @@
         await _mediator.Send(new DeleteLocalPlaylist.Command(id));
     }
 
-    private async Task ForkAsync(string id)
+    private async Task ForkAsync(string name, string id)
     {
-        await _mediator.Send(new ForkPlaylist.Request(id));
+        await _mediator.Send(new ForkPlaylist.Request(name, id));
     }
 
     private async Task CompareAsync()
