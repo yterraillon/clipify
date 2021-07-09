@@ -6,7 +6,7 @@ namespace Clipify.Application.Playlists
 {
     public interface IPlaylistService
     {
-        public void CreatePlaylistWithTracks(Playlist playlist, IEnumerable<string> trackIds);
+        public void CreatePlaylistWithTracks(Playlist playlist, IEnumerable<TrackViewModel> tracks);
 
         public void AddTracksToPlaylist(string playlistId, IEnumerable<Track> tracks);
 

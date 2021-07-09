@@ -18,14 +18,14 @@ namespace Clipify.Infrastructure.Spotify.Playlists
             _trackRepository = trackRepository;
         }
 
-        public void CreatePlaylistWithTracks(Playlist playlist, IEnumerable<string> trackIds)
+        public void CreatePlaylistWithTracks(Playlist playlist, IEnumerable<TrackViewModel> tracks)
         {
             foreach (var track in tracks)
             {
-                var track = Track.Create(playlist.Id, trackId);
+                var newTrack = Track.Create(playlist.Id, track.Id, track.Uri);
                 
-                playlist.TrackIds.Add(track.Id);
-                _trackRepository.Add(track);
+                playlist.TrackIds.Add(newTrack.Id);
+                _trackRepository.Add(newTrack);
             }
             
             _playlistRepository.Add(playlist);
