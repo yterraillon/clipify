@@ -18,20 +18,20 @@ namespace Clipify.Infrastructure.Spotify.Playlists
             _trackRepository = trackRepository;
         }
 
-        public void AddPlaylistWithTracks(Playlist playlist, IEnumerable<TrackViewModel> tracks)
+        public void CreatePlaylistWithTracks(Playlist playlist, IEnumerable<string> trackIds)
         {
             foreach (var track in tracks)
             {
-                var t = Track.Create(playlist.Id, track.Id, track.Uri);
+                var track = Track.Create(playlist.Id, trackId);
                 
-                playlist.TrackIds.Add(t.Id);
-                _trackRepository.Add(t);
+                playlist.TrackIds.Add(track.Id);
+                _trackRepository.Add(track);
             }
             
             _playlistRepository.Add(playlist);
         }
         
-        public void AddTracks(string playlistId, IEnumerable<Track> tracks)
+        public void AddTracksToPlaylist(string playlistId, IEnumerable<Track> tracks)
         {
             var playlist = _playlistRepository.Get(playlistId);
 
@@ -43,7 +43,7 @@ namespace Clipify.Infrastructure.Spotify.Playlists
             _playlistRepository.Update(playlist);
         }
 
-        public void AddTracks(Playlist playlist, IEnumerable<Track> tracks)
+        public void AddTracksToPlaylist(Playlist playlist, IEnumerable<Track> tracks)
         {
             foreach (var track in tracks)
             {
