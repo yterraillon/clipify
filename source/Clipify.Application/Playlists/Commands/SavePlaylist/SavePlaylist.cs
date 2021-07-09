@@ -51,7 +51,7 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
                     request.Title
                 );
                 
-                _playlistService.AddPlaylistWithTracks(playlist, response.Tracks.Select(track => track.Id));
+                _playlistService.CreatePlaylistWithTracks(playlist, response.Tracks.Select(track => track.Id));
 
                 return Unit.Value;
             }
