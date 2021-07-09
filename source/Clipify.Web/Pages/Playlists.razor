@@ -26,13 +26,18 @@
                 <div class="font-bold text-xl mb-2 text-center h-12 min-h-full">@playlist.Name</div>
                 <div class="text-sm py-3 text-gray-500 h-20 min-h-full">@((MarkupString) playlist.Description)</div>
             </div>
-            <div class="text-center my-2 py-1">
+            <div class="flex justify-center items-center my-2">
                 
-                <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto"
+                <button class="px-5 py-2 mr-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md"
                         @onclick="@(() => SavePlaylistAsync(currentPlaylist))">
                     Save Playlist
                 </button>
+                <NavLink href="@("Playlist/" + playlist.Id)" Match="NavLinkMatch.Prefix" class="px-5 py-2 uppercase text-gray-900 font-medium rounded-3xl border border-green-500">
+                    Info
+                </NavLink>
             </div>
+            
+
         </div>
     }
 </div>
@@ -47,10 +52,5 @@
     }
 
     private Task SavePlaylistAsync(PlaylistViewModel playlist)
-        => _mediator.Send(new SavePlaylist.Command
-        {
-            PlaylistId = playlist.Id,
-            SnapshotId = playlist.SnapshotId,
-            Title = playlist.Name
-        });
+        => _mediator.Send(new SavePlaylist.Command(playlist.Id, playlist.SnapshotId, playlist.Name));
 }

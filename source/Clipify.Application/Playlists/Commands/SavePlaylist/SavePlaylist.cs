@@ -3,6 +3,7 @@ using Clipify.Application.Users;
 using Clipify.Domain.Entities;
 using MediatR;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,14 +11,8 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
 {
     public static class SavePlaylist
     {
-        public class Command : IRequest
+        public record Command(string PlaylistId, string SnapshotId, string Title) : IRequest
         {
-            public string PlaylistId { get; set; } = string.Empty;
-
-            public string SnapshotId { get; set; } = string.Empty;
-
-            public string Title { get; set; } = string.Empty;
-
             /// <inheritdoc />
             public override string ToString()
             {
@@ -27,29 +22,32 @@ namespace Clipify.Application.Playlists.Commands.SavePlaylist
 
         public class Handler : BaseUserHandler, IRequestHandler<Command>
         {
-            private readonly IRepository<Playlist, string> _playlistRepository;
+            private readonly IPlaylistService _playlistService;
+            
+            private readonly IPlaylistClient _playlistClient;
 
-            public Handler(IRepository<Playlist, string> playlistRepository, ICurrentUserService currentUserService) : base(currentUserService)
-                => _playlistRepository = playlistRepository;
-
-            public Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public Handler(ICurrentUserService currentUserService, IPlaylistClient playlistClient,
+                IPlaylistService playlistService) : base(currentUserService)
             {
-                try
-                {
-                    _playlistRepository.Add(Playlist.Create(
-                        request.PlaylistId,
-                        request.SnapshotId,
-                        CurrentUser.UserId,
-                        request.Title
-                    ));
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                _playlistClient = playlistClient;
+                _playlistService = playlistService;
+            }
 
-                return Unit.Task;
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var response = await _playlistClient.GetPlaylistWithTracksAsync(
+                    CurrentUser.AccessToken, request.PlaylistId, cancellationToken);
+
+                var playlist = Playlist.Create(
+                    request.PlaylistId,
+                    request.SnapshotId,
+                    CurrentUser.UserId,
+                    request.Title
+                );
+
+                _playlistService.CreatePlaylistWithTracks(playlist, response.Tracks);
+
+                return Unit.Value;
             }
         }
     }

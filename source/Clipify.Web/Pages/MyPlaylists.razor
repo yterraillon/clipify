@@ -26,6 +26,7 @@
             <div class="px-6 py-4">
                 <div class="font-bold text-xl mb-2 text-center h-12 min-h-full">@playlist.Title</div>
                 <div>@playlist.Id / @playlist.PlaylistId</div>
+                <div>Tracks: @(playlist.TrackIds.Count())</div>
             </div>
             <div class="text-center my-2">
                 <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-red-500 shadow-md m-auto"
@@ -33,7 +34,7 @@
                     Delete
                 </button>
                 <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto"
-                        @onclick="@(() => ForkAsync(currentPlaylist.Id))">
+                        @onclick="@(() => ForkAsync(currentPlaylist.Title, currentPlaylist.Id))">
                     Fork
                 </button>
             </div>
@@ -57,9 +58,9 @@
         await _mediator.Send(new DeleteLocalPlaylist.Command(id));
     }
 
-    private async Task ForkAsync(string id)
+    private async Task ForkAsync(string name, string id)
     {
-        await _mediator.Send(new ForkPlaylist.Request(id));
+        await _mediator.Send(new ForkPlaylist.Request(name, id));
     }
 
     private async Task CompareAsync()
