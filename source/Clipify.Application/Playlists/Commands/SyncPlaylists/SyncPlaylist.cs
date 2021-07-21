@@ -9,10 +9,7 @@ namespace Clipify.Application.Playlists.Commands.SyncPlaylists
 {
     public static class SyncPlaylist
     {
-        public class Command : IRequest<bool>
-        {
-            public string PlaylistId { get; set; } = string.Empty;
-        }
+        public record Command(string PlaylistId) : IRequest<bool>;
 
         public class Handler : BaseUserHandler, IRequestHandler<Command, bool>
         {
