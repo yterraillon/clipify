@@ -6,6 +6,7 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Clipify.Application.Users.Requests;
 
 namespace Clipify.Application.Common.Behaviours
 {

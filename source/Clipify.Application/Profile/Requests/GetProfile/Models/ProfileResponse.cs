@@ -16,11 +16,12 @@ namespace Clipify.Application.Profile.Requests.GetProfile.Models
         [JsonProperty("external_urls")]
         public IEnumerable<ExternalUrl> ExternalUrls { get; } = Enumerable.Empty<ExternalUrl>();
 
-        public Followers Followers { get; set; } = new Followers();
+        public Followers Followers { get; set; } = new();
 
         public string Id { get; set; } = string.Empty;
 
-        public IEnumerable<Image> Images { get; } = Enumerable.Empty<Image>();
+        [JsonProperty("images")]
+        public IList<Image> Images { get; } = new List<Image>();
 
         public string Product { get; set; } = string.Empty;
 
@@ -28,7 +29,7 @@ namespace Clipify.Application.Profile.Requests.GetProfile.Models
 
         public string Uri { get; set; } = string.Empty;
 
-        public static ProfileResponse Empty => new ProfileResponse();
+        public static ProfileResponse Empty => new();
     }
 
     public class ExternalUrl
@@ -48,10 +49,13 @@ namespace Clipify.Application.Profile.Requests.GetProfile.Models
 
     public class Image
     {
+        [JsonProperty("height")]
         public int? Height { get; set; }
 
+        [JsonProperty("url")]
         public string Url { get; set; } = string.Empty;
 
+        [JsonProperty("width")]
         public int? Width { get; set; }
     }
 }

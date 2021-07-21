@@ -3,6 +3,7 @@ using Clipify.Application.Profile.Requests.GetProfile.Models;
 using Clipify.Domain.Entities;
 using MediatR;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -44,6 +45,8 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
                 if (profile.Equals(ProfileResponse.Empty))
                     return;
 
+                var avatar = profile.Images
+                                 .FirstOrDefault(x => !string.IsNullOrEmpty(x.Url))?.Url ?? string.Empty;
                 var user = _userRepository.Get(x => x.UserId == profile.Id);
 
                 if (string.IsNullOrEmpty(user.UserId))
@@ -51,6 +54,7 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
                     _userRepository.Add(User.Create(
                         profile.Id,
                         profile.DisplayName,
+                        avatar,
                         request.AccessToken,
                         request.RefreshToken,
                         request.ExpiresIn
