@@ -6,14 +6,14 @@ namespace Clipify.Domain.Entities
         
         public string TrackId { get; init; } = string.Empty;
 
-        public string PlaylistUri { get; private init; } = string.Empty;
+        public string Uri { get; private init; } = string.Empty;
 
-        public static Track Create(string trackId, string playlistId, string playlistUri)
+        public static Track Create(string trackId, string playlistId, string trackUri)
             => new()
             {
                 PlaylistId = playlistId,
                 TrackId = trackId,
-                PlaylistUri = playlistUri
+                Uri = trackUri
             };
     }
 }
