@@ -8,5 +8,6 @@ namespace Clipify.Application.Playlists.Models
         
         public int TrackNumber { get; set; }
 
+        public string Uri { get; set; } = string.Empty;
     }
 }

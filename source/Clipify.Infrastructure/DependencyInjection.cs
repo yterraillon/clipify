@@ -3,6 +3,7 @@ using Clipify.Application;
 using Clipify.Application.Auth.Requests;
 using Clipify.Application.Auth.Requests.Authorization;
 using Clipify.Application.Playlists;
+using Clipify.Application.Playlists.Commands.SyncPlaylists;
 using Clipify.Application.Profile.Requests.GetProfile;
 using Clipify.Application.Users;
 using Clipify.Domain.Entities;
@@ -11,6 +12,7 @@ using Clipify.Infrastructure.Database.Dtos;
 using Clipify.Infrastructure.Database.Repositories;
 using Clipify.Infrastructure.Spotify.Playlists;
 using Clipify.Infrastructure.Spotify.Settings;
+using Clipify.Infrastructure.Spotify.Sync;
 using Clipify.Infrastructure.Spotify.UserProfile;
 using Clipify.Infrastructure.SpotifyAuth;
 using Clipify.Infrastructure.SpotifyAuth.Clients;
@@ -36,9 +38,10 @@ namespace Clipify.Infrastructure
             });
 
             services.AddSingleton<IDbContext, DbContext>();
-            services.AddTransient<IUserProfileClient, UserProfileClient>();
+            
             services.AddTransient<IPlaylistClient, PlaylistClient>();
-            services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
+            services.AddTransient<IPlaylistService, PlaylistService>();
+            services.AddTransient<ISyncService, SyncService>();
 
             // Repositories
             services.AddTransient<IRepository<User, string>, Repository<User, UserDto, string>>();
@@ -47,8 +50,11 @@ namespace Clipify.Infrastructure
             services.AddTransient<IRepository<ForkedPlaylist, string>, Repository<ForkedPlaylist, ForkedPlaylistDto, string>>();
 
             services.AddTransient<ICurrentUserService, CurrentUserService>();
+            services.AddTransient<IUserProfileClient, UserProfileClient>();
+
             services.AddTransient<IAuthService, SpotifyAuthService>();
             services.AddTransient<IAuthUriBuilder, SpotifyAuthUriBuilder>();
+            services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
 
             return services;
         }
