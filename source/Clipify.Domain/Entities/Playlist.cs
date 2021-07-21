@@ -9,13 +9,13 @@ namespace Clipify.Domain.Entities
         
         public string PlaylistId { get; private init; } = string.Empty;
 
-        public string SnapshotId { get; private init; } = string.Empty;
+        public string SnapshotId { get; private set; } = string.Empty;
 
         public string Title { get; set; } = string.Empty;
 
-        public DateTime LastCheckedDate { get; private init; }
+        public DateTime LastCheckedDate { get; private set; }
 
-        public DateTime LastModifiedDate { get; private init; }
+        public DateTime LastModifiedDate { get; private set; }
 
         public IList<string> TrackIds { get; } = new List<string>();
         
