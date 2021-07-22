@@ -1,4 +1,5 @@
 using Clipify.Application.Common.Behaviours;
+using Clipify.Application.Playlists.Commands.SyncPlaylists;
 using FluentValidation;
 using MediatR;
 using MediatR.Pipeline;
@@ -19,6 +20,9 @@ namespace Clipify.Application
             services.AddTransient(typeof(IRequestPreProcessor<>), typeof(LoggingBehaviour<>));
             services.AddTransient(typeof(IRequestPreProcessor<>), typeof(RefreshTokenBehaviour<>));
 
+            services.AddTransient<ISyncService, SyncService>();
+
+            
             return services;
         }
     }

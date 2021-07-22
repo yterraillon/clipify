@@ -12,7 +12,6 @@ using Clipify.Infrastructure.Database.Dtos;
 using Clipify.Infrastructure.Database.Repositories;
 using Clipify.Infrastructure.Spotify.Playlists;
 using Clipify.Infrastructure.Spotify.Settings;
-using Clipify.Infrastructure.Spotify.Sync;
 using Clipify.Infrastructure.Spotify.UserProfile;
 using Clipify.Infrastructure.SpotifyAuth;
 using Clipify.Infrastructure.SpotifyAuth.Clients;
@@ -41,7 +40,6 @@ namespace Clipify.Infrastructure
             
             services.AddTransient<IPlaylistClient, PlaylistClient>();
             services.AddTransient<IPlaylistService, PlaylistService>();
-            services.AddTransient<ISyncService, SyncService>();
 
             // Repositories
             services.AddTransient<IRepository<User, string>, Repository<User, UserDto, string>>();
