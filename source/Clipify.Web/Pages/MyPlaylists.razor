@@ -36,10 +36,6 @@
                         @onclick="@(() => ForkAsync(playlist.Title, playlist.Id))">
                     Fork
                 </button>
-                <button class="px-5 py-2 uppercase text-black font-medium rounded-3xl border-green-500 border m-auto"
-                        @onclick="@(() => SyncAsync(playlist.Id))">
-                    Sync
-                </button>
             </div>
         </div>
     }
@@ -76,11 +72,5 @@
                 continue;
             playlist.Title += " (Outdated)";
         }
-        
-    }
-
-    private async Task SyncAsync(string id)
-    {
-        _ = await _mediator.Send(new SyncPlaylist.Command(id));
     }
 }

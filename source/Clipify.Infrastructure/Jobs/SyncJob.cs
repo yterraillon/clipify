@@ -1,25 +1,23 @@
 using Clipify.Application.Playlists.Commands.SyncPlaylists;
-using Clipify.Application.Users;
 using Quartz;
 using System.Threading.Tasks;
+using MediatR;
 
 namespace Clipify.Infrastructure.Jobs
 {
     public class SyncJob : IJob
     {
-        private readonly ISyncService _syncService;
-        private readonly ICurrentUserService _currentUserService;
-
-        public SyncJob(ISyncService syncService, ICurrentUserService currentUserService)
+        private readonly IMediator _mediator;
+        
+        public SyncJob(IMediator mediator)
         {
-            _syncService = syncService;
-            _currentUserService = currentUserService;
+            _mediator = mediator;
         }
 
         /// <inheritdoc />
         public Task Execute(IJobExecutionContext context)
         {
-            return _syncService.SyncAllPlaylistsAsync(_currentUserService.GetCurrentUser(), context.CancellationToken);
+            return _mediator.Send(new SyncPlaylists.Command());
         }
     }
 }
