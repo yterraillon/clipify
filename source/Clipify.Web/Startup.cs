@@ -1,5 +1,6 @@
 using Clipify.Application;
 using Clipify.Infrastructure;
+using Clipify.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -28,10 +29,15 @@ namespace Clipify.Web
             services.AddInfrastructure(Configuration);
             services.AddApplication();
 
+            services.AddHttpClient();
             services.AddControllers();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddLogging();
+
+            services.AddTransient<AccountService>();
+            services.AddTransient<PlaylistService>();
+            services.AddTransient<TrackService>();
 
             services.AddResponseCompression(opts =>
             {
