@@ -1,6 +1,9 @@
-﻿using Clipify.Application.Playlists.Models;
+﻿using Clipify.Application.Playlists.Commands.DeleteLocalPlaylist;
+using Clipify.Application.Playlists.Commands.SavePlaylist;
+using Clipify.Application.Playlists.Models;
+using Clipify.Application.Playlists.Requests.GetLocalPlaylists;
 using Clipify.Application.Playlists.Requests.GetPlaylist;
-using Clipify.Application.Playlists.Requests.GetPlaylists;
+using Clipify.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,9 +18,9 @@ namespace Clipify.Webapi.Controllers
     {
         // GET: api/<PlaylistController>
         [HttpGet]
-        public async Task<IEnumerable<PlaylistViewModel>> Get()
+        public async Task<IEnumerable<Playlist>> Get()
         {
-            return await Mediator.Send(new GetPlaylists.Request());
+            return await Mediator.Send(new GetLocalPlaylists.Request());
         }
 
         // GET api/<PlaylistController>/5
@@ -29,8 +32,9 @@ namespace Clipify.Webapi.Controllers
 
         // POST api/<PlaylistController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task Post([FromBody] string playlistId, string snapshotId, string title)
         {
+            await Mediator.Send(new SavePlaylist.Command(playlistId, snapshotId, title));
         }
 
         // PUT api/<PlaylistController>/5
@@ -41,8 +45,9 @@ namespace Clipify.Webapi.Controllers
 
         // DELETE api/<PlaylistController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(string id)
         {
+            await Mediator.Send(new DeleteLocalPlaylist.Command(id));
         }
     }
 }
