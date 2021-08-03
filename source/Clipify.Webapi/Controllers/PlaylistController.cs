@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Clipify.Application.Playlists.Models;
+using Clipify.Application.Playlists.Requests.GetPlaylist;
+using Clipify.Application.Playlists.Requests.GetPlaylists;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,16 +15,16 @@ namespace Clipify.Webapi.Controllers
     {
         // GET: api/<PlaylistController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<PlaylistViewModel>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return await Mediator.Send(new GetPlaylists.Request());
         }
 
         // GET api/<PlaylistController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<PlaylistViewModel>> Get(string id)
         {
-            return "value";
+            return await Mediator.Send(new GetPlaylist.Request(id));
         }
 
         // POST api/<PlaylistController>

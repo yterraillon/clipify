@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Clipify.Application.Users.Commands.CreateLocalUser;
+using Clipify.Application.Users.Requests;
+using Clipify.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,24 +15,23 @@ namespace Clipify.Webapi.Controllers
     [ApiController]
     public class AccountController : ApiController
     {
-        // GET: api/<AccountController>
+        // GET api/<AccountController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<User>> Get()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<AccountController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+            return await Mediator.Send(new GetUser.Request());
         }
 
         // POST api/<AccountController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task Post([FromBody] string accessToken, string refreshToken, int expiresIn)
         {
+            await Mediator.Send(new CreateLocalUser.Command
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                ExpiresIn = expiresIn
+            });
         }
 
         // PUT api/<AccountController>/5
