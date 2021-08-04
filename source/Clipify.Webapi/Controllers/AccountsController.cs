@@ -13,18 +13,20 @@ namespace Clipify.Webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ApiController
+    public class AccountsController : ApiController
     {
         // GET api/<AccountController>
         [HttpGet]
-        public async Task<ActionResult<User>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await Mediator.Send(new GetUser.Request());
+            var response = await Mediator.Send(new GetUser.Request());
+            
+            return Ok(response);
         }
 
         // POST api/<AccountController>
         [HttpPost]
-        public async Task Post([FromBody] string accessToken, string refreshToken, int expiresIn)
+        public async Task<IActionResult> Post([FromBody] string accessToken, string refreshToken, int expiresIn)
         {
             await Mediator.Send(new CreateLocalUser.Command
             {
@@ -32,18 +34,8 @@ namespace Clipify.Webapi.Controllers
                 RefreshToken = refreshToken,
                 ExpiresIn = expiresIn
             });
-        }
 
-        // PUT api/<AccountController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<AccountController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return Ok();
         }
     }
 }

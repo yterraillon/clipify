@@ -3,6 +3,7 @@ using Clipify.Application.Playlists.Commands.SavePlaylist;
 using Clipify.Application.Playlists.Models;
 using Clipify.Application.Playlists.Requests.GetLocalPlaylists;
 using Clipify.Application.Playlists.Requests.GetPlaylist;
+using Clipify.Application.Playlists.Requests.GetPlaylists;
 using Clipify.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -14,40 +15,50 @@ namespace Clipify.Webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PlaylistController : ApiController
+    public class PlaylistsController : ApiController
     {
         // GET: api/<PlaylistController>
-        [HttpGet]
-        public async Task<IEnumerable<Playlist>> Get()
+        [HttpGet("api/LocalPlaylists")]
+        public async Task<IActionResult> GetLocalPlaylists()
         {
-            return await Mediator.Send(new GetLocalPlaylists.Request());
+            var response = await Mediator.Send(new GetLocalPlaylists.Request());
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var response = await Mediator.Send(new GetPlaylists.Request());
+
+            return Ok(response);
         }
 
         // GET api/<PlaylistController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PlaylistViewModel>> Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
-            return await Mediator.Send(new GetPlaylist.Request(id));
+            var response = await Mediator.Send(new GetPlaylist.Request(id));
+
+            return Ok(response);
         }
 
         // POST api/<PlaylistController>
         [HttpPost]
-        public async Task Post([FromBody] string playlistId, string snapshotId, string title)
+        public async Task<IActionResult> Post([FromBody] string playlistId, string snapshotId, string title)
         {
             await Mediator.Send(new SavePlaylist.Command(playlistId, snapshotId, title));
-        }
 
-        // PUT api/<PlaylistController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+            return Ok();
         }
 
         // DELETE api/<PlaylistController>/5
         [HttpDelete("{id}")]
-        public async Task Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            await Mediator.Send(new DeleteLocalPlaylist.Command(id));
+            var response = await Mediator.Send(new DeleteLocalPlaylist.Command(id));
+
+            return Ok(response);
         }
     }
 }

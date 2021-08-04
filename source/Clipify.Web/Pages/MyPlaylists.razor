@@ -1,22 +1,12 @@
 ﻿@page "/my-playlists"
 @using Clipify.Domain.Entities
-@using MediatR
-@using Clipify.Application.Playlists.Requests.GetLocalPlaylists
-@using Clipify.Application.Playlists.Commands.DeleteLocalPlaylist
-@using Clipify.Application.Playlists.Commands.ForkPlaylist
+@using Clipify.Web.Services
 @using System.Collections.ObjectModel
-@using Clipify.Application.Playlists.Requests.GetPlaylist
 
-@inject IMediator _mediator
+@inject PlaylistsService _playlistService
 
 <h3>MyPlaylists</h3>
 
-<div class="text-center">
-    <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto"
-            @onclick="@(CompareAsync)">
-        Compare
-    </button>
-</div>
 <div class="container flex flex-wrap flex-auto">
     @foreach (var playlist in _playlists)
     {
@@ -48,31 +38,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await _mediator.Send(new GetLocalPlaylists.Request());
+        var response = await _playlistService.GetLocalPlaylists();
 
         _playlists = new ObservableCollection<Playlist>(response);
     }
 
     private async Task DeleteAsync(string id)
     {
-        await _mediator.Send(new DeleteLocalPlaylist.Command(id));
+        await _playlistService.DeleteLocalPlaylist(id);
     }
 
     private async Task ForkAsync(string name, string id)
     {
-        await _mediator.Send(new ForkPlaylist.Request(name, id));
-    }
-
-    private async Task CompareAsync()
-    {
-        foreach (var playlist in _playlists)
-        {
-            var response = await _mediator.Send(new GetPlaylist.Request(playlist.PlaylistId));
-
-            if (response.SnapshotId == playlist.SnapshotId)
-                continue;
-            playlist.Title += " (Outdated)";
-        }
-        
+        //await _mediator.Send(new ForkPlaylist.Request(name, id));
     }
 }

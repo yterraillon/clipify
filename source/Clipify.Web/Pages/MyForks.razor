@@ -1,9 +1,8 @@
 ﻿@page "/my-forks"
 
-@using MediatR
 @using Clipify.Domain.Entities
-@using Clipify.Application.Playlists.Requests.GetForks
-@inject IMediator _mediator
+@using Clipify.Web.Services
+@inject ForksService _forkService
 
 <div class="container flex flex-wrap flex-auto">
     @foreach (var playlist in _forkedPlaylists)
@@ -30,5 +29,5 @@
     private IEnumerable<ForkedPlaylist> _forkedPlaylists = Enumerable.Empty<ForkedPlaylist>();
 
     protected override async Task OnInitializedAsync()
-        => _forkedPlaylists = await _mediator.Send(new GetForks.Request());
+        => _forkedPlaylists = await _forkService.GetForks();
 }

@@ -3,8 +3,9 @@
 @using Clipify.Application.Playlists.Models
 @using Clipify.Application.Playlists.Requests.GetPlaylists
 @using Clipify.Application.Playlists.Commands.SavePlaylist
+@using Clipify.Web.Services
 
-@inject IMediator _mediator
+@inject PlaylistsService _playlistsService 
 
 <h3>Playlists</h3>
 
@@ -48,9 +49,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _playlists = await _mediator.Send(new GetPlaylists.Request());
+        _playlists = await _playlistsService.GetPlaylists();
     }
 
     private Task SavePlaylistAsync(PlaylistViewModel playlist)
-        => _mediator.Send(new SavePlaylist.Command(playlist.Id, playlist.SnapshotId, playlist.Name));
+        => _playlistsService.SavePlaylist(playlist.Id, playlist.SnapshotId, playlist.Name);
 }

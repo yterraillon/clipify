@@ -1,6 +1,7 @@
 using Clipify.Application;
 using Clipify.Infrastructure;
 using Clipify.Web.Services;
+using Clipify.Web.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -10,6 +11,8 @@ using Microsoft.Extensions.Hosting;
 using System.Linq;
 using Serilog;
 using Serilog.Events;
+using System;
+using System.Net.Http;
 
 namespace Clipify.Web
 {
@@ -29,15 +32,23 @@ namespace Clipify.Web
             services.AddInfrastructure(Configuration);
             services.AddApplication();
 
-            services.AddHttpClient();
+            services.Configure<ApiSettings>(Configuration.GetSection("ApiEndpoints"));
+            services.AddHttpClient<HttpClient>(config =>
+            {
+                var api = Configuration.GetSection("ApiEndpoints");
+                
+                config.BaseAddress = new Uri(api["BaseUrl"]);
+                config.Timeout = TimeSpan.FromSeconds(30);
+            });
             services.AddControllers();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddLogging();
 
-            services.AddTransient<AccountService>();
-            services.AddTransient<PlaylistService>();
+            services.AddTransient<AccountsService>();
+            services.AddTransient<PlaylistsService>();
             services.AddTransient<TrackService>();
+            services.AddTransient<ForksService>();
 
             services.AddResponseCompression(opts =>
             {
