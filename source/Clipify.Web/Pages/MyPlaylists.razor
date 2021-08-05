@@ -4,6 +4,7 @@
 @using Clipify.Application.Playlists.Requests.GetLocalPlaylists
 @using Clipify.Application.Playlists.Commands.DeleteLocalPlaylist
 @using Clipify.Application.Playlists.Commands.ForkPlaylist
+@using Clipify.Application.Playlists.Commands.SyncPlaylists
 @using System.Collections.ObjectModel
 @using Clipify.Application.Playlists.Requests.GetPlaylist
 
@@ -20,8 +21,6 @@
 <div class="container flex flex-wrap flex-auto">
     @foreach (var playlist in _playlists)
     {
-        var currentPlaylist = playlist;
-
         <div class="max-w-sm m-3 rounded overflow-hidden shadow-lg">
             <div class="px-6 py-4">
                 <div class="font-bold text-xl mb-2 text-center h-12 min-h-full">@playlist.Title</div>
@@ -30,11 +29,11 @@
             </div>
             <div class="text-center my-2">
                 <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-red-500 shadow-md m-auto"
-                        @onclick="@(() => DeleteAsync(currentPlaylist.Id))">
+                        @onclick="@(() => DeleteAsync(playlist.Id))">
                     Delete
                 </button>
                 <button class="px-5 py-2 uppercase text-white font-medium rounded-3xl bg-green-500 shadow-md m-auto"
-                        @onclick="@(() => ForkAsync(currentPlaylist.Title, currentPlaylist.Id))">
+                        @onclick="@(() => ForkAsync(playlist.Title, playlist.Id))">
                     Fork
                 </button>
             </div>
@@ -73,6 +72,5 @@
                 continue;
             playlist.Title += " (Outdated)";
         }
-        
     }
 }

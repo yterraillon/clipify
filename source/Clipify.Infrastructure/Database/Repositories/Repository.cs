@@ -50,6 +50,14 @@ namespace Clipify.Infrastructure.Database.Repositories
         public void Update(T entity)
             => _collection.Update(_mapper.Map<TEntity>(entity));
 
+        /// <inheritdoc />
+        public bool Any(Expression<Func<T, bool>> predicate)
+        {
+            var expr = _mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
+
+            return _collection.Exists(expr);
+        }
+
         private static ObjectId ToLiteDbId(TId id) => new(id.ToString());
     }
 }

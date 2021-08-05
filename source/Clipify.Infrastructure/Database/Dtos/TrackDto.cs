@@ -6,6 +6,6 @@ namespace Clipify.Infrastructure.Database.Dtos
         
         public string TrackId { get; set; } = string.Empty;
         
-        public string PlaylistUri { get; set; } = string.Empty;
+        public string Uri { get; set; } = string.Empty;
     }
 }

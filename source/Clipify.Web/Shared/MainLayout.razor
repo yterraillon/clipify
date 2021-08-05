@@ -1,11 +1,11 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="bg-gradient-to-b from-blue-800 to-purple-800 bg-opacity-75 w-64 md:h-screen sticky top-0">
-    <NavMenu />
-</div>
-
-<div class="flex-1">
-    <div class="m-3">
-        @Body
+<div class="mx-12 border-b border-gray-400">
+    <div class="flex">
+        <NavMenu/>
+        <Login />
     </div>
+</div>
+<div class="my-3">
+    @Body
 </div>

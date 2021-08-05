@@ -3,12 +3,14 @@ using Clipify.Application;
 using Clipify.Application.Auth.Requests;
 using Clipify.Application.Auth.Requests.Authorization;
 using Clipify.Application.Playlists;
+using Clipify.Application.Playlists.Commands.SyncPlaylists;
 using Clipify.Application.Profile.Requests.GetProfile;
 using Clipify.Application.Users;
 using Clipify.Domain.Entities;
 using Clipify.Infrastructure.Database;
 using Clipify.Infrastructure.Database.Dtos;
 using Clipify.Infrastructure.Database.Repositories;
+using Clipify.Infrastructure.Jobs;
 using Clipify.Infrastructure.Spotify.Playlists;
 using Clipify.Infrastructure.Spotify.Settings;
 using Clipify.Infrastructure.Spotify.UserProfile;
@@ -17,6 +19,7 @@ using Clipify.Infrastructure.SpotifyAuth.Clients;
 using Clipify.Infrastructure.SpotifyAuth.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz;
 using System.Reflection;
 
 namespace Clipify.Infrastructure
@@ -52,6 +55,25 @@ namespace Clipify.Infrastructure
             services.AddTransient<IAuthService, SpotifyAuthService>();
             services.AddTransient<IAuthUriBuilder, SpotifyAuthUriBuilder>();
             services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
+            
+            // Quartz
+            services.AddQuartz(quartz =>
+            {
+                quartz
+                    .AddJob<SyncJob>(new JobKey("ClipifySyncJob"))
+                    .AddTrigger(options =>
+                    {
+                        options.StartNow()
+                            .WithSchedule(SimpleScheduleBuilder
+                                .Create()
+                                .WithIntervalInHours(24)
+                                .RepeatForever());
+                    });
+            });
+            services.AddQuartzServer(options =>
+            {
+                options.WaitForJobsToComplete = true;
+            });
 
             return services;
         }

@@ -89,7 +89,7 @@ namespace Clipify.Infrastructure.Spotify.Playlists
                 .PostRequestAsJsonAsync<AddTracksToPlaylistRequest, AddTracksToPlaylistResponse>(uri,
                     new AddTracksToPlaylistRequest
                     {
-                        Uris = tracks.Select(x => x.PlaylistUri)
+                        Uris = tracks.Select(x => x.Uri)
                     }, cancellationToken);
 
             return response.SnapshotId;

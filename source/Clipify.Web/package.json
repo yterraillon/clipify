@@ -1,9 +1,12 @@
 {
     "devDependencies": {
-      "gulp": "^4.0.2",
-      "gulp-postcss": "^8.0.0",
-      "precss": "^4.0.0",
-      "tailwindcss": "^1.2.0",
-      "autoprefixer": "^9.7.4"
+        "autoprefixer": "^9.7.4",
+        "gulp": "^4.0.2",
+        "gulp-postcss": "^8.0.0",
+        "precss": "^4.0.0",
+        "tailwindcss": "^1.2.0"
+    },
+    "dependencies": {
+        "gulp-rename": "^2.0.0"
     }
-  }
+}
