@@ -8,8 +8,16 @@
     <PropertyGroup>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <DockerfileContext>..\..</DockerfileContext>
-        <DockerfileRunArguments>-v "C:\Docker\Clipify\data:/data" -v "C:\Docker\Clipify\config:/config"</DockerfileRunArguments>
+        <DockerfileRunArguments>-v "H:\Docker\Clipify\data:/data" -v "H:\Docker\Clipify\config:/config"</DockerfileRunArguments>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="Styles\site.css" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Styles\site.css" />
+    </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -21,6 +29,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Clipify.Application\Clipify.Application.csproj" />
     <ProjectReference Include="..\Clipify.Infrastructure\Clipify.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

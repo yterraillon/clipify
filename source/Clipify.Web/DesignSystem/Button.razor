@@ -1,0 +1,19 @@
+﻿<button type="button" class="@Class flex flex-row items-center rounded-md" @onclick="@InvokeOnClickMethod">
+    @ChildContent
+</button>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+    [Parameter]
+    public Action OnClickAction { get; set; }
+
+    private void InvokeOnClickMethod()
+    {
+        OnClickAction?.Invoke();
+    }
+}

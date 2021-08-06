@@ -8,16 +8,10 @@ namespace Clipify.Infrastructure.Jobs
     public class SyncJob : IJob
     {
         private readonly IMediator _mediator;
-        
-        public SyncJob(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+
+        public SyncJob(IMediator mediator) => _mediator = mediator;
 
         /// <inheritdoc />
-        public Task Execute(IJobExecutionContext context)
-        {
-            return _mediator.Send(new SyncPlaylists.Command());
-        }
+        public Task Execute(IJobExecutionContext context) => _mediator.Send(new SyncPlaylists.Command());
     }
 }
