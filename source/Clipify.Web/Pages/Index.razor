@@ -1,20 +1,18 @@
 ﻿@page "/"
 @using Clipify.Web.DesignSystem;
+@using Clipify.Web.DesignSystem.Icons;
 @inject NavigationManager UriHelper
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
-<a href="/fork/playlist-picker"><span>Forker une playlist</span></a>
-
-<Button OnClickAction="NavigateToPlaylistPicker">
-    <span>Forker une playlist</span>
-</Button>
-
 <MainButton OnClickAction="NavigateToPlaylistPicker">
-    <span>Forker une playlist</span>
+    <ForkIcon/>
+    <span class="ml-2">Forker une playlist</span>
 </MainButton>
+
+<div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
 @code
 {
