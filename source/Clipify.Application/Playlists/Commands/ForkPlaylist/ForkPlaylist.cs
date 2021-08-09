@@ -24,7 +24,7 @@ namespace Clipify.Application.Playlists.Commands.ForkPlaylist
             private readonly IRepository<ForkedPlaylist, string> _forkedRepository;
 
             private readonly IRepository<Track, string> _trackRepository;
-            
+
             private readonly IPlaylistClient _playlistClient;
 
             public Handler(ICurrentUserService currentUserService, IRepository<ForkedPlaylist, string> forkedRepository,
@@ -39,14 +39,14 @@ namespace Clipify.Application.Playlists.Commands.ForkPlaylist
             public async Task<PlaylistViewModel> Handle(Request request, CancellationToken cancellationToken)
             {
                 _forkedRepository.Add(ForkedPlaylist.Create(request.Name, request.OriginalPlaylistId));
-                
+
                 var response = await _playlistClient.CreatePlaylistAsync(CurrentUser.AccessToken, CurrentUser.UserId, request.Name,
                     cancellationToken);
                 var tracks = _trackRepository.GetAll(x => x.PlaylistId == request.OriginalPlaylistId);
 
                 await _playlistClient.AddTracksToPlaylistAsync(CurrentUser.AccessToken, response.Id, tracks,
                     cancellationToken);
-                
+
                 return response;
 
             }

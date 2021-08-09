@@ -1,7 +1,38 @@
 ﻿@page "/fork/playlist-picker"
 
-<h3>PlaylistPicker</h3>
+@using Clipify.Web.Components;
+
+@using MediatR
+@using Clipify.Application.Playlists.Requests.GetForkablePlaylists
+@using Clipify.Application.Playlists.Requests.GetForkablePlaylists.Models
+
+@inject IMediator Mediator
+
+<h3>Mes Playlists</h3>
+
+<section>
+    <!--Filtrer les playlists-->
+</section>
+
+<section>
+    <!--Display playlists-->
+
+    <div class="flex flex-col p-4">
+        @foreach (var playlist in _playlists)
+        {
+            <ForkablePlaylistRow Playlist="@playlist"></ForkablePlaylistRow>
+        }
+
+    </div>
+</section>
+
 
 @code {
+    private IReadOnlyCollection<ForkablePlaylistViewModel> _playlists = new List<ForkablePlaylistViewModel>().AsReadOnly();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Mediator.Send(new GetForkablePlaylists.Request());
+        _playlists = response.ForkablePlaylists;
+    }
 }
