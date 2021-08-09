@@ -23,7 +23,9 @@ Copy and backup your Spotify playlists
 - [CI / CD](#ci)
 - [Quick Start](#quick-start)
 - [Open Issue](#open-an-issue)
+- [Design](#design)
 - [License](#license)
+
 
 <br>
 
@@ -96,6 +98,16 @@ If you want to report a bug or request a new feature, you can [open a new issue]
 
 <br>
 
+## Design
+
+Color palette : https://coolors.co/e2edb0-84dc9e-49cf6b-31ba6e-2f4b98
+<br>
+Icons : https://www.flaticon.com/packs/music-224
+
+<br>
+
 ## License
 
 Distributed under the [MIT License](https://github.com/yterraillon/clipify/blob/main/LICENSE). See `LICENSE` for more information.
+<br>
+Icons made by [Pixel Perfect](https://www.flaticon.com/authors/pixel-perfect) from [flaticon](https://www.flaticon.com/) 
