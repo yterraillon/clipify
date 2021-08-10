@@ -21,7 +21,7 @@
     private string PlaylistCoverUrl => Playlist.Images.FirstOrDefault()?.Url ?? "about:blank";
 
     private void NavigateToPlaylistDetail() =>
-        UriHelper.NavigateTo("/fork/playlist-detail");
+        UriHelper.NavigateTo($"/fork/{Playlist.Id}/detail");
 
 
     private void NavigateToForkCreation() =>

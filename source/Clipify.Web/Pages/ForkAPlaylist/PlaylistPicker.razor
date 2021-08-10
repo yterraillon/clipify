@@ -9,7 +9,7 @@
 
 @inject IMediator Mediator
 
-<h3>Mes Playlists</h3>
+<h1>Mes Playlists</h1>
 
 <section class="mt-2">
     <!--Filtrer les playlists-->
@@ -35,7 +35,6 @@
         }
     </div>
 </section>
-
 
 @code {
     private IReadOnlyCollection<ForkablePlaylistViewModel> _playlists = new List<ForkablePlaylistViewModel>().AsReadOnly();

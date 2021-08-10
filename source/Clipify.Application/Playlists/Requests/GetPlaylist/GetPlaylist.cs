@@ -12,7 +12,6 @@ namespace Clipify.Application.Playlists.Requests.GetPlaylist
     {
         public record Request(string PlaylistId) : IRequest<PlaylistViewModel>
         {
-            /// <inheritdoc />
             public override string ToString()
             {
                 return $"{nameof(PlaylistId)}: {PlaylistId}";

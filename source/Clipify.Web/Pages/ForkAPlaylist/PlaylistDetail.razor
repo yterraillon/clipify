@@ -1,7 +1,60 @@
-﻿@page "/fork/playlist-detail"
+﻿@page "/fork/{PlaylistId}/detail"
 
-<h3>PlaylistDetail</h3>
+@using MediatR
+@using Clipify.Web.DesignSystem.Icons;
+@using Clipify.Application.Playlists.Models
+@using Clipify.Application.Playlists.Requests.GetPlaylist
+
+@inject NavigationManager UriHelper
+
+@inject IMediator Mediator
+
+<section>
+    <div class="flex flex-row items-center rounded-lg hover:bg-gray-400" @onclick="@NavigateToPlaylistPicker">
+        <div>
+            <LeftArrowIcon></LeftArrowIcon>
+        </div>
+        <div class="ml-2">Revenir à mes Playlists</div>
+    </div>
+</section>
+
+<section class="mt-2">
+    @if (_playlist is null)
+    {
+        <p>Playlist non trouvée</p>
+    }
+    else
+    {
+        <div class="flex flex-row items-center h-40">
+            <div class="h-40">
+                <img src="@PlaylistCoverUrl" class="h-full rounded-l-lg" alt="@_playlist.Description" />
+            </div>
+            <div class="ml-4">
+                <h1>@_playlist.Name</h1>
+                <p>@_playlist.Tracks.Count() titres</p>
+            </div>
+        </div>
+    }
+</section>
+<section></section>
 
 @code {
+#nullable enable
 
+    [Parameter]
+    public string PlaylistId { get; set; } = string.Empty;
+
+    private PlaylistViewModel? _playlist;
+
+    // TODO : find a default picture
+    private string PlaylistCoverUrl => _playlist?.Images.FirstOrDefault()?.Url ?? "about:blank";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Mediator.Send(new GetPlaylist.Request(PlaylistId));
+        _playlist = response;
+    }
+
+    private void NavigateToPlaylistPicker() =>
+        UriHelper.NavigateTo("/fork/playlist-picker");
 }
