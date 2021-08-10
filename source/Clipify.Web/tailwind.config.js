@@ -7,6 +7,8 @@
                 emerald: '#49CF6B',
                 mediumseagreen: '#31BA6E',
                 yinblue: '#2F4B98',
+                defaultgrey: '#9CA3AF',
+                lightgrey: '#D1D5DB',
             }
         },
         inset: {

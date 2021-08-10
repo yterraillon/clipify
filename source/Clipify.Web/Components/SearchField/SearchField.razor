@@ -1,0 +1,35 @@
+﻿<div class="flex rounded-full border-gray-400">
+    <div class="bg-white p-2 rounded-l-full">
+        <SearchIcon></SearchIcon>
+    </div>
+    <input class="flex-grow p-2" value="@Input" placeholder="@Placeholder" @oninput="OnInputChanged" />
+    <div class="bg-white p-2 rounded-r-full" @onclick="ClearSearch">
+        <ClearIcon></ClearIcon>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Placeholder { get; set; } = "Rechercher";
+
+    [Parameter]
+    public string Input { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> InputChanged { get; set; }
+
+    [Parameter]
+    public EventCallback InputCleared { get; set; }
+
+    private async Task OnInputChanged(ChangeEventArgs e)
+    {
+        var searchTerm = e.Value?.ToString() ?? string.Empty;
+        await InputChanged.InvokeAsync(searchTerm);
+    }
+
+    private async Task ClearSearch()
+    {
+        Input = string.Empty;
+        await InputCleared.InvokeAsync();
+    }
+}

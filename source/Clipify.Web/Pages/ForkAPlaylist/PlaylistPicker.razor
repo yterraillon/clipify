@@ -1,6 +1,7 @@
 ﻿@page "/fork/playlist-picker"
 
 @using Clipify.Web.Components;
+@using Clipify.Web.Components.SearchField;
 
 @using MediatR
 @using Clipify.Application.Playlists.Requests.GetForkablePlaylists
@@ -10,25 +11,38 @@
 
 <h3>Mes Playlists</h3>
 
-<section>
+<section class="mt-2">
     <!--Filtrer les playlists-->
+    <SearchField Placeholder="Rechercher une playlist" @bind-Input="@SearchTerm" InputCleared="() => SearchTerm = string.Empty"></SearchField>
 </section>
 
-<section>
+<section class="mt-2">
     <!--Display playlists-->
-
     <div class="flex flex-col p-4">
-        @foreach (var playlist in _playlists)
+        
+        @if (_playlists == null || !_playlists.Any() || !FilteredPlaylists.Any())
         {
-            <ForkablePlaylistRow Playlist="@playlist"></ForkablePlaylistRow>
+            <div>
+                Aucune playlist!
+            </div>
         }
-
+        else
+        {
+            @foreach (var playlist in @FilteredPlaylists)
+            {
+                <ForkablePlaylistRow Playlist="@playlist"></ForkablePlaylistRow>
+            }
+        }
     </div>
 </section>
 
 
 @code {
     private IReadOnlyCollection<ForkablePlaylistViewModel> _playlists = new List<ForkablePlaylistViewModel>().AsReadOnly();
+    public string SearchTerm { get; set; } = string.Empty;
+
+    private IEnumerable<ForkablePlaylistViewModel> FilteredPlaylists =>
+        _playlists.Where(c => c.Name.ToLower().Contains(SearchTerm.ToLower()));
 
     protected override async Task OnInitializedAsync()
     {
