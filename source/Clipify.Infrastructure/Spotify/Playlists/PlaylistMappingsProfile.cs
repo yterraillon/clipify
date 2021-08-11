@@ -16,6 +16,8 @@ namespace Clipify.Infrastructure.Spotify.Playlists
                 .ForMember(dest => dest.Tracks,
                     opt => opt.MapFrom(src => src.Tracks.Items.Select(item => item.Track)));
             CreateMap<TrackResponse, TrackViewModel>();
+            CreateMap<Artist, ArtistViewModel>();
+            CreateMap<Album, AlbumViewModel>();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Clipify.Application
         T Get(Expression<Func<T, bool>> predicate);
 
         IEnumerable<T> GetAll();
-        
+
         IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate);
 
         void Add(T entity);

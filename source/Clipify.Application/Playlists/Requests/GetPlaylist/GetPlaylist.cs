@@ -33,7 +33,9 @@ namespace Clipify.Application.Playlists.Requests.GetPlaylist
         {
             public GetPlaylistValidator()
             {
-                RuleFor(x => x.PlaylistId).NotEmpty().NotNull();
+                RuleFor(x => x.PlaylistId)
+                    .NotEmpty()
+                    .NotNull();
             }
         }
     }

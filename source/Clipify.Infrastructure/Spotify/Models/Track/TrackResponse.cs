@@ -48,7 +48,14 @@ namespace Clipify.Infrastructure.Spotify.Models.Track
         [JsonProperty("uri")]
         public string Uri { get; set; } = string.Empty;
 
+        [JsonProperty("album")]
+        public Album Album { get; set; } = Album.Empty;
+
+        [JsonProperty("artists")]
+        public IEnumerable<Artist> Artists{ get; set; } = Enumerable.Empty<Artist>();
+
         [JsonIgnore]
         public static TrackResponse Empty => new();
     }
 }
+

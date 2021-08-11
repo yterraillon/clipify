@@ -20,13 +20,13 @@ namespace Clipify.Infrastructure.Spotify.Models.Playlist
     {
         [JsonProperty("added_at")]
         public DateTime AddedAt { get; set; }
-        
+
         [JsonProperty("added_by"), JsonIgnore]
         public PublicUserResponse AddedBy { get; set; } = PublicUserResponse.Empty;
-        
+
         [JsonProperty("is_local")]
         public bool IsLocal { get; set; }
-        
+
         [JsonProperty("track")]
         public TrackResponse Track { get; set; } = TrackResponse.Empty;
 
