@@ -13,15 +13,15 @@ namespace Application.Common.Behaviours
     {
         private readonly ICurrentUserService _currentUserService;
 
-        private readonly IRepository<User, string> _userRepository;
+        //private readonly IRepository<User, string> _userRepository;
 
         private readonly ISpotifyTokenService _spotifyTokenService;
 
-        public RefreshTokenBehaviour(ICurrentUserService currentUserService, ISpotifyTokenService spotifyTokenService, IRepository<User, string> userRepository)
+        public RefreshTokenBehaviour(ICurrentUserService currentUserService, ISpotifyTokenService spotifyTokenService)//, IRepository<User, string> userRepository)
         {
             _currentUserService = currentUserService;
             _spotifyTokenService = spotifyTokenService;
-            _userRepository = userRepository;
+            //_userRepository = userRepository;
         }
 
         public async Task Process(TRequest request, CancellationToken cancellationToken)
@@ -42,7 +42,7 @@ namespace Application.Common.Behaviours
                 user.RefreshToken = response.RefreshToken;
                 user.TokenExpirationDate = DateTime.UtcNow.AddSeconds(response.ExpiresIn);
 
-                _userRepository.Update(user);
+                //_userRepository.Update(user);
             }
         }
 

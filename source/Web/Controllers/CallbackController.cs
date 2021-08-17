@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Clipify.Application.Auth.Requests.GetAccessToken;
-using Clipify.Application.Users.Commands.CreateLocalUser;
+using Application.Authentication.Requests.GetAccessToken;
+//using Clipify.Application.Users.Commands.CreateLocalUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,12 +24,12 @@ namespace Web.Controllers
             if (string.IsNullOrEmpty(response.AccessToken))
                 return BadRequest();
 
-            await _mediator.Send(new CreateLocalUser.Command
-            {
-                AccessToken = response.AccessToken,
-                RefreshToken = response.RefreshToken,
-                ExpiresIn = response.ExpiresIn
-            });
+            //await _mediator.Send(new CreateLocalUser.Command
+            //{
+            //    AccessToken = response.AccessToken,
+            //    RefreshToken = response.RefreshToken,
+            //    ExpiresIn = response.ExpiresIn
+            //});
 
             return Redirect("/");
         }
