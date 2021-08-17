@@ -3,7 +3,7 @@ namespace Clipify.Domain.Entities
     public class Track : Entity
     {
         public string PlaylistId { get; init; } = string.Empty;
-        
+
         public string TrackId { get; init; } = string.Empty;
 
         public string Uri { get; private init; } = string.Empty;

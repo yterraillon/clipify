@@ -12,7 +12,6 @@ namespace Clipify.Application.Playlists.Requests.GetPlaylist
     {
         public record Request(string PlaylistId) : IRequest<PlaylistViewModel>
         {
-            /// <inheritdoc />
             public override string ToString()
             {
                 return $"{nameof(PlaylistId)}: {PlaylistId}";
@@ -34,7 +33,9 @@ namespace Clipify.Application.Playlists.Requests.GetPlaylist
         {
             public GetPlaylistValidator()
             {
-                RuleFor(x => x.PlaylistId).NotEmpty().NotNull();
+                RuleFor(x => x.PlaylistId)
+                    .NotEmpty()
+                    .NotNull();
             }
         }
     }

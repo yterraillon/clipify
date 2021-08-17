@@ -39,7 +39,7 @@ namespace Clipify.Infrastructure
             });
 
             services.AddSingleton<IDbContext, DbContext>();
-            
+
             services.AddTransient<IPlaylistClient, PlaylistClient>();
             services.AddTransient<IPlaylistService, PlaylistService>();
 
@@ -55,14 +55,16 @@ namespace Clipify.Infrastructure
             services.AddTransient<IAuthService, SpotifyAuthService>();
             services.AddTransient<IAuthUriBuilder, SpotifyAuthUriBuilder>();
             services.AddSingleton<IAuthCodeProvider, SpotifyAuthCodeProvider>();
-            
+
             // Quartz
             services.AddQuartz(quartz =>
             {
+                const string jobKey = "ClipifySyncJob";
                 quartz
-                    .AddJob<SyncJob>(new JobKey("ClipifySyncJob"))
+                    .AddJob<SyncJob>(new JobKey(jobKey))
                     .AddTrigger(options =>
                     {
+                        options.ForJob(jobKey);
                         options.StartNow()
                             .WithSchedule(SimpleScheduleBuilder
                                 .Create()

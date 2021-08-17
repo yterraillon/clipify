@@ -1,6 +1,21 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* TODO : à rebouger dans le wwwroot */
+/* TODO : fix gulp associé */
+
+h1 {
+    @apply text-2xl;
+}
+
+h2 {
+    @apply text-xl;
+}
+
+h3 {
+    @apply text-lg;
+}
 
 #blazor-error-ui {
     background: lightyellow;
