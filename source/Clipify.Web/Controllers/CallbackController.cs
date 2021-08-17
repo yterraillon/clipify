@@ -1,10 +1,10 @@
-﻿using Clipify.Application.Auth.Requests.GetAccessToken;
+﻿using System.Threading.Tasks;
+using Clipify.Application.Auth.Requests.GetAccessToken;
 using Clipify.Application.Users.Commands.CreateLocalUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
-namespace Clipify.Web.Controllers
+namespace Web.Controllers
 {
     [Route("[controller]")]
     public class CallbackController : Controller

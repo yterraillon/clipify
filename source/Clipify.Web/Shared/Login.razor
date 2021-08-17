@@ -1,21 +1,20 @@
 ﻿@using MediatR
 @using System.Threading
-@using Clipify.Application.Auth.Requests.Authorization
+@using Application.Authentication.Requests.Authorization
 @using Clipify.Application.Users
-@using Clipify.Application.Users.Requests
 @using Clipify.Domain.Entities
 
-@inject NavigationManager _navigationManager
-@inject IJSRuntime _jsRuntime
-@inject IMediator _mediator
-@inject ICurrentUserService _currentUserService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject IMediator Mediator
+@inject ICurrentUserService CurrentUserService
 
-@if (_currentUserService.IsUserLoggedIn())
+@if (CurrentUserService.IsUserLoggedIn())
 {
-<div class="flex flex-row items-center align-baseline rounded-full">
-    @*<img class="rounded-full h-8 w-8 flex" src="@_currentUser.Avatar" alt="User Avatar" />*@
-    @_currentUser.Username
-</div>
+    <div class="flex flex-row items-center align-baseline rounded-full">
+        @*<img class="rounded-full h-8 w-8 flex" src="@_currentUser.Avatar" alt="User Avatar" />*@
+        @_currentUser.Username
+    </div>
 }
 else
 {
@@ -29,19 +28,19 @@ else
 
     protected override Task OnInitializedAsync()
     {
-        _currentUser = _currentUserService.GetCurrentUser();
+        _currentUser = CurrentUserService.GetCurrentUser();
 
         return base.OnInitializedAsync();
     }
 
     private async Task LoginAsync()
     {
-        var response = await _mediator.Send(new Authorization.Request(string.Empty, string.Empty));
+        var response = await Mediator.Send(new GetSpotifyAuthenticationUri.Request(string.Empty, string.Empty));
 
         if (string.IsNullOrEmpty(response.Url))
-            _navigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/");
         else
-            await _jsRuntime.InvokeAsync<string>("open", new CancellationToken(), new object?[]
+            await JsRuntime.InvokeAsync<string>("open", new CancellationToken(), new object?[]
             {
                 response.Url, "_blank"
             });

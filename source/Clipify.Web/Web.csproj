@@ -12,6 +12,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Logs\**" />
+      <Content Remove="Logs\**" />
+      <EmbeddedResource Remove="Logs\**" />
+      <None Remove="Logs\**" />
+    </ItemGroup>
+
+    <ItemGroup>
       <None Remove="Styles\site.css" />
     </ItemGroup>
 
@@ -27,8 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Clipify.Application\Clipify.Application.csproj" />
     <ProjectReference Include="..\Clipify.Infrastructure\Clipify.Infrastructure.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

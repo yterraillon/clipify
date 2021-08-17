@@ -11,9 +11,7 @@ namespace Clipify.Application.Common
 
         protected User CurrentUser => _currentUser ??= _currentUserService.GetCurrentUser();
 
-        protected BaseUserHandler(ICurrentUserService currentUserService)
-        {
+        protected BaseUserHandler(ICurrentUserService currentUserService) =>
             _currentUserService = currentUserService;
-        }
     }
 }

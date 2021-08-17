@@ -10,11 +10,8 @@ namespace Clipify.Application.Auth.Requests.Authorization
     {
         public record Request(string State, string Scope) : IRequest<AuthorizationResponse>
         {
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{nameof(State)}: {State}, {nameof(Scope)}: {Scope}";
-            }
+            public override string ToString() =>
+                $"{nameof(State)}: {State}, {nameof(Scope)}: {Scope}";
         }
 
         public class Handler : IRequestHandler<Request, AuthorizationResponse>

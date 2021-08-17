@@ -7,7 +7,7 @@ namespace Clipify.Infrastructure.Database
 {
     public class CurrentUserService : ICurrentUserService
     {
-        private User User { get; set; }
+        private User User { get; }
 
         public CurrentUserService(IDbContext context, IMapper mapper)
         {

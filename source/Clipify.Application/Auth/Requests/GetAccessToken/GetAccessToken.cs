@@ -10,11 +10,7 @@ namespace Clipify.Application.Auth.Requests.GetAccessToken
     {
         public record Request(string Code) : IRequest<TokenResponse>
         {
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{nameof(Code)}: {Code}";
-            }
+            public override string ToString() => $"{nameof(Code)}: {Code}";
         }
 
         public class Handler : IRequestHandler<Request, TokenResponse>

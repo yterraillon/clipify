@@ -1,16 +1,18 @@
+using System.Linq;
+using Application;
 using Clipify.Application;
 using Clipify.Infrastructure;
+using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
 using Serilog;
 using Serilog.Events;
 
-namespace Clipify.Web
+namespace Web
 {
     public class Startup
     {
@@ -25,8 +27,12 @@ namespace Clipify.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddInfrastructure(Configuration);
+            // TODO : will ne removed in the future
+            services.AddClipifyInfrastructure(Configuration);
+            services.AddClipifyApplication();
+
             services.AddApplication();
+            services.AddInfrastructure(Configuration);
 
             services.AddControllers();
             services.AddRazorPages();

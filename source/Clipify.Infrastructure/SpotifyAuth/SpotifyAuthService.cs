@@ -38,7 +38,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
 
         public Task<TokenResponse> RefreshTokenAsync(string refreshToken)
         {
-            var parameters = new Dictionary<string, string>()
+            var parameters = new Dictionary<string, string>
             {
                 {"client_id", _settings.ClientId},
                 {"grant_type", "refresh_token"},
