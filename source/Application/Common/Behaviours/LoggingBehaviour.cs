@@ -11,7 +11,7 @@ namespace Application.Common.Behaviours
 
         private readonly ICurrentUserService _currentUserService;
 
-        public LoggingBehaviour(ILogger logger, ICurrentUserService currentUserService)
+        public LoggingBehaviour(ILogger<LoggingBehaviour<TRequest>> logger, ICurrentUserService currentUserService)
         {
             _logger = logger;
             _currentUserService = currentUserService;
