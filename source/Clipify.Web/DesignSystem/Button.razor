@@ -3,14 +3,15 @@
 </button>
 
 @code {
+#nullable enable
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
     public string Class { get; set; } = string.Empty;
 
     [Parameter]
-    public Action OnClickAction { get; set; }
+    public Action OnClickAction { get; set; } = () => {};
 
     private void InvokeOnClickMethod()
     {
