@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Spotify.Authentication
 {
     public class CodeProvider
     {
-        public string Verifier { get; private set; }
+        private readonly ILogger<CodeProvider> _logger;
+        public string Verifier { get; private set; } = string.Empty;
 
         public string Challenge { get; private set; } = string.Empty;
+
 
         private static readonly char[] Characters =
         {
@@ -19,8 +22,9 @@ namespace Infrastructure.Spotify.Authentication
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_'
         };
 
-        public CodeProvider()
+        public CodeProvider(ILogger<CodeProvider> logger)
         {
+            _logger = logger;
             BuildVerifier();
             BuildChallenge();
         }
@@ -53,8 +57,7 @@ namespace Infrastructure.Spotify.Authentication
             }
             catch (Exception e)
             {
-                // NOTE: Better logging/exception handling?
-                Console.WriteLine(e);
+                _logger.LogError(e.Message);
             }
         }
 

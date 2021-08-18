@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Spotify.Authentication.Settings
+﻿namespace Infrastructure.Spotify.Authentication
 {
     public class Settings
     {

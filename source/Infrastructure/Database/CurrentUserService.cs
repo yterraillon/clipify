@@ -1,7 +1,7 @@
-﻿using Application;
+﻿using Application.User;
 using Domain.Entities;
 
-namespace Infrastructure
+namespace Infrastructure.Database
 {
     public class CurrentUserService : ICurrentUserService
     {

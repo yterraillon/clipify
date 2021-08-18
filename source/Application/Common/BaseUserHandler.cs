@@ -1,7 +1,9 @@
-﻿using Domain.Entities;
+﻿using Application.User;
 
 namespace Application.Common
 {
+    using Domain.Entities;
+
     public class BaseUserHandler
     {
         private readonly ICurrentUserService _currentUserService;

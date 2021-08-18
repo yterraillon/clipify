@@ -9,9 +9,5 @@ namespace Domain.Entities
         public DateTime Created { get; set; }
 
         public DateTime? Updated { get; set; }
-
-        public string CreatedBy { get; set; } = string.Empty;
-
-        public string UpdatedBy { get; set; } = string.Empty;
     }
 }

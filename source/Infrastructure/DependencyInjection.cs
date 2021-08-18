@@ -1,35 +1,42 @@
-﻿using System.Reflection;
-using Application;
-using Application.Authentication.Requests;
-using Application.Authentication.Requests.Authorization;
-using Microsoft.Extensions.Configuration;
+﻿using Application;
+using Application.User;
 using AutoMapper.Extensions.ExpressionMapping;
-using Infrastructure.Spotify.Authentication;
-using Infrastructure.Spotify.Authentication.Clients;
-using Infrastructure.Spotify.Authentication.Settings;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+using Application.SpotifyAuthentication.Requests;
+using Application.SpotifyAuthentication.Requests.GetAuthenticationUri;
+using Application.SpotifyAuthentication.Requests.Login;
 
 namespace Infrastructure
 {
+    using EventBus;
+    using Spotify.Authentication;
+    using Spotify.Authentication.AuthenticationUriBuilder;
+    using Spotify.Authentication.Clients;
+    using Database;
+    using Spotify.Webapi;
+
     public static class DependencyInjection
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<Settings>(configuration.GetSection("Spotify:Authentication"));
+            services.Configure<Spotify.Authentication.Settings>(configuration.GetSection("Spotify:Authentication"));
+            services.Configure<Spotify.Webapi.Settings>(configuration.GetSection("Spotify:Webapi"));
 
-            services.AddHttpClient<AuthenticationClient>();
+            services.AddHttpClient<ISpotifyTokenService, TokenServiceClient>();
             services.AddAutoMapper(cfg =>
             {
                 cfg.AddMaps(Assembly.GetExecutingAssembly());
                 cfg.AddExpressionMapping();
             });
 
-            services.AddTransient<ISpotifyTokenService, SpotifyTokenService>();
             services.AddTransient<ISpotifyAuthenticationUriBuilder, AuthenticationUriBuilder>();
+            services.AddSingleton<IStateProvider, StateProvider>();
             services.AddSingleton<CodeProvider>();
 
-            // TODO : temp implementation
-            services.AddTransient<ICurrentUserService, CurrentUserService>();
+            services.AddSingleton<IEventBus, InMemoryEventBus>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             return services;
         }

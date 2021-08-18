@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Authentication.Requests.Authorization;
-using Application.Authentication.Requests.GetAccessToken;
+using Application.SpotifyAuthentication.Requests.GetAuthenticationUri;
+using Application.SpotifyAuthentication.Requests.Login;
+using Application.User;
 using MediatR;
 
 namespace Application.Common.Behaviours
@@ -29,8 +30,8 @@ namespace Application.Common.Behaviours
             => request switch
             {
                 //CreateLocalUser.Command => false,
-                GetSpotifyAuthenticationUri.Request => false,
-                GetAccessToken.Request => false,
+                GetAuthenticationUri.Request => false,
+                Login.Request => false,
                 _ => true
             };
     }

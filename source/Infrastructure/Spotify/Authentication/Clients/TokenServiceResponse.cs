@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Application.Authentication.Requests.Models
+namespace Infrastructure.Spotify.Authentication.Clients
 {
-    // TODO : should Be Spotify Tokens and stored in their table
-    // Put Json mapping in infra
-    public class TokenResponse
+    public class TokenServiceResponse
     {
         [JsonProperty("access_token")]
         public string AccessToken { get; set; } = string.Empty;
@@ -20,7 +18,5 @@ namespace Application.Authentication.Requests.Models
 
         [JsonProperty("refresh_token")]
         public string RefreshToken { get; set; } = string.Empty;
-
-        public static TokenResponse Empty => new();
     }
 }

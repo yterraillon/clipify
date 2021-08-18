@@ -1,10 +1,8 @@
-﻿using Domain.Entities;
-
-namespace Application
+﻿namespace Application.User
 {
     public interface ICurrentUserService
     {
-        User GetCurrentUser();
+        Domain.Entities.User GetCurrentUser();
 
         bool IsUserLoggedIn();
     }

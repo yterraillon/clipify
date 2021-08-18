@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Authentication.Requests;
-using Application.Authentication.Requests.Authorization;
-using Application.Authentication.Requests.GetAccessToken;
-using Domain.Entities;
+using Application.SpotifyAuthentication.Requests;
+using Application.SpotifyAuthentication.Requests.GetAuthenticationUri;
+using Application.SpotifyAuthentication.Requests.Login;
+using Application.User;
 using MediatR.Pipeline;
 
 namespace Application.Common.Behaviours
 {
+    // TODO : merge with authorize
     public class RefreshTokenBehaviour<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
     {
         private readonly ICurrentUserService _currentUserService;
@@ -34,24 +35,24 @@ namespace Application.Common.Behaviours
 
             var user = _currentUserService.GetCurrentUser();
 
-            if (user.TokenExpirationDate <= DateTime.UtcNow)
-            {
-                var response = await _spotifyTokenService.RefreshTokenAsync(user.RefreshToken);
+            //if (user.TokenExpirationDate <= DateTime.UtcNow)
+            //{
+            //    var spotifyTokens = await _spotifyTokenService.RefreshTokenAsync(user.RefreshToken);
 
-                user.AccessToken = response.AccessToken;
-                user.RefreshToken = response.RefreshToken;
-                user.TokenExpirationDate = DateTime.UtcNow.AddSeconds(response.ExpiresIn);
+            //    user.AccessToken = spotifyTokens.AccessToken;
+            //    user.RefreshToken = spotifyTokens.RefreshToken;
+            //    user.TokenExpirationDate = DateTime.UtcNow.AddSeconds(spotifyTokens.ExpiresIn);
 
-                //_userRepository.Update(user);
-            }
+            //    //_userRepository.Update(user);
+            //}
         }
 
         private static bool IsVerificationRequired(TRequest request)
             => request switch
             {
                 //CreateLocalUser.Command => false,
-                GetSpotifyAuthenticationUri.Request => false,
-                GetAccessToken.Request => false,
+                GetAuthenticationUri.Request => false,
+                Login.Request => false,
                 _ => true
             };
     }

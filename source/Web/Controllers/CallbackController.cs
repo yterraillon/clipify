@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Application.Authentication.Requests.GetAccessToken;
-//using Clipify.Application.Users.Commands.CreateLocalUser;
+using Application.SpotifyAuthentication.Requests.Login;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,22 +15,13 @@ namespace Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string code, [FromQuery] string state)
         {
-            if (string.IsNullOrEmpty(code))
-                return BadRequest();
+            if (string.IsNullOrEmpty(code)) return BadRequest();
 
-            var response = await _mediator.Send(new GetAccessToken.Request(code));
+            var response = await _mediator.Send(new Login.Request(code, state));
 
-            if (string.IsNullOrEmpty(response.AccessToken))
-                return BadRequest();
-
-            //await _mediator.Send(new CreateLocalUser.Command
-            //{
-            //    AccessToken = response.AccessToken,
-            //    RefreshToken = response.RefreshToken,
-            //    ExpiresIn = response.ExpiresIn
-            //});
-
-            return Redirect("/");
+            return response.IsSuccess
+                ? Redirect("/")
+                : (IActionResult)BadRequest();
         }
     }
 }

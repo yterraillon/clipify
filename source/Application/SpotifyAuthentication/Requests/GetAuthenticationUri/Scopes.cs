@@ -1,6 +1,6 @@
-﻿namespace Infrastructure.Spotify.Authentication
+﻿namespace Application.SpotifyAuthentication.Requests.GetAuthenticationUri
 {
-    public static class SpotifyScopes
+    public static class Scopes
     {
         public static string PlaylistReadPrivate => "playlist-read-private";
 
