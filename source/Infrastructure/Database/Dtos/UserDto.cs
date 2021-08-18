@@ -15,7 +15,7 @@ namespace Infrastructure.Database.Dtos
     {
         public string UserName { get; set; } = string.Empty;
         public string Id { get; set; } = string.Empty;
-        public SpotifyTokensDto Tokens { get; set; } = SpotifyTokensDto.Empty;
+        //public SpotifyTokensDto Tokens { get; set; } = SpotifyTokensDto.Empty;
 
         public static SpotifyProfileDto Empty => new();
     }

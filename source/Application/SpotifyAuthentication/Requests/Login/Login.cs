@@ -19,7 +19,7 @@ namespace Application.SpotifyAuthentication.Requests.Login
             public Response(bool isSuccess) => IsSuccess = isSuccess;
 
             public static Response Success() => new (true);
-            public static Response Failure() => new (true);
+            public static Response Failure() => new (false);
         };
 
         public class Handler : IRequestHandler<Request, Response>
