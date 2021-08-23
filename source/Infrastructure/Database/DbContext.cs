@@ -14,6 +14,9 @@ namespace Infrastructure.Database
 
             Database.GetCollection<UserDto>()
                 .EnsureIndex(x => x.Id, true);
+
+            Database.GetCollection<SpotifyTokensDto>()
+                .EnsureIndex(x => x.Id, true);
         }
     }
 }

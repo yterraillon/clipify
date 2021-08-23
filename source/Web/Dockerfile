@@ -2,25 +2,25 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
-VOLUME /config /data
 EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["source/Clipify.Web/Clipify.Web.csproj", "source/Clipify.Web/"]
-COPY ["source/Clipify.Infrastructure/Clipify.Infrastructure.csproj", "source/Clipify.Infrastructure/"]
-COPY ["source/Clipify.Application/Clipify.Application.csproj", "source/Clipify.Application/"]
-COPY ["source/Clipify.Domain/Clipify.Domain.csproj", "source/Clipify.Domain/"]
-RUN dotnet restore "source/Clipify.Web/Clipify.Web.csproj"
+COPY ["source/Web/Web.csproj", "source/Web/"]
+COPY ["source/Application/Application.csproj", "source/Application/"]
+COPY ["source/Events/Events.csproj", "source/Events/"]
+COPY ["source/Domain/Domain.csproj", "source/Domain/"]
+COPY ["source/Infrastructure/Infrastructure.csproj", "source/Infrastructure/"]
+RUN dotnet restore "source/Web/Web.csproj"
 COPY . .
-WORKDIR "/src/source/Clipify.Web"
-RUN dotnet build "Clipify.Web.csproj" -c Release -o /app/build
+WORKDIR "/src/source/Web"
+RUN dotnet build "Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Clipify.Web.csproj" -c Release -o /app/publish
+RUN dotnet publish "Web.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Clipify.Web.dll"]
+ENTRYPOINT ["dotnet", "Web.dll"]

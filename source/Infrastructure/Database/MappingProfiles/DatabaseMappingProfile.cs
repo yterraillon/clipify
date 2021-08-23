@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
-using Clipify.Domain.Entities;
 using Infrastructure.Database.Dtos;
 using LiteDB;
 
 namespace Infrastructure.Database.MappingProfiles
 {
+    using Domain.Entities;
+
     public class DatabaseMappingProfile : Profile
     {
         public DatabaseMappingProfile()
@@ -13,16 +14,18 @@ namespace Infrastructure.Database.MappingProfiles
                 .ForMember(dest => dest.Id,
                     opt => opt.MapFrom(src => src.Id.ToString()));
 
-            CreateMap<Entity, EntityDto>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => new ObjectId(src.Id)));
+            CreateMap<Entity, EntityDto>();
+                //.ForMember(dest => dest.Id, opt => opt.MapFrom(src => new ObjectId(src.Id)));
 
-            CreateMap<UserDto, User>()
+            CreateMap<UserDto, UserProfile>()
                 .IncludeBase<EntityDto, Entity>()
                 .ReverseMap();
 
-            CreateMap<SpotifyProfileDto, Domain.Spotify.Profile>()
+            CreateMap<SpotifyProfileDto, Domain.Entities.Spotify.Profile>()
                 .ReverseMap();
-            CreateMap<SpotifyTokensDto, Domain.Spotify.Tokens>()
+
+            CreateMap<SpotifyTokensDto, Domain.Entities.Spotify.Tokens>()
+                .IncludeBase<EntityDto, Entity>()
                 .ReverseMap();
         }
     }

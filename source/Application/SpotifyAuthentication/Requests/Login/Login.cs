@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using Domain.Entities.Spotify;
 using Events.Authentication;
 using MediatR;
 
@@ -27,12 +29,14 @@ namespace Application.SpotifyAuthentication.Requests.Login
             private readonly ISpotifyTokenService _spotifyTokenService;
             private readonly IStateProvider _stateProvider;
             private readonly IEventBus _eventBus;
+            private readonly IRepository<Tokens, Guid> _tokenRepository;
 
-            public Handler(ISpotifyTokenService spotifyTokenService, IStateProvider stateProvider, IEventBus eventBus)
+            public Handler(ISpotifyTokenService spotifyTokenService, IStateProvider stateProvider, IEventBus eventBus, IRepository<Tokens, Guid> tokenRepository)
             {
                 _spotifyTokenService = spotifyTokenService;
                 _stateProvider = stateProvider;
                 _eventBus = eventBus;
+                _tokenRepository = tokenRepository;
             }
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
@@ -41,13 +45,9 @@ namespace Application.SpotifyAuthentication.Requests.Login
                 if (!IsStateValid(state)) return Response.Failure();
 
                 var tokens = await _spotifyTokenService.GetAccessTokenAsync(code);
-                
-                // TODO : store tokens
-                await _eventBus.Publish(new LoggedIntoSpotify
-                {
-                    Tokens = tokens
-                });
+                _tokenRepository.Add(tokens);
 
+                await _eventBus.Publish(new LoggedInWithSpotify(tokens.AccessToken, tokens.ExpirationDate));
                 return Response.Success();
             }
 

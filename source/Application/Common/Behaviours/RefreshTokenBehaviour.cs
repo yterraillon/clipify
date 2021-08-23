@@ -27,13 +27,13 @@ namespace Application.Common.Behaviours
 
         public async Task Process(TRequest request, CancellationToken cancellationToken)
         {
-            if (!_currentUserService.IsUserLoggedIn())
-                return;
+            //if (!_currentUserService.IsUserLoggedIn())
+            //    return;
 
-            if (!IsVerificationRequired(request))
-                return;
+            //if (!IsVerificationRequired(request))
+            //    return;
 
-            var user = _currentUserService.GetCurrentUser();
+            //var user = _currentUserService.GetCurrentUser();
 
             //if (user.TokenExpirationDate <= DateTime.UtcNow)
             //{

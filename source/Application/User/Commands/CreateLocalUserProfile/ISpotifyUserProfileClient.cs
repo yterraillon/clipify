@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Domain.Spotify;
+using Domain.Entities.Spotify;
 
-namespace Application.User.Commands.CreateLocalSpotifyUserProfile
+namespace Application.User.Commands.CreateLocalUserProfile
 {
     public interface ISpotifyUserProfileClient
     {

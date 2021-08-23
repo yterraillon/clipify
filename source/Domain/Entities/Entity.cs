@@ -4,7 +4,7 @@ namespace Domain.Entities
 {
     public abstract class Entity
     {
-        public string Id { get; set; } = string.Empty;
+        public Guid Id { get; set; } = Guid.Empty;
 
         public DateTime Created { get; set; }
 

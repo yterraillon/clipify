@@ -8,7 +8,7 @@
     <PropertyGroup>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <DockerfileContext>..\..</DockerfileContext>
-        <DockerfileRunArguments>-v "H:\Docker\Clipify\data:/data" -v "H:\Docker\Clipify\config:/config"</DockerfileRunArguments>
+        <DockerfileRunArguments>-p 21206:80 -p 27206:443 -v "H:\Docker\Clipify\data:/data" -v "H:\Docker\Clipify\config:/config"</DockerfileRunArguments>
     </PropertyGroup>
 
     <ItemGroup>

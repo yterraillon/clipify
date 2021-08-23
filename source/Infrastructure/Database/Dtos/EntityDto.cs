@@ -6,7 +6,7 @@ namespace Infrastructure.Database.Dtos
     public abstract class EntityDto
     {
         [BsonId]
-        public ObjectId Id { get; set; } = ObjectId.Empty;
+        public Guid Id { get; set; }
 
         public DateTime Created { get; set; }
 

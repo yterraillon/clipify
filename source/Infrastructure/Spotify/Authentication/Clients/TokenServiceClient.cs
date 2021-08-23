@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Application.SpotifyAuthentication.Requests;
+using Domain.Entities.Spotify;
+using Infrastructure.Extensions;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Application.SpotifyAuthentication.Requests;
-using Domain.Spotify;
-using Infrastructure.Extensions;
-using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Spotify.Authentication.Clients
 {
@@ -55,6 +55,6 @@ namespace Infrastructure.Spotify.Authentication.Clients
             => _client.PostRequestAsync<TokenServiceResponse>(requestUri, HttpMethod.Post, parameters);
 
         private static Tokens ToSpotifyTokens(TokenServiceResponse tokens) =>
-            new (tokens.AccessToken, tokens.RefreshToken, tokens.ExpiresIn);
+            Tokens.Create(tokens.AccessToken, tokens.RefreshToken, tokens.ExpiresIn);
     }
 }

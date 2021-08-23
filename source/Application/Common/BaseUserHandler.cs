@@ -8,9 +8,9 @@ namespace Application.Common
     {
         private readonly ICurrentUserService _currentUserService;
 
-        private User? _currentUser;
+        private UserProfile? _currentUser;
 
-        protected User CurrentUser => _currentUser ??= _currentUserService.GetCurrentUser();
+        protected UserProfile CurrentUser => _currentUser ??= _currentUserService.GetCurrentUser();
 
         protected BaseUserHandler(ICurrentUserService currentUserService) =>
             _currentUserService = currentUserService;

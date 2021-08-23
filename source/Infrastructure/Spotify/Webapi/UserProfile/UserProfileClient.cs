@@ -2,8 +2,8 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.User.Commands.CreateLocalSpotifyUserProfile;
-using Domain.Spotify;
+using Application.User.Commands.CreateLocalUserProfile;
+using Domain.Entities.Spotify;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.Options;
 
@@ -34,7 +34,7 @@ namespace Infrastructure.Spotify.Webapi.UserProfile
                 return new Profile
                 {
                     UserName = response.DisplayName,
-                    Id = response.Id
+                    Id = response.UserId
                 };
             }
             catch (Exception)

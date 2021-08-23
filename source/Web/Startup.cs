@@ -27,9 +27,9 @@ namespace Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO : will ne removed in the future
-            services.AddClipifyInfrastructure(Configuration);
-            services.AddClipifyApplication();
+            // TODO : will be removed in the future
+            //services.AddClipifyInfrastructure(Configuration);
+            //services.AddClipifyApplication();
 
             services.AddApplication();
             services.AddInfrastructure(Configuration);

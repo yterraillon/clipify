@@ -18,7 +18,8 @@ namespace Infrastructure.Spotify.Webapi.UserProfile
 
         public Followers Followers { get; set; } = new();
 
-        public string Id { get; set; } = string.Empty;
+        [JsonProperty("id")]
+        public string UserId { get; set; } = string.Empty;
 
         [JsonProperty("images")]
         public IList<Image> Images { get; } = new List<Image>();

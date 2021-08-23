@@ -20,17 +20,18 @@ namespace Infrastructure.Database
         }
 
         public T Get(TId id) =>
-            _mapper.Map<T>(_collection.FindById(ToLiteDbId(id)) ?? new TEntity());
+            _mapper.Map<T>(_collection.FindById(ToBsonValue(id)) ?? new TEntity());
 
         public void Add(T entity) =>
             _collection.Insert(_mapper.Map<TEntity>(entity));
 
         public bool Remove(TId id) =>
-            _collection.Delete(ToLiteDbId(id));
+            _collection.Delete(ToBsonValue(id));
 
         public void Update(T entity) =>
             _collection.Update(_mapper.Map<TEntity>(entity));
 
-        private static ObjectId ToLiteDbId(TId id) => new(id.ToString());
+        //private static ObjectId ToLiteDbId(TId id) => new(id.ToString());
+        private static BsonValue ToBsonValue(TId id) => new (id);
     }
 }
