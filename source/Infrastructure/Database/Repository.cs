@@ -1,37 +1,35 @@
 ﻿using Application;
 using AutoMapper;
 using Domain.Entities;
+using Infrastructure.Database.Dtos;
 using LiteDB;
 
 namespace Infrastructure.Database
 {
-    public class Repository<T, TEntity, TId> : IRepository<T, TId> where TId : notnull
+    public class Repository<T, TDto> : IRepository<T>
         where T : Entity
-        where TEntity : new()
+        where TDto : EntityDto, new()
     {
         private readonly IMapper _mapper;
 
-        private readonly ILiteCollection<TEntity> _collection;
+        private readonly ILiteCollection<TDto> _collection;
 
         public Repository(IMapper mapper, IDbContext context)
         {
             _mapper = mapper;
-            _collection = context.Database.GetCollection<TEntity>();
+            _collection = context.Database.GetCollection<TDto>();
         }
 
-        public T Get(TId id) =>
-            _mapper.Map<T>(_collection.FindById(ToBsonValue(id)) ?? new TEntity());
+        public void Create(T entity) =>
+            _collection.Insert(_mapper.Map<TDto>(entity));
 
-        public void Add(T entity) =>
-            _collection.Insert(_mapper.Map<TEntity>(entity));
-
-        public bool Remove(TId id) =>
-            _collection.Delete(ToBsonValue(id));
+        public T Get(string id) =>
+            _mapper.Map<T>(_collection.FindOne(c => c.Id == id) ?? new TDto());
 
         public void Update(T entity) =>
-            _collection.Update(_mapper.Map<TEntity>(entity));
+            _collection.Update(_mapper.Map<TDto>(entity));
 
-        //private static ObjectId ToLiteDbId(TId id) => new(id.ToString());
-        private static BsonValue ToBsonValue(TId id) => new (id);
+        public bool Remove(string id) =>
+            _collection.Delete(id);
     }
 }

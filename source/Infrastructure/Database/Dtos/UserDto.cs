@@ -1,7 +1,11 @@
-﻿namespace Infrastructure.Database.Dtos
+﻿using Domain.Entities;
+
+namespace Infrastructure.Database.Dtos
 {
     public class UserDto : EntityDto
     {
+        public UserDto() => Id = UserProfile.DefaultUserId;
+
         public string UserId { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
         public SpotifyProfileDto SpotifyProfile { get; set; } = SpotifyProfileDto.Empty;

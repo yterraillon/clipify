@@ -2,9 +2,12 @@
 
 namespace Domain.Entities
 {
-    public class UserProfile : Entity
+    public class UserProfile : UniqueEntity
     {
-        public string UserId { get; } = string.Empty;
+        public const string DefaultUserId = "default";
+        public UserProfile() : base(DefaultUserId)
+        {
+        }
 
         public string Username { get; private set; } = string.Empty;
 
@@ -24,6 +27,5 @@ namespace Domain.Entities
         public static UserProfile Empty => new();
 
         public bool IsNewUser() => Username == string.Empty;
-
     }
 }

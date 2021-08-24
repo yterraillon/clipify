@@ -29,9 +29,9 @@ namespace Application.SpotifyAuthentication.Requests.Login
             private readonly ISpotifyTokenService _spotifyTokenService;
             private readonly IStateProvider _stateProvider;
             private readonly IEventBus _eventBus;
-            private readonly IRepository<Tokens, Guid> _tokenRepository;
+            private readonly IRepository<Tokens> _tokenRepository;
 
-            public Handler(ISpotifyTokenService spotifyTokenService, IStateProvider stateProvider, IEventBus eventBus, IRepository<Tokens, Guid> tokenRepository)
+            public Handler(ISpotifyTokenService spotifyTokenService, IStateProvider stateProvider, IEventBus eventBus, IRepository<Tokens> tokenRepository)
             {
                 _spotifyTokenService = spotifyTokenService;
                 _stateProvider = stateProvider;
@@ -45,7 +45,7 @@ namespace Application.SpotifyAuthentication.Requests.Login
                 if (!IsStateValid(state)) return Response.Failure();
 
                 var tokens = await _spotifyTokenService.GetAccessTokenAsync(code);
-                _tokenRepository.Add(tokens);
+                _tokenRepository.Create(tokens);
 
                 await _eventBus.Publish(new LoggedInWithSpotify(tokens.AccessToken, tokens.ExpirationDate));
                 return Response.Success();

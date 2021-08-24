@@ -1,6 +1,5 @@
 ﻿using System;
 using Application;
-using Application.Common;
 using Application.User;
 using Domain.Entities;
 using Domain.Entities.Spotify;
@@ -13,11 +12,11 @@ namespace Infrastructure.CurrentUserService
         private UserProfile CurrentUser { get; }
 
         // TODO : shouldn't know about UserProfile AND Tokens. Need to fix something here
-        public CurrentUserService(IRepository<UserProfile, Guid> userRepository, IRepository<Tokens, Guid> tokensRepository)
+        public CurrentUserService(IRepository<UserProfile> userRepository, IRepository<Tokens> tokensRepository)
         {
-            CurrentUser = userRepository.Get(Constants.DefaultId);
+            CurrentUser = userRepository.Get(UserProfile.DefaultUserId);
 
-            var tokens = tokensRepository.Get(Constants.DefaultId);
+            var tokens = tokensRepository.Get(Tokens.DefaultTokensId);
             SpotifyCredentials = new SpotifyCredentials
             {
                 AccessToken = tokens.AccessToken,

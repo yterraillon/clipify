@@ -1,5 +1,4 @@
-﻿using System;
-using Application;
+﻿using Application;
 using Application.User;
 using AutoMapper.Extensions.ExpressionMapping;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +9,6 @@ using Application.SpotifyAuthentication.Requests.GetAuthenticationUri;
 using Application.SpotifyAuthentication.Requests.Login;
 using Application.User.Commands.CreateLocalUserProfile;
 using Domain.Entities;
-using Infrastructure.Spotify.Webapi.UserProfile;
 
 namespace Infrastructure
 {
@@ -18,9 +16,10 @@ namespace Infrastructure
     using Spotify.Authentication;
     using Spotify.Authentication.AuthenticationUriBuilder;
     using Spotify.Authentication.Clients;
+    using Spotify.Webapi.UserProfile;
     using Database;
     using Database.Dtos;
-    using SpotifyDomain = Domain.Entities.Spotify;
+    using SpotifyEntities = Domain.Entities.Spotify;
 
     public static class DependencyInjection
     {
@@ -38,8 +37,8 @@ namespace Infrastructure
             });
 
             services.AddSingleton<IDbContext, DbContext>();
-            services.AddTransient<IRepository<UserProfile, Guid>, Repository<UserProfile, UserDto, Guid>>();
-            services.AddTransient<IRepository<SpotifyDomain.Tokens, Guid>, Repository<SpotifyDomain.Tokens, SpotifyTokensDto, Guid>>();
+            services.AddTransient<IRepository<UserProfile>, Repository<UserProfile, UserDto>>();
+            services.AddTransient<IRepository<SpotifyEntities.Tokens>, Repository<SpotifyEntities.Tokens, SpotifyTokensDto>>();
 
             services.AddTransient<ISpotifyAuthenticationUriBuilder, AuthenticationUriBuilder>();
             services.AddSingleton<IStateProvider, StateProvider>();

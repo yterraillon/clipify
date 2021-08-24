@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Common;
 using Events.Authentication;
 using Events.User;
 using MediatR;
@@ -14,11 +12,11 @@ namespace Application.User.Commands.CreateLocalUserProfile
     {
         public class Handler : INotificationHandler<LoggedInWithSpotify>
         {
-            private readonly IRepository<UserProfile, Guid> _userRepository;
+            private readonly IRepository<UserProfile> _userRepository;
             private readonly ISpotifyUserProfileClient _spotifyUserProfileClient;
             private readonly IEventBus _eventBus;
 
-            public Handler(IRepository<UserProfile, Guid> userRepository, ISpotifyUserProfileClient spotifyUserProfileClient, IEventBus eventBus)
+            public Handler(IRepository<UserProfile> userRepository, ISpotifyUserProfileClient spotifyUserProfileClient, IEventBus eventBus)
             {
                 _userRepository = userRepository;
                 _spotifyUserProfileClient = spotifyUserProfileClient;
@@ -27,7 +25,7 @@ namespace Application.User.Commands.CreateLocalUserProfile
 
             public async Task Handle(LoggedInWithSpotify notification, CancellationToken cancellationToken)
             {
-                var user = _userRepository.Get(Constants.DefaultId);
+                var user = _userRepository.Get(UserProfile.DefaultUserId);
 
                 var spotifyProfile =
                     await _spotifyUserProfileClient.GetUserProfile(notification.AccessToken, cancellationToken);
@@ -35,7 +33,7 @@ namespace Application.User.Commands.CreateLocalUserProfile
                 if (user.IsNewUser())
                 {
                     user.CompleteUserWitSpotifyProfile(spotifyProfile);
-                    _userRepository.Add(user);
+                    _userRepository.Create(user);
                 }
                 else
                 {
