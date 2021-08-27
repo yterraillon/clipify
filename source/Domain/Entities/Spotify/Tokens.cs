@@ -12,7 +12,7 @@ namespace Domain.Entities.Spotify
 
         public string AccessToken { get; private set; } = string.Empty;
         public string RefreshToken { get; private init; } = string.Empty;
-        private DateTime ExpirationDate { get; set; }
+        public DateTime ExpirationDate { get; private set; }
 
         public bool AreExpired() => ExpirationDate >= DateTime.UtcNow;
 
