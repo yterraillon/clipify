@@ -1,4 +1,4 @@
-﻿namespace Application.SpotifyAuthentication.Requests.Login
+﻿namespace Application.SpotifyAuthentication.Commands.Login
 {
     public interface IStateProvider
     {

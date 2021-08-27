@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Application.SpotifyAuthentication.Requests.GetAuthenticationUri;
-using Application.SpotifyAuthentication.Requests.Login;
+using Application.SpotifyAuthentication.Commands.Login;
+using Application.SpotifyAuthentication.Queries.GetAuthenticationUri;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 

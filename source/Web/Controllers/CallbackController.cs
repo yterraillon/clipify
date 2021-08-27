@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Application.SpotifyAuthentication.Requests.Login;
+using Application.SpotifyAuthentication.Commands.Login;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

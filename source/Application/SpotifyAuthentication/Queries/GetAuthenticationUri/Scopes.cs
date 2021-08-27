@@ -1,4 +1,4 @@
-﻿namespace Application.SpotifyAuthentication.Requests.GetAuthenticationUri
+﻿namespace Application.SpotifyAuthentication.Queries.GetAuthenticationUri
 {
     public static class Scopes
     {

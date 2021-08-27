@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Application.SpotifyAuthentication.Requests.Login;
+using Application.SpotifyAuthentication.Commands.Login;
 
 namespace Infrastructure.Spotify.Authentication
 {

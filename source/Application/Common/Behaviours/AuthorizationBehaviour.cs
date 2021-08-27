@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.SpotifyAuthentication.Requests.GetAuthenticationUri;
-using Application.SpotifyAuthentication.Requests.Login;
+using Application.SpotifyAuthentication.Commands.Login;
+using Application.SpotifyAuthentication.Queries.GetAuthenticationUri;
 using Application.User;
 using MediatR;
 
@@ -17,10 +17,8 @@ namespace Application.Common.Behaviours
 
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            if (!IsAuthorizationRequired(request))
-                return next();
-
-            if (!_currentUserService.IsUserLoggedIn())
+            if(IsAuthorizationRequired(request) && !_currentUserService.IsUserLoggedIn())
+                // TODO : renvoie sur la page de login
                 throw new UnauthorizedAccessException();
 
             return next();
@@ -29,7 +27,6 @@ namespace Application.Common.Behaviours
         private static bool IsAuthorizationRequired(TRequest request)
             => request switch
             {
-                //CreateLocalUser.Command => false,
                 GetAuthenticationUri.Request => false,
                 Login.Request => false,
                 _ => true

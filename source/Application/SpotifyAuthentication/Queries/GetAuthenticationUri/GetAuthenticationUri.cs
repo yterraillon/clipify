@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace Application.SpotifyAuthentication.Requests.GetAuthenticationUri
+namespace Application.SpotifyAuthentication.Queries.GetAuthenticationUri
 {
     public static class GetAuthenticationUri
     {

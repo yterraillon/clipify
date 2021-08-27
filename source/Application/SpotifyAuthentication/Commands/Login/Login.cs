@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Domain.Entities.Spotify;
 using Events.Authentication;
 using MediatR;
 
-namespace Application.SpotifyAuthentication.Requests.Login
+namespace Application.SpotifyAuthentication.Commands.Login
 {
     public static class Login
     {
@@ -26,17 +25,17 @@ namespace Application.SpotifyAuthentication.Requests.Login
 
         public class Handler : IRequestHandler<Request, Response>
         {
-            private readonly ISpotifyTokenService _spotifyTokenService;
+            private readonly ISpotifyTokensClient _spotifyTokensClient;
             private readonly IStateProvider _stateProvider;
             private readonly IEventBus _eventBus;
-            private readonly IRepository<Tokens> _tokenRepository;
+            private readonly IRepository<Tokens> _tokensRepository;
 
-            public Handler(ISpotifyTokenService spotifyTokenService, IStateProvider stateProvider, IEventBus eventBus, IRepository<Tokens> tokenRepository)
+            public Handler(ISpotifyTokensClient spotifyTokensClient, IStateProvider stateProvider, IEventBus eventBus, IRepository<Tokens> tokensRepository)
             {
-                _spotifyTokenService = spotifyTokenService;
+                _spotifyTokensClient = spotifyTokensClient;
                 _stateProvider = stateProvider;
                 _eventBus = eventBus;
-                _tokenRepository = tokenRepository;
+                _tokensRepository = tokensRepository;
             }
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
@@ -44,8 +43,9 @@ namespace Application.SpotifyAuthentication.Requests.Login
                 var (code, state) = request;
                 if (!IsStateValid(state)) return Response.Failure();
 
-                var tokens = await _spotifyTokenService.GetAccessTokenAsync(code);
-                _tokenRepository.Create(tokens);
+                (string accessToken, string refreshToken, var expiresIn) = await _spotifyTokensClient.GetAccessTokenAsync(code);
+                var tokens = Tokens.Create(accessToken, refreshToken, expiresIn);
+                _tokensRepository.Create(tokens);
 
                 await _eventBus.Publish(new LoggedInWithSpotify(tokens.AccessToken, tokens.ExpirationDate));
                 return Response.Success();

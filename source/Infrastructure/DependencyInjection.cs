@@ -4,15 +4,17 @@ using AutoMapper.Extensions.ExpressionMapping;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using Application.SpotifyAuthentication.Requests;
-using Application.SpotifyAuthentication.Requests.GetAuthenticationUri;
-using Application.SpotifyAuthentication.Requests.Login;
+using Application.SpotifyAuthentication;
+using Application.SpotifyAuthentication.Commands;
+using Application.SpotifyAuthentication.Commands.Login;
+using Application.SpotifyAuthentication.Queries.GetAuthenticationUri;
 using Application.User.Commands.CreateLocalUserProfile;
 using Domain.Entities;
 
 namespace Infrastructure
 {
     using EventBus;
+    using Services;
     using Spotify.Authentication;
     using Spotify.Authentication.AuthenticationUriBuilder;
     using Spotify.Authentication.Clients;
@@ -28,7 +30,7 @@ namespace Infrastructure
             services.Configure<Spotify.Authentication.Settings>(configuration.GetSection("Spotify:Authentication"));
             services.Configure<Spotify.Webapi.Settings>(configuration.GetSection("Spotify:Webapi"));
 
-            services.AddHttpClient<ISpotifyTokenService, TokenServiceClient>();
+            services.AddHttpClient<ISpotifyTokensClient, TokensClient>();
             services.AddHttpClient<ISpotifyUserProfileClient, UserProfileClient>();
             services.AddAutoMapper(cfg =>
             {
@@ -45,7 +47,8 @@ namespace Infrastructure
             services.AddSingleton<CodeProvider>();
 
             services.AddSingleton<IEventBus, InMemoryEventBus>();
-            services.AddScoped<ICurrentUserService, CurrentUserService.CurrentUserService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddTransient<ITokensService, SpotifyTokensService>();
 
             return services;
         }

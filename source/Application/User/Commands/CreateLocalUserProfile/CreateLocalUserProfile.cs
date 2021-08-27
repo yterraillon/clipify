@@ -32,7 +32,7 @@ namespace Application.User.Commands.CreateLocalUserProfile
 
                 if (user.IsNewUser())
                 {
-                    user.CompleteUserWitSpotifyProfile(spotifyProfile);
+                    user.CreateUserWitSpotifyProfile(spotifyProfile);
                     _userRepository.Create(user);
                 }
                 else

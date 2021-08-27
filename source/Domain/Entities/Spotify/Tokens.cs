@@ -10,11 +10,18 @@ namespace Domain.Entities.Spotify
         {
         }
 
-        public string AccessToken { get; set; } = string.Empty;
+        public string AccessToken { get; private set; } = string.Empty;
+        public string RefreshToken { get; private init; } = string.Empty;
+        private DateTime ExpirationDate { get; set; }
 
-        public DateTime ExpirationDate { get; set; }
+        public bool AreExpired() => ExpirationDate >= DateTime.UtcNow;
 
-        public string RefreshToken { get; set; } = string.Empty;
+        public void RefreshAccessToken(string accessToken, int expiresIn)
+        {
+            AccessToken = accessToken;
+            ExpirationDate = ComputeExpirationDate(expiresIn);
+            Updated = DateTime.UtcNow;
+        }
 
         public static Tokens Empty => new();
 
@@ -22,11 +29,13 @@ namespace Domain.Entities.Spotify
             new()
             {
                 Id = DefaultTokensId,
-                Created = DateTime.Now,
-                Updated = DateTime.Now,
+                Created = DateTime.UtcNow,
+                Updated = DateTime.UtcNow,
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
-                ExpirationDate = DateTime.UtcNow.AddSeconds(expiresIn),
+                ExpirationDate = ComputeExpirationDate(expiresIn),
             };
+
+        private static DateTime ComputeExpirationDate(int expiresIn) => DateTime.UtcNow.AddSeconds(expiresIn);
     }
 }

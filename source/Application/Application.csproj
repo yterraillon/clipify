@@ -18,5 +18,9 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Events\Events.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SpotifyAuthentication\Commands\RefreshAccessToken\" />
+  </ItemGroup>
   
 </Project>

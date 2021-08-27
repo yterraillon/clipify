@@ -1,29 +1,28 @@
-﻿using Application.SpotifyAuthentication.Requests;
-using Domain.Entities.Spotify;
-using Infrastructure.Extensions;
+﻿using Infrastructure.Extensions;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Application.SpotifyAuthentication.Commands;
 
 namespace Infrastructure.Spotify.Authentication.Clients
 {
-    public class TokenServiceClient : ISpotifyTokenService
+    public class TokensClient : ISpotifyTokensClient
     {
         private readonly HttpClient _client;
         private readonly CodeProvider _codeProvider;
 
         private readonly Settings _settings;
 
-        public TokenServiceClient(HttpClient client, IOptions<Settings> settings, CodeProvider codeProvider)
+        public TokensClient(HttpClient client, IOptions<Settings> settings, CodeProvider codeProvider)
         {
             _client = client;
             _codeProvider = codeProvider;
             _settings = settings.Value;
         }
 
-        public async Task<Tokens> GetAccessTokenAsync(string code)
+        public async Task<(string accessToken, string refreshToken, int expiresIn)> GetAccessTokenAsync(string code)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -35,10 +34,10 @@ namespace Infrastructure.Spotify.Authentication.Clients
             };
 
             var tokens = await GetTokenAsync(new Uri(_settings.AccessTokenUrl), parameters);
-            return ToSpotifyTokens(tokens);
+            return (tokens.AccessToken, tokens.RefreshToken, tokens.ExpiresIn);
         }
 
-        public async Task<Tokens> RefreshTokenAsync(string refreshToken)
+        public async Task<(string accessToken, int expiresIn)> RefreshTokenAsync(string refreshToken)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -48,13 +47,10 @@ namespace Infrastructure.Spotify.Authentication.Clients
             };
 
             var tokens = await GetTokenAsync(new Uri(_settings.AccessTokenUrl), parameters);
-            return ToSpotifyTokens(tokens);
+            return (tokens.AccessToken, tokens.ExpiresIn);
         }
 
-        private Task<TokenServiceResponse> GetTokenAsync(Uri requestUri, IDictionary<string, string> parameters)
-            => _client.PostRequestAsync<TokenServiceResponse>(requestUri, HttpMethod.Post, parameters);
-
-        private static Tokens ToSpotifyTokens(TokenServiceResponse tokens) =>
-            Tokens.Create(tokens.AccessToken, tokens.RefreshToken, tokens.ExpiresIn);
+        private Task<TokensClientResponse> GetTokenAsync(Uri requestUri, IDictionary<string, string> parameters)
+            => _client.PostRequestAsync<TokensClientResponse>(requestUri, HttpMethod.Post, parameters);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Spotify.Authentication.Clients
 {
-    public class TokenServiceResponse
+    public class TokensClientResponse
     {
         [JsonProperty("access_token")]
         public string AccessToken { get; set; } = string.Empty;
