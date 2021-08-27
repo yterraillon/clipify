@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="SpotifyAuthentication\Commands\RefreshAccessToken\" />
+    <Folder Include="User\Commands\DeleteSpotifyProfile\" />
   </ItemGroup>
   
 </Project>

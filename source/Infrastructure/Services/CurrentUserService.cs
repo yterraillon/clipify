@@ -15,6 +15,6 @@ namespace Infrastructure.Services
 
         public UserProfile GetCurrentUser() => CurrentUser;
 
-        public bool IsUserLoggedIn() => CurrentUser.Username != string.Empty;
+        public bool IsUserLoggedIn() => !CurrentUser.IsNewUser();
     }
 }
