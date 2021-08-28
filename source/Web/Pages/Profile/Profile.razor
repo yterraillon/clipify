@@ -1,12 +1,17 @@
 ﻿@page "/profile"
+
+@using Web.Shared.DesignSystem.Icons
 @using Application.User
 @using Domain.Entities
 
 @inject ICurrentUserService CurrentUserService
 
-<h1>Profil</h1>
+<h1 class="mb-4">Profil</h1>
 
-<h2>@CurrentUserService.GetCurrentUser().Username</h2>
+<div class="flex flex-row mb-4">
+    <ProfileIcon />
+    <h2>@CurrentUserService.GetCurrentUser().Username</h2>
+</div>
 
 <div class="flex flex-row mt-4 h-32">
     <ServiceCard Class="flex-1 mx-2" Profile="_currentUser.SpotifyServiceProfile"></ServiceCard>
