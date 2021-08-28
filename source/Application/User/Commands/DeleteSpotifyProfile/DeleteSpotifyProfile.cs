@@ -1,12 +1,14 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Domain;
 using Domain.Entities;
-using Domain.Entities.Spotify;
 using Events.Authentication;
 using MediatR;
 
 namespace Application.User.Commands.DeleteSpotifyProfile
 {
+    using static Constants;
+    
     public static class DeleteSpotifyProfile
     {
         public class Handler : INotificationHandler<SpotifySignedOut>
@@ -18,7 +20,7 @@ namespace Application.User.Commands.DeleteSpotifyProfile
             public Task Handle(SpotifySignedOut notification, CancellationToken cancellationToken)
             {
                 var userProfile = _userProfileRepository.Get(UserProfile.DefaultUserId);
-                userProfile.UpdateSpotifyProfile(Profile.Empty);
+                userProfile.UpdateSpotifyProfile(ServiceProfile.Empty(Services.Spotify));
                 _userProfileRepository.Update(userProfile);
 
                 return Task.CompletedTask;

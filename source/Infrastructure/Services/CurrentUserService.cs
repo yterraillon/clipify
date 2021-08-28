@@ -16,5 +16,6 @@ namespace Infrastructure.Services
         public UserProfile GetCurrentUser() => CurrentUser;
 
         public bool IsUserLoggedIn() => !CurrentUser.IsNewUser();
+        public bool IsUserLoggedInWithSpotify() => CurrentUser.SpotifyServiceProfile.IsLoggedIn();
     }
 }

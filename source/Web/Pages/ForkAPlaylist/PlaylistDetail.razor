@@ -1,8 +1,8 @@
 ﻿@page "/fork/{PlaylistId}/detail"
 
 @using MediatR
-@using Web.DesignSystem.Icons;
-@using Web.DesignSystem;
+@using Web.Shared.DesignSystem.Icons;
+@using Web.Shared.DesignSystem;
 
 @using Clipify.Application.Playlists.Models
 @using Clipify.Application.Playlists.Requests.GetPlaylistWithTracks
@@ -54,7 +54,7 @@
             </div>
             <div>
                 <MainButton OnClickAction="NavigateToNewForkMenu">
-                    <ForkIcon/>
+                    <CloneIcon/>
                     <span class="ml-2">Forker la playlist</span>
                 </MainButton>
             </div>

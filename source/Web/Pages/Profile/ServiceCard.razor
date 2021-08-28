@@ -1,0 +1,27 @@
+﻿@using Web.Shared.DesignSystem.Icons
+@using Domain
+
+
+<div class="@Class rounded-lg bg-palespringbud hover:bg-white">
+    <div class="flex flex-row">
+        <div class="flex items-center justify-center h-full">
+            <p>@Profile.ServiceName</p>
+            <p>@Profile.UserName</p>
+        </div>
+        <div class="">
+            <LogOutIcon/>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    [Parameter]
+    public ServiceProfile Profile { get; set; } = ServiceProfile.Empty(string.Empty);
+
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+    [Parameter]
+    public Action LogoutAction { get; set; } = () => { };
+}

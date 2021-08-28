@@ -9,6 +9,7 @@
                 yinblue: '#2F4B98',
                 defaultgrey: '#9CA3AF',
                 lightgrey: '#D1D5DB',
+                spotifygreen: '#1DB954',
             }
         },
         inset: {

@@ -7,5 +7,6 @@ namespace Application.User
         UserProfile GetCurrentUser();
 
         bool IsUserLoggedIn();
+        bool IsUserLoggedInWithSpotify();
     }
 }

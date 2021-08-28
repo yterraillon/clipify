@@ -3,16 +3,17 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.User.Commands.CreateLocalUserProfile;
-using Domain.Entities.Spotify;
+using Domain;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Spotify.Webapi.UserProfile
 {
+    using static Constants;
+
     public class UserProfileClient : ISpotifyUserProfileClient
     {
         private readonly HttpClient _client;
-
         private readonly Settings _settings;
 
         public UserProfileClient(HttpClient client, IOptions<Settings> webapiSettings)
@@ -21,7 +22,7 @@ namespace Infrastructure.Spotify.Webapi.UserProfile
             _settings = webapiSettings.Value;
         }
 
-        public async Task<Profile> GetUserProfile(string token, CancellationToken cancellationToken)
+        public async Task<ServiceProfile> GetUserProfile(string token, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,15 +32,16 @@ namespace Infrastructure.Spotify.Webapi.UserProfile
                         HttpMethod.Get,
                         cancellationToken: cancellationToken);
 
-                return new Profile
+                return new ServiceProfile
                 {
+                    ServiceName = Services.Spotify,
                     UserName = response.DisplayName,
                     Id = response.UserId
                 };
             }
             catch (Exception)
             {
-                return Profile.Empty;
+                return ServiceProfile.Empty(Services.Spotify);
             }
         }
     }

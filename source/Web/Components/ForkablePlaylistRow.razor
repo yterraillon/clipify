@@ -1,5 +1,5 @@
 ﻿@using Clipify.Application.Playlists.Requests.GetForkablePlaylists.Models
-@using Web.DesignSystem.Icons;
+@using Web.Shared.DesignSystem.Icons;
 
 @inject NavigationManager UriHelper
 
@@ -9,7 +9,7 @@
     </div>
     <div class="flex-grow p-4" @onclick="NavigateToPlaylistDetail">@Playlist.Name</div>
     <div class="flex-none w-16 p-4 bg-emerald rounded-r-lg hover:bg-mediumseagreen" @onclick="NavigateToForkCreation">
-        <ForkIcon />
+        <CloneIcon />
     </div>
 </div>
 

@@ -2,25 +2,27 @@
 
 namespace Domain.Entities
 {
+    using static Constants;
+
     public class UserProfile : UniqueEntity
     {
         public const string DefaultUserId = "default";
         public UserProfile() : base(DefaultUserId) { }
 
         public string Username { get; private set; } = string.Empty;
-        public Spotify.Profile SpotifyProfile { get; private set; } = Spotify.Profile.Empty;
+        public ServiceProfile SpotifyServiceProfile { get; private set; } = ServiceProfile.Empty(Services.Spotify);
 
-        public void CreateUserWitSpotifyProfile(Spotify.Profile profile)
+        public void CreateUserWitSpotifyProfile(ServiceProfile serviceProfile)
         {
-            Username = profile.UserName;
+            Username = serviceProfile.UserName;
             Created = DateTime.UtcNow;
             Updated = DateTime.UtcNow;
-            SpotifyProfile = profile;
+            SpotifyServiceProfile = serviceProfile;
         }
 
-        public void UpdateSpotifyProfile(Spotify.Profile profile)
+        public void UpdateSpotifyProfile(ServiceProfile serviceProfile)
         {
-            SpotifyProfile = profile;
+            SpotifyServiceProfile = serviceProfile;
             Updated = DateTime.UtcNow;
         }
 

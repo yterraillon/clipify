@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Infrastructure.Database.Dtos;
-using LiteDB;
 
 namespace Infrastructure.Database.MappingProfiles
 {
@@ -19,9 +18,11 @@ namespace Infrastructure.Database.MappingProfiles
 
             CreateMap<UserDto, UserProfile>()
                 .IncludeBase<EntityDto, Entity>()
+                .ForMember(dest => dest.SpotifyServiceProfile,
+                   opt => opt.MapFrom(src => src.SpotifyServiceProfile))
                 .ReverseMap();
 
-            CreateMap<SpotifyProfileDto, Domain.Entities.Spotify.Profile>()
+            CreateMap<ProfileDto, Domain.ServiceProfile>()
                 .ReverseMap();
 
             CreateMap<SpotifyTokensDto, Domain.Entities.Spotify.Tokens>()

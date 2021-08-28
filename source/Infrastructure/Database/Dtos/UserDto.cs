@@ -8,16 +8,17 @@ namespace Infrastructure.Database.Dtos
 
         public string UserId { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
-        public SpotifyProfileDto SpotifyProfile { get; set; } = SpotifyProfileDto.Empty;
+        public ProfileDto SpotifyServiceProfile { get; set; } = ProfileDto.Empty;
 
         public static UserDto Empty => new();
     }
 
-    public class SpotifyProfileDto
+    public class ProfileDto
     {
+        public string ServiceName { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
         public string Id { get; set; } = string.Empty;
 
-        public static SpotifyProfileDto Empty => new();
+        public static ProfileDto Empty => new();
     }
 }

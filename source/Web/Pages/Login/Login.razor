@@ -1,0 +1,45 @@
+﻿@page "/login"
+@using Application.SpotifyAuthentication.Queries.GetAuthenticationUri
+@using System.Threading
+@using MediatR
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject IMediator Mediator
+
+<h1 class="mb-4">Connecter un service</h1>
+
+<p>Choisissez un service auquel vous connecter :</p>
+
+<div class="flex flex-row mt-4 h-32">
+    <div class="flex-1 rounded-lg bg-spotifygreen hover:bg-white mx-2 " @onclick="@LoginWithSpotify">
+        <div class="flex items-center justify-center h-full">
+            Spotify
+        </div>
+    </div>
+    <div class="flex-1 rounded-lg bg-defaultgrey hover:bg-lightgrey mx-2 ">
+        <div class="flex items-center justify-center h-full">
+            Apple Music - Coming soon
+        
+        </div>
+    </div>
+    <div class="flex-1 rounded-lg bg-defaultgrey hover:bg-lightgrey mx-2 ">
+        <div class="flex items-center justify-center h-full">
+            Deezer - Coming soon
+        </div>
+    </div>
+</div>
+@code {
+    private async Task LoginWithSpotify()
+    {
+        var response = await Mediator.Send(new GetAuthenticationUri.Request());
+
+        if (string.IsNullOrEmpty(response.Uri))
+            NavigationManager.NavigateTo("/");
+        else
+            await JsRuntime.InvokeAsync<string>("open", new CancellationToken(), new object?[]
+            {
+                response.Uri, "_blank"
+                });
+    }
+}
