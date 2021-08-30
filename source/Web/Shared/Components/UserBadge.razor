@@ -10,7 +10,7 @@
 
 @if (CurrentUserService.IsUserLoggedIn())
 {
-    <div class="flex flex-row items-center align-baseline rounded-full text-white bg-yinblue hover:bg-mediumseagreen p-2 mt-2 mr-2 cursor-pointer" @onclick="@NavigateToProfile">
+    <div class="flex flex-row items-center align-baseline rounded-full text-white bg-yinblue hover:bg-mediumseagreen p-2 m-2 cursor-pointer" @onclick="@NavigateToProfile">
         <UserIcon />
         <div class="mx-2">
             @_currentUser.Username
