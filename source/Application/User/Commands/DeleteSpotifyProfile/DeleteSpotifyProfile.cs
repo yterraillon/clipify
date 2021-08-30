@@ -7,8 +7,6 @@ using MediatR;
 
 namespace Application.User.Commands.DeleteSpotifyProfile
 {
-    using static Constants;
-    
     public static class DeleteSpotifyProfile
     {
         public class Handler : INotificationHandler<SpotifySignedOut>
@@ -20,7 +18,7 @@ namespace Application.User.Commands.DeleteSpotifyProfile
             public Task Handle(SpotifySignedOut notification, CancellationToken cancellationToken)
             {
                 var userProfile = _userProfileRepository.Get(UserProfile.DefaultUserId);
-                userProfile.UpdateSpotifyProfile(ServiceProfile.Empty(Services.Spotify));
+                userProfile.UpdateSpotifyProfile(ServiceProfile.Empty());
                 _userProfileRepository.Update(userProfile);
 
                 return Task.CompletedTask;

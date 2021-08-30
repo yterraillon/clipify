@@ -47,7 +47,7 @@ namespace Infrastructure
             services.AddSingleton<CodeProvider>();
 
             services.AddSingleton<IEventBus, InMemoryEventBus>();
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddTransient<ICurrentUserService, CurrentUserService>();
             services.AddTransient<ITokensService, SpotifyTokensService>();
 
             return services;

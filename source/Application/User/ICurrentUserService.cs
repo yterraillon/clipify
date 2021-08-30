@@ -8,5 +8,7 @@ namespace Application.User
 
         bool IsUserLoggedIn();
         bool IsUserLoggedInWithSpotify();
+
+        bool HasNoServiceConnected();
     }
 }

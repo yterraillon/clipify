@@ -2,15 +2,13 @@
 
 namespace Domain.Entities
 {
-    using static Constants;
-
     public class UserProfile : UniqueEntity
     {
         public const string DefaultUserId = "default";
         public UserProfile() : base(DefaultUserId) { }
 
         public string Username { get; private set; } = string.Empty;
-        public ServiceProfile SpotifyServiceProfile { get; private set; } = ServiceProfile.Empty(Services.Spotify);
+        public ServiceProfile SpotifyServiceProfile { get; private set; } = ServiceProfile.Empty();
 
         public void CreateUserWitSpotifyProfile(ServiceProfile serviceProfile)
         {

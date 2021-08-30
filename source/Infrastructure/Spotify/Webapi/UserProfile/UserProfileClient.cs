@@ -9,8 +9,6 @@ using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Spotify.Webapi.UserProfile
 {
-    using static Constants;
-
     public class UserProfileClient : ISpotifyUserProfileClient
     {
         private readonly HttpClient _client;
@@ -34,14 +32,13 @@ namespace Infrastructure.Spotify.Webapi.UserProfile
 
                 return new ServiceProfile
                 {
-                    ServiceName = Services.Spotify,
                     UserName = response.DisplayName,
                     Id = response.UserId
                 };
             }
             catch (Exception)
             {
-                return ServiceProfile.Empty(Services.Spotify);
+                return ServiceProfile.Empty();
             }
         }
     }

@@ -1,0 +1,20 @@
+﻿@using Web.Shared.DesignSystem.Icons
+@using Web.Shared.DesignSystem
+
+@inject NavigationManager NavigationManager
+
+<div class="flex flex-row justify-center mt-4">
+    <SoundCableIcon/>
+    <div class="ml-2">
+        <h2 class="mb-2"><b>Oh Non!</b></h2>
+        <p class="mb-2">Aucun service n'est actuellement connecté</p>
+        <MainButton OnClickAction="NavigateToLoginPage" Class="h-16 w-full text-xl ">
+            Connecter un service
+        </MainButton>
+    </div>
+</div>
+
+@code {
+    private void NavigateToLoginPage() =>
+        NavigationManager.NavigateTo("/login");
+}
