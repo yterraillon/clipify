@@ -1,0 +1,18 @@
+﻿@using Web.Shared.DesignSystem.Logo
+
+@inject NavigationManager NavigationManager
+
+<div class="flex flex-row items-center justify-center cursor-pointer" @onclick="@NavigateToRoot">
+    <div>
+        <Logo />
+    </div>
+    <div>
+        <h3 class="font-mono text-black text-lg">Clipify</h3>
+    </div>
+</div>
+
+
+@code {
+    private void NavigateToRoot() =>
+        NavigationManager.NavigateTo("/");
+}
