@@ -1,0 +1,14 @@
+﻿<Button OnClickAction="OnClickAction" Class="@($"{Class} bg-emerald hover:bg-mediumseagreen text-white p-2 m-2")">@ChildContent</Button>
+
+@code {
+#nullable enable
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public Action OnClickAction { get; set; } = () => { };
+
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+}

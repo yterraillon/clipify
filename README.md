@@ -32,6 +32,8 @@ Copy and backup your Spotify playlists
 ## Architecture
 
 Hexagonal Architecture based on [ASP.NET Core Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture).
+<br>
+Spotify Authentication set up with [Authorization Code Flow with Proof Key for Code Exchange (PKCE)](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
 
 <br>
 

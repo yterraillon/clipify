@@ -1,0 +1,51 @@
+﻿@page "/fork/playlist-picker"
+
+@using Web.Components;
+@using Web.Components.SearchField;
+
+@using MediatR
+@using Clipify.Application.Playlists.Requests.GetForkablePlaylists
+@using Clipify.Application.Playlists.Requests.GetForkablePlaylists.Models
+
+@inject IMediator Mediator
+
+<h1>Mes Playlists</h1>
+
+<section class="mt-2">
+    <!--Filtrer les playlists-->
+    <SearchField Placeholder="Rechercher une playlist" @bind-Input="@SearchTerm" InputCleared="() => SearchTerm = string.Empty"></SearchField>
+</section>
+
+<section class="mt-2">
+    <!--Display playlists-->
+    <div class="flex flex-col p-4">
+        
+        @if (_playlists == null || !_playlists.Any() || !FilteredPlaylists.Any())
+        {
+            <div>
+                Aucune playlist!
+            </div>
+        }
+        else
+        {
+            @foreach (var playlist in @FilteredPlaylists)
+            {
+                <ForkablePlaylistRow Playlist="@playlist"></ForkablePlaylistRow>
+            }
+        }
+    </div>
+</section>
+
+@code {
+    private IReadOnlyCollection<ForkablePlaylistViewModel> _playlists = new List<ForkablePlaylistViewModel>().AsReadOnly();
+    public string SearchTerm { get; set; } = string.Empty;
+
+    private IEnumerable<ForkablePlaylistViewModel> FilteredPlaylists =>
+        _playlists.Where(c => c.Name.ToLower().Contains(SearchTerm.ToLower()));
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Mediator.Send(new GetForkablePlaylists.Request());
+        _playlists = response.ForkablePlaylists;
+    }
+}

@@ -1,0 +1,47 @@
+﻿@using MediatR
+@using Application.User
+@using Domain.Entities
+@using Web.Shared.DesignSystem.Icons
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject IMediator Mediator
+@inject ICurrentUserService CurrentUserService
+
+@if (CurrentUserService.IsUserLoggedIn())
+{
+    <div class="flex flex-row items-center align-baseline rounded-full text-white bg-yinblue hover:bg-mediumseagreen p-2 m-2 cursor-pointer" @onclick="@NavigateToProfile">
+        <UserIcon />
+        <div class="mx-2">
+            @_currentUser.Username
+        </div>
+        
+    </div>
+}
+else
+{
+    <div class="flex flex-row items-center align-baseline rounded-full text-white bg-yinblue hover:bg-mediumseagreen p-2 mt-2 mr-2 cursor-pointer" @onclick="@NavigateToLogin">
+        <LoginIcon/>
+        <div class="mx-2">
+            Login
+        </div>
+    </div>
+}
+
+@code {
+    private UserProfile _currentUser = UserProfile.Empty;
+
+    protected override Task OnInitializedAsync()
+    {
+        _currentUser = CurrentUserService.GetCurrentUser();
+
+        return base.OnInitializedAsync();
+    }
+
+    private void NavigateToLogin() =>
+        NavigationManager.NavigateTo("/login");
+
+    private void NavigateToProfile() =>
+        NavigationManager.NavigateTo("/profile");
+
+}

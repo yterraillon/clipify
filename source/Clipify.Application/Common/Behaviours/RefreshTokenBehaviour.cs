@@ -30,7 +30,7 @@ namespace Clipify.Application.Common.Behaviours
         {
             if (!_currentUserService.IsUserLoggedIn())
                 return;
-            
+
             if (!IsVerificationRequired(request))
                 return;
 

@@ -1,0 +1,95 @@
+﻿@page "/fork/{PlaylistId}/detail"
+
+@using MediatR
+@using Web.Shared.DesignSystem.Icons;
+@using Web.Shared.DesignSystem;
+
+@using Clipify.Application.Playlists.Models
+@using Clipify.Application.Playlists.Requests.GetPlaylistWithTracks
+
+@inject NavigationManager UriHelper
+@inject IMediator Mediator
+
+<section>
+    <div class="flex flex-row items-center rounded-lg hover:bg-gray-400" @onclick="@NavigateToPlaylistPicker">
+        <div>
+            <LeftArrowIcon></LeftArrowIcon>
+        </div>
+        <div class="ml-2">Revenir à mes Playlists</div>
+    </div>
+</section>
+
+<section class="mt-2">
+    @if (_playlist is null || _playlist.Id.Equals(string.Empty))
+    {
+        <p>Playlist non trouvée</p>
+    }
+    else
+    {
+        <div class="flex flex-row items-center h-40">
+            <div class="h-40">
+                <img src="@PlaylistCoverUrl" class="h-full rounded-l-lg" alt="@_playlist.Description" />
+            </div>
+            <div class="ml-4">
+                <h1>@_playlist.Name</h1>
+                <p>@_playlist.Tracks.Count() titres</p>
+            </div>
+        </div>
+    }
+</section>
+<section>
+    @if (_playlist is null || !_playlist.Tracks.Any())
+    {
+        <p>Aucune piste pour cette playlist</p>
+    }
+    else
+    {
+        <div class="flex flex-row h-full">
+            <div>
+                @foreach (var track in _playlist.Tracks)
+                {
+                <div>@track.Name - @Artists(track) - @track.Album.Name</div>
+                }
+            </div>
+            <div>
+                <MainButton OnClickAction="NavigateToNewForkMenu">
+                    <CloneIcon/>
+                    <span class="ml-2">Forker la playlist</span>
+                </MainButton>
+            </div>
+        </div>
+    }
+    
+</section>
+
+@code {
+    [Parameter]
+    public string PlaylistId { get; set; } = string.Empty;
+
+    private PlaylistViewModel _playlist = PlaylistViewModel.Empty;
+
+    private string Artists(TrackViewModel track)
+    {
+        var artists = track.Artists;
+        var artistsNames = artists.Select(a => a.Name);
+
+        var joined = string.Join(',', artistsNames);
+        return joined;
+    }
+
+
+    // TODO : find a default picture
+    private string PlaylistCoverUrl => _playlist?.Images.FirstOrDefault()?.Url ?? "about:blank";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var playlistViewModel = await Mediator.Send(new GetPlaylistWithTracks.Request(PlaylistId));
+        _playlist = playlistViewModel;
+    }
+
+    private void NavigateToPlaylistPicker() =>
+        UriHelper.NavigateTo("/fork/playlist-picker");
+
+    private void NavigateToNewForkMenu() =>
+        UriHelper.NavigateTo($"/fork/{PlaylistId}");
+}

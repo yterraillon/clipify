@@ -1,0 +1,20 @@
+﻿@inject NavigationManager NavigationManager
+
+<div class="h-16 p-4 rounded-md mx-2 text-lg cursor-pointer hover:bg-white hover:text-black" @onclick="@NavigateTo">
+    <div class="flex flex-row items-center ">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+#nullable enable
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string Href { get; set; } = "/";
+
+    private void NavigateTo() =>
+        NavigationManager.NavigateTo(Href);
+
+}

@@ -30,7 +30,7 @@ namespace Clipify.Infrastructure.Extensions
                 NullValueHandling = NullValueHandling.Ignore
             }) ?? throw new JsonSerializationException("Failed to deserialize response content.");
         }
-        
+
         public static async Task<TResponse> PostRequestAsJsonAsync<TRequest, TResponse>(this HttpClient client, string requestUri, TRequest request, CancellationToken cancellationToken = new())
         {
             var response = await client
@@ -69,7 +69,6 @@ namespace Clipify.Infrastructure.Extensions
         public static HttpClient ConfigureAuthorization(this HttpClient client, string token)
         {
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
-
             return client;
         }
     }

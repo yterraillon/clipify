@@ -1,0 +1,56 @@
+﻿@inherits LayoutComponentBase
+
+@using Web.Shared.Components;
+@using Web.Shared.DesignSystem;
+@using Web.Shared.DesignSystem.Icons;
+
+<div class="flex flex-row h-screen">
+    <div class="flex-none w-1/6 bg-gradient-to-b from-palespringbud to-emerald">
+        
+        <Clipify/>
+        
+        <div class="flex flex-col justify-center mt-4">
+            <LayoutMenu Href="/">
+                <PlaylistsIcon />
+                <div class="ml-2">
+                    Playlists
+                </div>
+            </LayoutMenu>
+
+            <LayoutMenu Href="/">
+                <ClonesIcon />
+                <div class="ml-2">
+                    Clones
+                </div>
+            </LayoutMenu>
+
+            <LayoutMenu Href="/">
+                <ActivityIcon />
+                <div class="ml-2">
+                    Activité
+                </div>
+            </LayoutMenu>
+
+            <LayoutMenu Href="/">
+                <SettingsIcon />
+                <div class="ml-2">
+                    Réglages
+                </div>
+            </LayoutMenu>
+        </div>
+        
+    </div>
+    <div class="flex-grow bg-gray-200">
+        <div class="flex justify-between">
+            <div class="mt-2 ml-4 cursor-pointer">
+                <LeftArrowIcon />
+            </div>
+            
+            <UserBadge/>
+        </div>
+        
+        <div class="my-3 bg-gray-200 p-4">
+            @Body
+        </div>
+    </div>
+</div>

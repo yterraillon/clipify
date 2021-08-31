@@ -6,7 +6,7 @@ namespace Clipify.Domain.Entities
     public class Playlist : Entity
     {
         public static readonly Playlist Empty = new();
-        
+
         public string PlaylistId { get; private init; } = string.Empty;
 
         public string SnapshotId { get; private set; } = string.Empty;
@@ -18,7 +18,7 @@ namespace Clipify.Domain.Entities
         public DateTime LastModifiedDate { get; private set; }
 
         public IList<string> TrackIds { get; } = new List<string>();
-        
+
         public static Playlist Create(string playlistId, string snapshotId, string userId, string title) => new Playlist
         {
             PlaylistId = playlistId,
