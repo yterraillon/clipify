@@ -37,6 +37,7 @@ namespace Infrastructure.Spotify.Authentication.Clients
             return (tokens.AccessToken, tokens.RefreshToken, tokens.ExpiresIn);
         }
 
+        // TODO : vérifier que le refresh fonctionne correctement
         public async Task<(string accessToken, int expiresIn)> RefreshTokenAsync(string refreshToken)
         {
             var parameters = new Dictionary<string, string>

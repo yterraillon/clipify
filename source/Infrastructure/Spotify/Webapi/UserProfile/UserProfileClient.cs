@@ -25,7 +25,7 @@ namespace Infrastructure.Spotify.Webapi.UserProfile
             try
             {
                 var response = await _client.ConfigureAuthorization(token)
-                    .PostRequestAsync<UserProfileResponse>(
+                    .PostRequestAsync<PrivateUserObject>(
                         new Uri(_settings.BaseUrl + _settings.ProfileEndpoint),
                         HttpMethod.Get,
                         cancellationToken: cancellationToken);

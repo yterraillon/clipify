@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain;
 using Infrastructure.Database.Dtos;
 
 namespace Infrastructure.Database.MappingProfiles
@@ -14,7 +15,6 @@ namespace Infrastructure.Database.MappingProfiles
                     opt => opt.MapFrom(src => src.Id.ToString()));
 
             CreateMap<Entity, EntityDto>();
-                //.ForMember(dest => dest.Id, opt => opt.MapFrom(src => new ObjectId(src.Id)));
 
             CreateMap<UserDto, UserProfile>()
                 .IncludeBase<EntityDto, Entity>()
@@ -22,10 +22,18 @@ namespace Infrastructure.Database.MappingProfiles
                    opt => opt.MapFrom(src => src.SpotifyServiceProfile))
                 .ReverseMap();
 
-            CreateMap<ProfileDto, Domain.ServiceProfile>()
+            CreateMap<ProfileDto, ServiceProfile>()
                 .ReverseMap();
 
             CreateMap<SpotifyTokensDto, Domain.Entities.Spotify.Tokens>()
+                .IncludeBase<EntityDto, Entity>()
+                .ReverseMap();
+
+            CreateMap<PlaylistDto, Playlist>()
+                .IncludeBase<EntityDto, Entity>()
+                .ReverseMap();
+
+            CreateMap<LastPlaylistCheckDto, LastPlaylistCheck>()
                 .IncludeBase<EntityDto, Entity>()
                 .ReverseMap();
         }

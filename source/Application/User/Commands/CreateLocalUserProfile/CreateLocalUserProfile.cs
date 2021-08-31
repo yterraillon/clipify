@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Interfaces;
 using Events.Authentication;
 using Events.User;
 using MediatR;

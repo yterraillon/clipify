@@ -1,15 +1,18 @@
-﻿using Application;
-using Application.User;
+﻿using Application.User;
 using AutoMapper.Extensions.ExpressionMapping;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Application.Common.Interfaces;
+using Application.Playlists;
 using Application.SpotifyAuthentication;
 using Application.SpotifyAuthentication.Commands;
 using Application.SpotifyAuthentication.Commands.Login;
 using Application.SpotifyAuthentication.Queries.GetAuthenticationUri;
 using Application.User.Commands.CreateLocalUserProfile;
 using Domain.Entities;
+using Infrastructure.Spotify.Webapi.Playlists;
+using Infrastructure.Spotify.Webapi.Playlists.Clients;
 
 namespace Infrastructure
 {
@@ -38,9 +41,15 @@ namespace Infrastructure
                 cfg.AddExpressionMapping();
             });
 
+            services.AddTransient<ISpotifyPlaylistService, PlaylistService>();
+            services.AddHttpClient<ISpotifyPlaylistClient, PlaylistClient>();
+
             services.AddSingleton<IDbContext, DbContext>();
             services.AddTransient<IRepository<UserProfile>, Repository<UserProfile, UserDto>>();
             services.AddTransient<IRepository<SpotifyEntities.Tokens>, Repository<SpotifyEntities.Tokens, SpotifyTokensDto>>();
+            services.AddTransient<IRepository<Playlist>, Repository<Playlist, PlaylistDto>>();
+            services.AddTransient<IRepository<LastPlaylistCheck>, Repository<LastPlaylistCheck, LastPlaylistCheckDto>>();
+            services.AddTransient<IDataReader<Playlist>, DataReader<Playlist>>();
 
             services.AddTransient<ISpotifyAuthenticationUriBuilder, AuthenticationUriBuilder>();
             services.AddSingleton<IStateProvider, StateProvider>();

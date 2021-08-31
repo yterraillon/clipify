@@ -36,13 +36,13 @@ namespace Clipify.Application.Common.Behaviours
 
             var user = _currentUserService.GetCurrentUser();
 
-            if (user.TokenExpirationDate <= DateTime.UtcNow)
+            if (user.TokenExpirationDate <= DateTime.Now)
             {
                 var response = await _authService.RefreshTokenAsync(user.RefreshToken);
 
                 user.AccessToken = response.AccessToken;
                 user.RefreshToken = response.RefreshToken;
-                user.TokenExpirationDate = DateTime.UtcNow.AddSeconds(response.ExpiresIn);
+                user.TokenExpirationDate = DateTime.Now.AddSeconds(response.ExpiresIn);
 
                 _userRepository.Update(user);
             }

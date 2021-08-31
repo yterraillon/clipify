@@ -1,0 +1,22 @@
+﻿@page "/playlists"
+
+@using MediatR
+@using Web.Shared.DesignSystem;
+@using Web.Shared.DesignSystem.Icons;
+@using Application.Playlists.Commands.UpdateLocalPlaylists
+
+@inject IMediator Mediator
+
+<h3>Playlists</h3>
+
+<MainButton OnClickAction="RefreshPlaylists">
+    <span>Obtenir les playlists</span>
+</MainButton>
+
+@code {
+
+    private void RefreshPlaylists()
+    {
+        var result = Mediator.Send(new UpdateLocalPlaylists.Request());
+    }
+}

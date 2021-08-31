@@ -13,15 +13,15 @@ namespace Domain.Entities
         public void CreateUserWitSpotifyProfile(ServiceProfile serviceProfile)
         {
             Username = serviceProfile.UserName;
-            Created = DateTime.UtcNow;
-            Updated = DateTime.UtcNow;
+            Created = DateTime.Now;
+            Updated = DateTime.Now;
             SpotifyServiceProfile = serviceProfile;
         }
 
         public void UpdateSpotifyProfile(ServiceProfile serviceProfile)
         {
             SpotifyServiceProfile = serviceProfile;
-            Updated = DateTime.UtcNow;
+            Updated = DateTime.Now;
         }
 
         public bool IsNewUser() => Username == string.Empty;
