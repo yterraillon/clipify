@@ -22,10 +22,11 @@ namespace Infrastructure.Spotify.Webapi.UserProfile
 
         public async Task<ServiceProfile> GetUserProfile(string token, CancellationToken cancellationToken)
         {
+            _client.ConfigureAuthorizationHeader(token);
+
             try
             {
-                var response = await _client.ConfigureAuthorization(token)
-                    .PostRequestAsync<PrivateUserObject>(
+                var response = await _client.PostRequestAsync<PrivateUserObject>(
                         new Uri(_settings.BaseUrl + _settings.ProfileEndpoint),
                         HttpMethod.Get,
                         cancellationToken: cancellationToken);

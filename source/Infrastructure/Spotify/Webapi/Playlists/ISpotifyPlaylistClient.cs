@@ -7,6 +7,6 @@ namespace Infrastructure.Spotify.Webapi.Playlists
 {
     public interface ISpotifyPlaylistClient
     {
-        Task<PagingObject<SimplifiedPlaylistObject>> GetAListOfCurrentUsersPlaylist(string accessToken, CancellationToken cancellationToken);
+        Task<PagingObject<SimplifiedPlaylistObject>> GetAPaginatedListOfCurrentUsersPlaylist(string accessToken, CancellationToken cancellationToken, int limit = 0, int offset = 0);
     }
 }

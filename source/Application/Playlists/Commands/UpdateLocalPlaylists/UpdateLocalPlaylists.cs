@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace Application.Playlists.Commands.UpdateLocalPlaylists
 {
     using static Constants;
 
+    // NOTE : should probably have a SpotifyService, an Apple Music Service etc.. So this one just orchestrates the other ones
     public static class UpdateLocalPlaylists
     {
         public record Request : IRequest<Response>;
@@ -47,7 +49,7 @@ namespace Application.Playlists.Commands.UpdateLocalPlaylists
                 var storedPlaylistIds = storedPlaylists.Select(playlist => playlist.Id).ToList();
 
                 AddNewPlaylistsToLocalDb(allPlaylistInformations, storedPlaylistIds);
-                CleanDeletedPlaylists(allPlaylistInformations, storedPlaylistIds);
+                RemoveDeletedPlaylistsFromLocalDb(allPlaylistInformations, storedPlaylistIds);
                 await CheckLocalPlaylistVersions(allPlaylistInformations, storedPlaylists);
 
                 return Response.Success();
@@ -68,7 +70,7 @@ namespace Application.Playlists.Commands.UpdateLocalPlaylists
                 }
             }
 
-            private void CleanDeletedPlaylists(IEnumerable<PlaylistInformation> spotifyPlaylistInformations,
+            private void RemoveDeletedPlaylistsFromLocalDb(IEnumerable<PlaylistInformation> spotifyPlaylistInformations,
                 IEnumerable<string> localPlaylistIds)
             {
                 var spotifyPlaylistIds = spotifyPlaylistInformations.Select(p => p.Id).ToList();
@@ -93,7 +95,7 @@ namespace Application.Playlists.Commands.UpdateLocalPlaylists
                         continue;
 
                     localPlaylist.UpdateWithLatestVersion(spotifyPlaylistInformation.Name, spotifyPlaylistInformation.Version, spotifyPlaylistInformation.CoverImage);
-                    
+
                     // NOTE : bulk update maybe?
                     _playlistRepository.Update(localPlaylist);
 

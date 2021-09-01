@@ -49,7 +49,7 @@ namespace Infrastructure
             services.AddTransient<IRepository<SpotifyEntities.Tokens>, Repository<SpotifyEntities.Tokens, SpotifyTokensDto>>();
             services.AddTransient<IRepository<Playlist>, Repository<Playlist, PlaylistDto>>();
             services.AddTransient<IRepository<LastPlaylistCheck>, Repository<LastPlaylistCheck, LastPlaylistCheckDto>>();
-            services.AddTransient<IDataReader<Playlist>, DataReader<Playlist>>();
+            services.AddTransient<IDataReader<Playlist>, DataReader<Playlist, PlaylistDto>>();
 
             services.AddTransient<ISpotifyAuthenticationUriBuilder, AuthenticationUriBuilder>();
             services.AddSingleton<IStateProvider, StateProvider>();

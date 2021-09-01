@@ -17,6 +17,9 @@ namespace Infrastructure.Database
 
             Database.GetCollection<SpotifyTokensDto>()
                 .EnsureIndex(x => x.Id, true);
+
+            Database.GetCollection<PlaylistDto>()
+                .EnsureIndex(x => x.Id, true);
         }
     }
 }

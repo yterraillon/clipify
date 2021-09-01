@@ -4,7 +4,7 @@ namespace Domain.Entities
 {
     public class Playlist : Entity
     {
-        public string Service { get; private set; } = string.Empty;
+        public string Service { get; private init; } = string.Empty;
         public string Name { get; private set; } = string.Empty;
         public string LatestKnownVersion { get; private set; } = string.Empty;
         public string CoverImage { get; private set; } = "about:blank"; // TODO : default image

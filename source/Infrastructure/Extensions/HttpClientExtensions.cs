@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,5 +72,10 @@ namespace Infrastructure.Extensions
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             return client;
         }
+
+        public static void ConfigureAuthorizationHeader(this HttpClient client, string authenticationToken) =>
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                "Bearer",
+                authenticationToken);
     }
 }

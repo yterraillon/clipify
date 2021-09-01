@@ -4,17 +4,57 @@
 @using Web.Shared.DesignSystem;
 @using Web.Shared.DesignSystem.Icons;
 @using Application.Playlists.Commands.UpdateLocalPlaylists
+@using Application.Playlists.Queries.GetPlaylists
 
 @inject IMediator Mediator
 
-<h3>Playlists</h3>
+<div class="divide-y divide-mediumaquamarine">
+    <div>
+        <h1>Playlists</h1>
 
-<MainButton OnClickAction="RefreshPlaylists">
-    <span>Obtenir les playlists</span>
-</MainButton>
+        <MainButton OnClickAction="RefreshPlaylists">
+            <span>Mettre à jour les playlists</span>
+        </MainButton>
+    </div>
+    <div class="grid lg:grid-cols-5 md:grid-cols-3 gap-4 pt-4 ">
+        @foreach (var playlist in _playlists)
+        {
+            <div class="flex flex-col bg-white p-4 hover:bg-gray-300">
+                <div class="flex-grow-0 h-2/3">
+                    <img src="@playlist.CoverImage" alt="@playlist.Name"/>
+                </div>
+                <div class="mt-2 truncate ">
+                    @playlist.Name
+                </div>
+                <div>
+                    Dernière MaJ : @playlist.LastUpdate
+                </div>
+                @*TODO : Bouton désactivé si playlist est une fork*@
+                @*TODO Cacher, et displayed seulement au hover - faire un bouton plus petit *@
+                <MainButton OnClickAction="() => { }" Class="w-full mt-2">
+                    <div class="flex flex-row items-center ">
+                        <CloneIcon/> 
+                        <div class="ml-2">
+                            Cloner
+                        </div>
+                    </div>
+                </MainButton>
+            </div>
+        }
+    </div>
+</div>
 
 @code {
 
+    private IEnumerable<GetPlaylists.PlaylistViewModel> _playlists = new List<GetPlaylists.PlaylistViewModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Mediator.Send(new GetPlaylists.Request());
+        _playlists = response.Playlists;
+    }
+
+    // TODO passer en async et refresh la liste une fois que c'est fait 
     private void RefreshPlaylists()
     {
         var result = Mediator.Send(new UpdateLocalPlaylists.Request());

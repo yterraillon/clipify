@@ -32,7 +32,7 @@ namespace Infrastructure.Spotify.Webapi.Models
         /// URL to the next page of items. ( null if none)
         /// </summary>
         [JsonProperty("next")]
-        public string Next { get; set; } = string.Empty;
+        public string? Next { get; set; } = string.Empty;
 
         /// <summary>
         /// The offset of the items returned (as set in the query or by default)

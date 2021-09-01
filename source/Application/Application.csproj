@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Playlists\Queries\GetPlaylists\" />
     <Folder Include="SpotifyAuthentication\Commands\RefreshAccessToken\" />
     <Folder Include="User\Commands\DeleteSpotifyProfile\" />
   </ItemGroup>
