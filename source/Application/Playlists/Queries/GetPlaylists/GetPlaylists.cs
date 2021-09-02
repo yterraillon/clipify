@@ -15,7 +15,13 @@ namespace Application.Playlists.Queries.GetPlaylists
 
         public record Response(IEnumerable<PlaylistViewModel> Playlists);
 
-        public record PlaylistViewModel(string Service, string Name, string CoverImage, DateTime LastUpdate);
+        public record PlaylistViewModel
+        {
+            public string Service { get; set; } = string.Empty;
+            public string Name { get; set; } = string.Empty;
+            public string CoverImage { get; set; } = "about:blank";
+            public DateTime LastUpdate { get; set; }
+        };
 
         public class Handler : IRequestHandler<Request, Response>
         {
@@ -31,7 +37,13 @@ namespace Application.Playlists.Queries.GetPlaylists
             }
 
             private static IEnumerable<PlaylistViewModel> ToViewModels(IEnumerable<Playlist> playlists) =>
-                playlists.Select(p => new PlaylistViewModel(p.Service, p.Name, p.CoverImage, p.LastUpdate));
+                playlists.Select(p => new PlaylistViewModel
+                {
+                    Service = p.Service,
+                    Name = p.Name,
+                    CoverImage = p.CoverImage,
+                    LastUpdate = p.LastUpdate
+                });
         }
     }
 }

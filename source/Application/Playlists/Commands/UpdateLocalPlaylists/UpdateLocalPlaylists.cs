@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,15 +45,23 @@ namespace Application.Playlists.Commands.UpdateLocalPlaylists
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                var allPlaylistInformations = (await _spotifyPlaylistService.GetAllPlaylists(cancellationToken)).ToList();
-                var storedPlaylists = _playlistDataReader.GetAll().ToList();
-                var storedPlaylistIds = storedPlaylists.Select(playlist => playlist.Id).ToList();
+                try
+                {
+                    var allPlaylistInformations = (await _spotifyPlaylistService.GetAllPlaylists(cancellationToken)).ToList();
+                    var storedPlaylists = _playlistDataReader.GetAll().ToList();
+                    var storedPlaylistIds = storedPlaylists.Select(playlist => playlist.Id).ToList();
 
-                AddNewPlaylistsToLocalDb(allPlaylistInformations, storedPlaylistIds);
-                RemoveDeletedPlaylistsFromLocalDb(allPlaylistInformations, storedPlaylistIds);
-                await CheckLocalPlaylistVersions(allPlaylistInformations, storedPlaylists);
+                    AddNewPlaylistsToLocalDb(allPlaylistInformations, storedPlaylistIds);
+                    RemoveDeletedPlaylistsFromLocalDb(allPlaylistInformations, storedPlaylistIds);
+                    await CheckLocalPlaylistVersions(allPlaylistInformations, storedPlaylists);
 
-                return Response.Success();
+                    return Response.Success();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                    return Response.Failure();
+                }
             }
 
             private void AddNewPlaylistsToLocalDb(IEnumerable<PlaylistInformation> spotifyPlaylistInformations, ICollection<string> localPlaylistIds)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,8 +61,6 @@ namespace Infrastructure.Spotify.Webapi.Playlists
             {
                 var items = playlistsPage.Items;
                 playlistInformations.AddRange(ToPlaylistInformations(items));
-
-                var shazam = items.FirstOrDefault(i => i.Name.Contains("Shazam"));
             }
 
             return playlistInformations;
@@ -74,7 +73,7 @@ namespace Infrastructure.Spotify.Webapi.Playlists
             new()
             {
                 Id = simplifiedPlaylist.Id,
-                Name = simplifiedPlaylist.Name,
+                Name = simplifiedPlaylist.Name ?? string.Empty,
                 Version = simplifiedPlaylist.SnapshotId,
                 CoverImage = simplifiedPlaylist.Images.FirstOrDefault()?.Url ?? "about:blank"
             };

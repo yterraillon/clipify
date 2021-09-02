@@ -6,6 +6,7 @@
 @using Application.Playlists.Commands.UpdateLocalPlaylists
 @using Application.Playlists.Queries.GetPlaylists
 
+@inject NavigationManager NavigationManager
 @inject IMediator Mediator
 
 <div class="divide-y divide-mediumaquamarine">
@@ -15,38 +16,58 @@
         <MainButton OnClickAction="RefreshPlaylists">
             <span>Mettre à jour les playlists</span>
         </MainButton>
-    </div>
-    <div class="grid lg:grid-cols-5 md:grid-cols-3 gap-4 pt-4 ">
-        @foreach (var playlist in _playlists)
-        {
-            <div class="flex flex-col bg-white p-4 hover:bg-gray-300">
-                <div class="flex-grow-0 h-2/3">
-                    <img src="@playlist.CoverImage" alt="@playlist.Name"/>
-                </div>
-                <div class="mt-2 truncate ">
-                    @playlist.Name
-                </div>
-                <div>
-                    Dernière MaJ : @playlist.LastUpdate
-                </div>
-                @*TODO : Bouton désactivé si playlist est une fork*@
-                @*TODO Cacher, et displayed seulement au hover - faire un bouton plus petit *@
-                <MainButton OnClickAction="() => { }" Class="w-full mt-2">
-                    <div class="flex flex-row items-center ">
-                        <CloneIcon/> 
-                        <div class="ml-2">
-                            Cloner
-                        </div>
-                    </div>
-                </MainButton>
+
+        <div class="flex flex-row mx-8 h-16 mt-4 bg-gray-300 rounded-md">
+            <input class="flex-grow p-2 bg-gray-300 rounded-md placeholder-gray-700" placeholder="Chercher une playlist" @bind-value="@SearchTerm" @bind-value:event="oninput" />
+            <div class="p-2 hover:bg-gray-500 rounded-md" @onclick="ClearSearch">
+                <CrossIcon />
             </div>
-        }
+        </div>
+
     </div>
+
+    @if (_playlists == null || !_playlists.Any() || !FilteredPlaylists.Any())
+    {
+        <div>Aucune playlist trouvée!</div>
+    }
+    else
+    {
+        <div class="grid lg:grid-cols-5 md:grid-cols-3 gap-4 pt-4 ">
+            @foreach (var playlist in FilteredPlaylists)
+            {
+                <div class="flex flex-col bg-white p-4 hover:bg-gray-300">
+                    <div class="flex-grow-0 h-2/3">
+                        <img src="@playlist.CoverImage" alt="@playlist.Name" />
+                    </div>
+                    <div class="mt-2 truncate ">
+                        @playlist.Name
+                    </div>
+                    <div>
+                        Dernière MàJ : @playlist.LastUpdate
+                    </div>
+                    @*TODO : Bouton désactivé si playlist est un clone*@
+                    @*TODO : Cacher, et displayed seulement au hover - faire un bouton plus petit *@
+                    <MainButton OnClickAction="() => { }" Class="w-full mt-2">
+                        <div class="flex flex-row items-center ">
+                            <CloneIcon />
+                            <div class="ml-2">
+                                Cloner
+                            </div>
+                        </div>
+                    </MainButton>
+                </div>
+            }
+        </div>
+    }
+
 </div>
 
-@code {
-
+@code
+{
     private IEnumerable<GetPlaylists.PlaylistViewModel> _playlists = new List<GetPlaylists.PlaylistViewModel>();
+
+    private IEnumerable<GetPlaylists.PlaylistViewModel> FilteredPlaylists => _playlists.Where(c => c.Name.ToLower().Contains(SearchTerm.ToLower()));
+    private string SearchTerm { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -54,9 +75,15 @@
         _playlists = response.Playlists;
     }
 
-    // TODO passer en async et refresh la liste une fois que c'est fait 
+    // TODO passer en async
     private void RefreshPlaylists()
     {
         var result = Mediator.Send(new UpdateLocalPlaylists.Request());
+        RefreshPage();
     }
+
+    private void ClearSearch() => SearchTerm = string.Empty;
+
+    private void RefreshPage() =>
+        NavigationManager.NavigateTo("/playlists", forceLoad: true);
 }

@@ -28,7 +28,7 @@ namespace Infrastructure.Extensions
             return JsonConvert.DeserializeObject<T>(content, new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Include
             }) ?? throw new JsonSerializationException("Failed to deserialize response content.");
         }
 
@@ -45,7 +45,7 @@ namespace Infrastructure.Extensions
             return JsonConvert.DeserializeObject<TResponse>(content, new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Include
             }) ?? throw new JsonSerializationException("Failed to deserialize response content.");
         }
 
@@ -63,7 +63,7 @@ namespace Infrastructure.Extensions
             return JsonConvert.DeserializeObject<T>(content, new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Include
             }) ?? throw new JsonSerializationException("Failed to deserialize response content.");
         }
 

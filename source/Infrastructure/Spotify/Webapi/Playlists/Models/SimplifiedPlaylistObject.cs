@@ -25,7 +25,7 @@ namespace Infrastructure.Spotify.Webapi.Playlists.Models
         public IEnumerable<ImageObject> Images { get; set; } = Enumerable.Empty<ImageObject>();
 
         [JsonProperty("name")]
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; } = string.Empty;
 
         [JsonProperty("owner")]
         public PublicUserObject Owner { get; set; } = new ();
