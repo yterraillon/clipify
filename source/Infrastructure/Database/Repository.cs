@@ -1,4 +1,4 @@
-﻿using Application;
+﻿using Application.Common.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Database.Dtos;

@@ -27,9 +27,9 @@ namespace Clipify.Domain.Entities
                 Avatar = avatar,
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
-                Created = DateTime.UtcNow,
-                Updated = DateTime.UtcNow,
-                TokenExpirationDate = DateTime.UtcNow.AddSeconds(expiresIn)
+                Created = DateTime.Now,
+                Updated = DateTime.Now,
+                TokenExpirationDate = DateTime.Now.AddSeconds(expiresIn)
             };
     }
 }

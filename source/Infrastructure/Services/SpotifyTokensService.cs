@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Application;
+using Application.Common.Interfaces;
 using Application.SpotifyAuthentication;
 using Application.SpotifyAuthentication.Commands.RefreshAccessToken;
 using Domain.Entities.Spotify;

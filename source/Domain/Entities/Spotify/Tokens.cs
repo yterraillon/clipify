@@ -14,13 +14,13 @@ namespace Domain.Entities.Spotify
         public string RefreshToken { get; private init; } = string.Empty;
         public DateTime ExpirationDate { get; private set; }
 
-        public bool AreExpired() => ExpirationDate >= DateTime.UtcNow;
+        public bool AreExpired() => ExpirationDate <= DateTime.Now;
 
         public void RefreshAccessToken(string accessToken, int expiresIn)
         {
             AccessToken = accessToken;
             ExpirationDate = ComputeExpirationDate(expiresIn);
-            Updated = DateTime.UtcNow;
+            Updated = DateTime.Now;
         }
 
         public static Tokens Empty => new();
@@ -29,13 +29,13 @@ namespace Domain.Entities.Spotify
             new()
             {
                 Id = DefaultTokensId,
-                Created = DateTime.UtcNow,
-                Updated = DateTime.UtcNow,
+                Created = DateTime.Now,
+                Updated = DateTime.Now,
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
                 ExpirationDate = ComputeExpirationDate(expiresIn),
             };
 
-        private static DateTime ComputeExpirationDate(int expiresIn) => DateTime.UtcNow.AddSeconds(expiresIn);
+        private static DateTime ComputeExpirationDate(int expiresIn) => DateTime.Now.AddSeconds(expiresIn);
     }
 }

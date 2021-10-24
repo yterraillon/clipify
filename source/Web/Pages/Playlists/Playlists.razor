@@ -1,0 +1,71 @@
+﻿@page "/playlists"
+
+@using MediatR
+@using Web.Shared.DesignSystem;
+@using Web.Shared.DesignSystem.Icons;
+@using Application.Playlists.Commands.UpdateLocalPlaylists
+@using Application.Playlists.Queries.GetLocalPlaylists
+
+@inject NavigationManager NavigationManager
+@inject IMediator Mediator
+
+<div class="divide-y divide-mediumaquamarine">
+    <div>
+        <h1>Playlists</h1>
+
+        <MainButton OnClickAction="RefreshPlaylists">
+            <span>Mettre à jour les playlists</span>
+        </MainButton>
+        
+        @*TODO : Filtre rapide par service*@
+        <div class="flex flex-row mx-8 h-16 mt-4 bg-gray-300 rounded-md">
+            <input class="flex-grow p-2 bg-gray-300 rounded-md placeholder-gray-700" placeholder="Chercher une playlist" @bind-value="@SearchTerm" @bind-value:event="oninput" />
+            <div class="p-2 hover:bg-gray-500 rounded-md" @onclick="ClearSearch">
+                <CrossIcon />
+            </div>
+        </div>
+
+    </div>
+
+    @if (_playlists == null || !_playlists.Any() || !FilteredPlaylists.Any())
+    {
+        //TODO : Component plus visuel quand pas de playlist
+        <div>Aucune playlist trouvée!</div>
+    }
+    else
+    {
+        //TODO : regrouper les playlists par service
+        <div class="grid lg:grid-cols-5 md:grid-cols-3 gap-4 pt-4 ">
+            @foreach (var playlist in FilteredPlaylists)
+            {
+                <PlaylistCard Playlist="@playlist"/>
+            }
+        </div>
+    }
+</div>
+
+@code
+{
+    private IEnumerable<GetLocalPlaylists.PlaylistViewModel> _playlists = new List<GetLocalPlaylists.PlaylistViewModel>();
+
+    private IEnumerable<GetLocalPlaylists.PlaylistViewModel> FilteredPlaylists => _playlists.Where(c => c.Name.ToLower().Contains(SearchTerm.ToLower()));
+    private string SearchTerm { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Mediator.Send(new GetLocalPlaylists.Request());
+        _playlists = response.Playlists;
+    }
+
+    // TODO passer en async
+    private void RefreshPlaylists()
+    {
+        var result = Mediator.Send(new UpdateLocalPlaylists.Request());
+        RefreshPage();
+    }
+
+    private void ClearSearch() => SearchTerm = string.Empty;
+
+    private void RefreshPage() =>
+        NavigationManager.NavigateTo("/playlists", forceLoad: true);
+}

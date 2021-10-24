@@ -10,6 +10,8 @@ namespace Infrastructure.Database
 
         public DbContext(IConfiguration configuration)
         {
+            ConfigureBsonMapper();
+
             Database = new LiteDatabase(configuration.GetConnectionString("LiteDB"));
 
             Database.GetCollection<UserDto>()
@@ -17,6 +19,14 @@ namespace Infrastructure.Database
 
             Database.GetCollection<SpotifyTokensDto>()
                 .EnsureIndex(x => x.Id, true);
+
+            Database.GetCollection<PlaylistDto>()
+                .EnsureIndex(x => x.Id, true);
+        }
+
+        private static void ConfigureBsonMapper()
+        {
+            BsonMapper.Global.EmptyStringToNull = false;
         }
     }
 }

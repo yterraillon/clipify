@@ -7,6 +7,6 @@
 
         public static ServiceProfile Empty() => new();
 
-        public bool IsLoggedIn() => Id != null && Id != string.Empty;
+        public bool IsLoggedIn() => !string.IsNullOrEmpty(Id);
     }
 }

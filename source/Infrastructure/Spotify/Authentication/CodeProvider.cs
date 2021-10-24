@@ -55,9 +55,9 @@ namespace Infrastructure.Spotify.Authentication
 
                 Challenge = SafeToBase64String(codeChallengeBytes);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                _logger.LogError(e.Message);
+                _logger.LogError(ex.Message, ex);
             }
         }
 

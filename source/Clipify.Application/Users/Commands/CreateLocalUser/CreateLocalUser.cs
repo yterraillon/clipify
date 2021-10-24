@@ -61,7 +61,7 @@ namespace Clipify.Application.Users.Commands.CreateLocalUser
                 {
                     user.AccessToken = request.AccessToken;
                     user.RefreshToken = request.RefreshToken;
-                    user.TokenExpirationDate = DateTime.UtcNow.AddSeconds(request.ExpiresIn);
+                    user.TokenExpirationDate = DateTime.Now.AddSeconds(request.ExpiresIn);
 
                     _userRepository.Update(user);
                 }

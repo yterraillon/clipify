@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Application;
+using Application.Common.Interfaces;
 using MediatR;
 
 namespace Infrastructure.EventBus

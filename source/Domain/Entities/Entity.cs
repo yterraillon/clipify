@@ -10,4 +10,9 @@ namespace Domain.Entities
 
         public DateTime? Updated { get; set; }
     }
+
+    public abstract class UniqueEntity : Entity
+    {
+        protected UniqueEntity(string defaultId) => Id = defaultId;
+    }
 }

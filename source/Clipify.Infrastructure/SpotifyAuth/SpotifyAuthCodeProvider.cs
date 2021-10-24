@@ -2,6 +2,7 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace Clipify.Infrastructure.SpotifyAuth
 {
@@ -20,7 +21,7 @@ namespace Clipify.Infrastructure.SpotifyAuth
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_'
         };
 
-        public SpotifyAuthCodeProvider()
+        public SpotifyAuthCodeProvider(ILogger<SpotifyAuthCodeProvider> logger)
         {
             var code = new char[128];
             var secureBytes = new byte[128];
@@ -43,10 +44,9 @@ namespace Clipify.Infrastructure.SpotifyAuth
 
                 Challenge = SafeToBase64String(codeChallengeBytes);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                // NOTE: Better logging/exception handling?
-                Console.WriteLine(e);
+                logger.LogError(ex.Message, ex);
             }
         }
 

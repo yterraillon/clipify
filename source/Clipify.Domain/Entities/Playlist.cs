@@ -24,11 +24,11 @@ namespace Clipify.Domain.Entities
             PlaylistId = playlistId,
             SnapshotId = snapshotId,
             CreatedBy = userId,
-            Created = DateTime.UtcNow,
+            Created = DateTime.Now,
             UpdatedBy = userId,
-            Updated = DateTime.UtcNow,
-            LastCheckedDate = DateTime.UtcNow,
-            LastModifiedDate = DateTime.UtcNow,
+            Updated = DateTime.Now,
+            LastCheckedDate = DateTime.Now,
+            LastModifiedDate = DateTime.Now,
             Title = title
         };
 
@@ -36,12 +36,12 @@ namespace Clipify.Domain.Entities
         {
             Title = title;
             SnapshotId = snapshotId;
-            LastModifiedDate = DateTime.UtcNow;
+            LastModifiedDate = DateTime.Now;
         }
 
         public void RegisterLastCheck()
         {
-            LastCheckedDate = DateTime.UtcNow;
+            LastCheckedDate = DateTime.Now;
         }
 
         public bool IsOutdated(string snapshotId) => !snapshotId.Equals(SnapshotId);

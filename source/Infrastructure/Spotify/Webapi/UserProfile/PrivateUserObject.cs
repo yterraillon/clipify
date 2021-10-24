@@ -4,7 +4,10 @@ using Newtonsoft.Json;
 
 namespace Infrastructure.Spotify.Webapi.UserProfile
 {
-    public class UserProfileResponse
+    /// <summary>
+    /// https://developer.spotify.com/documentation/web-api/reference/#object-privateuserobject
+    /// </summary>
+    public class PrivateUserObject
     {
         public string Country { get; set; } = string.Empty;
 
@@ -30,7 +33,7 @@ namespace Infrastructure.Spotify.Webapi.UserProfile
 
         public string Uri { get; set; } = string.Empty;
 
-        public static UserProfileResponse Empty => new();
+        public static PrivateUserObject Empty => new();
     }
 
     public class ExternalUrl
