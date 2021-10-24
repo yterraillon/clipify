@@ -1,13 +1,12 @@
 ﻿using Application.Common.Interfaces;
 using System.Collections.Generic;
 using AutoMapper;
-using Domain.Entities;
 using LiteDB;
 
 namespace Infrastructure.Database
 {
-    public class DataReader<TEntity, TDto> : IDataReader<TEntity>
-    where TEntity : Entity
+    public class DataReader<TDto, TOut> : IDataReader<TOut>
+    where TOut : class
     {
         private readonly IMapper _mapper;
 
@@ -19,10 +18,10 @@ namespace Infrastructure.Database
             _collection = context.Database.GetCollection<TDto>();
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public IEnumerable<TOut> GetAll()
         {
             var dtos = _collection.FindAll();
-            return _mapper.Map<IEnumerable<TEntity>>(dtos);
+            return _mapper.Map<IEnumerable<TOut>>(dtos);
         }
     }
 }

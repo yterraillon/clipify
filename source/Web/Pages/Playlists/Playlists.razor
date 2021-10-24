@@ -4,7 +4,7 @@
 @using Web.Shared.DesignSystem;
 @using Web.Shared.DesignSystem.Icons;
 @using Application.Playlists.Commands.UpdateLocalPlaylists
-@using Application.Playlists.Queries.GetPlaylists
+@using Application.Playlists.Queries.GetLocalPlaylists
 
 @inject NavigationManager NavigationManager
 @inject IMediator Mediator
@@ -16,7 +16,8 @@
         <MainButton OnClickAction="RefreshPlaylists">
             <span>Mettre à jour les playlists</span>
         </MainButton>
-
+        
+        @*TODO : Filtre rapide par service*@
         <div class="flex flex-row mx-8 h-16 mt-4 bg-gray-300 rounded-md">
             <input class="flex-grow p-2 bg-gray-300 rounded-md placeholder-gray-700" placeholder="Chercher une playlist" @bind-value="@SearchTerm" @bind-value:event="oninput" />
             <div class="p-2 hover:bg-gray-500 rounded-md" @onclick="ClearSearch">
@@ -28,50 +29,31 @@
 
     @if (_playlists == null || !_playlists.Any() || !FilteredPlaylists.Any())
     {
+        //TODO : Component plus visuel quand pas de playlist
         <div>Aucune playlist trouvée!</div>
     }
     else
     {
+        //TODO : regrouper les playlists par service
         <div class="grid lg:grid-cols-5 md:grid-cols-3 gap-4 pt-4 ">
             @foreach (var playlist in FilteredPlaylists)
             {
-                <div class="flex flex-col bg-white p-4 hover:bg-gray-300">
-                    <div class="flex-grow-0 h-2/3">
-                        <img src="@playlist.CoverImage" alt="@playlist.Name" />
-                    </div>
-                    <div class="mt-2 truncate ">
-                        @playlist.Name
-                    </div>
-                    <div>
-                        Dernière MàJ : @playlist.LastUpdate
-                    </div>
-                    @*TODO : Bouton désactivé si playlist est un clone*@
-                    @*TODO : Cacher, et displayed seulement au hover - faire un bouton plus petit *@
-                    <MainButton OnClickAction="() => { }" Class="w-full mt-2">
-                        <div class="flex flex-row items-center ">
-                            <CloneIcon />
-                            <div class="ml-2">
-                                Cloner
-                            </div>
-                        </div>
-                    </MainButton>
-                </div>
+                <PlaylistCard Playlist="@playlist"/>
             }
         </div>
     }
-
 </div>
 
 @code
 {
-    private IEnumerable<GetPlaylists.PlaylistViewModel> _playlists = new List<GetPlaylists.PlaylistViewModel>();
+    private IEnumerable<GetLocalPlaylists.PlaylistViewModel> _playlists = new List<GetLocalPlaylists.PlaylistViewModel>();
 
-    private IEnumerable<GetPlaylists.PlaylistViewModel> FilteredPlaylists => _playlists.Where(c => c.Name.ToLower().Contains(SearchTerm.ToLower()));
+    private IEnumerable<GetLocalPlaylists.PlaylistViewModel> FilteredPlaylists => _playlists.Where(c => c.Name.ToLower().Contains(SearchTerm.ToLower()));
     private string SearchTerm { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await Mediator.Send(new GetPlaylists.Request());
+        var response = await Mediator.Send(new GetLocalPlaylists.Request());
         _playlists = response.Playlists;
     }
 

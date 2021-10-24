@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Playlists.Queries.GetLocalPlaylists;
+using AutoMapper;
 using Domain;
 using Infrastructure.Database.Dtos;
 
@@ -32,6 +33,8 @@ namespace Infrastructure.Database.MappingProfiles
             CreateMap<PlaylistDto, Playlist>()
                 .IncludeBase<EntityDto, Entity>()
                 .ReverseMap();
+
+            CreateMap<PlaylistDto, GetLocalPlaylists.PlaylistViewModel>();
 
             CreateMap<LastPlaylistCheckDto, LastPlaylistCheck>()
                 .IncludeBase<EntityDto, Entity>()

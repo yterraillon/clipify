@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using Domain.Entities;
 
 namespace Application.Common.Interfaces
 {
-    public interface IDataReader<out T>
-        where T : Entity
+    public interface IDataReader<out TOut>
+        where TOut : class
     {
-        IEnumerable<T> GetAll();
+        IEnumerable<TOut> GetAll();
     }
 }

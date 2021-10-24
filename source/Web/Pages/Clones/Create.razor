@@ -1,0 +1,30 @@
+﻿@page "/clone/{PlaylistId}"
+
+@using MediatR
+@using Application.Playlists.Queries.GetPlaylist
+@inject IMediator Mediator
+
+<h3>Create</h3>
+
+@if (_playlist is null)
+{
+    <div>Aucune playlist trouvée!</div>
+}
+else
+{
+    <div>@_playlist.Name</div>
+}
+
+
+@code {
+    [Parameter]
+    public string PlaylistId { get; set; } = string.Empty;
+
+    private PlaylistViewModel _playlist = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Mediator.Send(new GetPlaylist.Request(PlaylistId));
+        _playlist = response.Playlist;
+    }
+}

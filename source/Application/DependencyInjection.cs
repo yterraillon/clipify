@@ -3,6 +3,7 @@ using MediatR;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Application.Playlists.Commands.UpdateLocalPlaylists;
 
 namespace Application
 {
@@ -18,6 +19,8 @@ namespace Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ExceptionBehaviour<,>));
             services.AddTransient(typeof(IRequestPreProcessor<>), typeof(LoggingBehaviour<>));
+
+            services.AddTransient<UpdateSpotifyLocalPlaylistService>();
 
             return services;
         }

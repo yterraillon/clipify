@@ -1,4 +1,5 @@
-﻿<button type="button" class="@Class flex flex-row items-center justify-center rounded-md" @onclick="@InvokeOnClickMethod">
+﻿
+<button type="button" class="@Class flex flex-row items-center justify-center rounded-md" @onclick="@InvokeOnClickMethod" disabled="@IsDisabled">
     @ChildContent
 </button>
 
@@ -12,6 +13,9 @@
 
     [Parameter]
     public Action OnClickAction { get; set; } = () => {};
+
+    [Parameter]
+    public bool IsDisabled { get; set; } = false;
 
     private void InvokeOnClickMethod()
     {

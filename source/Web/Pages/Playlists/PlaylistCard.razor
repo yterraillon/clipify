@@ -1,0 +1,44 @@
+﻿@using Web.Shared.DesignSystem;
+@using Web.Shared.DesignSystem.Icons;
+@using Application.Playlists.Queries.GetLocalPlaylists
+
+@inject NavigationManager NavigationManager
+
+<div class="flex flex-col bg-white p-4 hover:bg-gray-300"
+     @onmouseover="() => _isHovered = true" @onmouseout="() => _isHovered = false">
+    <div class="flex-grow-0 h-2/3 relative">
+
+        @*TODO : régler le pb de taille des images*@
+        <img src="@Playlist.CoverImage" alt="@Playlist.Name" />
+
+        @if (_isHovered)
+        {
+            <MainButton OnClickAction="NavigateToCreateClonePage" Class="m-2 absolute bottom-0 right-0" IsDisabled="@Playlist.IsAClone">
+                <div class="flex flex-row items-center ">
+                    <CloneIcon />
+                    <div class="ml-2">
+                        Cloner
+                    </div>
+                </div>
+            </MainButton>
+        }
+
+    </div>
+    <div class="mt-2 truncate ">
+        @Playlist.Name
+    </div>
+    <div>
+        Dernière MàJ : @Playlist.LastUpdate
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public GetLocalPlaylists.PlaylistViewModel Playlist { get; set; } = new();
+
+    private bool _isHovered = false;
+
+    private void NavigateToCreateClonePage() =>
+        NavigationManager.NavigateTo($"/clone/{Playlist.Id}");
+}

@@ -1,6 +1,6 @@
-﻿namespace Domain
+﻿namespace Application.Playlists
 {
-    public class PlaylistInformation
+    public record PlaylistInformation
     {
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Application.Common.Interfaces;
 using Application.Playlists;
+using Application.Playlists.Queries.GetLocalPlaylists;
 using Application.SpotifyAuthentication;
 using Application.SpotifyAuthentication.Commands;
 using Application.SpotifyAuthentication.Commands.Login;
@@ -49,7 +50,9 @@ namespace Infrastructure
             services.AddTransient<IRepository<SpotifyEntities.Tokens>, Repository<SpotifyEntities.Tokens, SpotifyTokensDto>>();
             services.AddTransient<IRepository<Playlist>, Repository<Playlist, PlaylistDto>>();
             services.AddTransient<IRepository<LastPlaylistCheck>, Repository<LastPlaylistCheck, LastPlaylistCheckDto>>();
-            services.AddTransient<IDataReader<Playlist>, DataReader<Playlist, PlaylistDto>>();
+
+            services.AddTransient<IDataReader<Playlist>, DataReader<PlaylistDto, Playlist>>();
+            services.AddTransient<IDataReader<GetLocalPlaylists.PlaylistViewModel>, DataReader<PlaylistDto, GetLocalPlaylists.PlaylistViewModel>>();
 
             services.AddTransient<ISpotifyAuthenticationUriBuilder, AuthenticationUriBuilder>();
             services.AddSingleton<IStateProvider, StateProvider>();

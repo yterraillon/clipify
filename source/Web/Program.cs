@@ -11,6 +11,7 @@ namespace Web
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
+                .WriteTo.Debug()
                 .CreateBootstrapLogger();
 
             try
@@ -42,6 +43,7 @@ namespace Web
             => configuration
                 .ReadFrom.Configuration(context.Configuration)
                 .ReadFrom.Services(services)
-                .WriteTo.Console();
+                .WriteTo.Console()
+                .WriteTo.Debug();
     }
 }

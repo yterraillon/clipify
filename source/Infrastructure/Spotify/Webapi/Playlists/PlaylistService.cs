@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Application.Playlists;
+using Application.SpotifyAuthentication;
+using Infrastructure.Spotify.Webapi.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Playlists;
-using Application.SpotifyAuthentication;
-using Domain;
-using Infrastructure.Spotify.Webapi.Models;
+using Application.Playlists.Queries.GetPlaylist;
 
 namespace Infrastructure.Spotify.Webapi.Playlists
 {
@@ -26,56 +25,55 @@ namespace Infrastructure.Spotify.Webapi.Playlists
         public async Task<IEnumerable<PlaylistInformation>> GetAllPlaylists(CancellationToken cancellationToken)
         {
             var allPlaylistPages = await GetAllPaginatedPlaylists(cancellationToken);
-            var playlistInformations = ExtractPlaylistInformations(allPlaylistPages);
+            var playlistInformations = PlaylistServiceHelper.ExtractPlaylistInformations(allPlaylistPages);
             return playlistInformations;
+        }
+
+        public async Task<PlaylistViewModel> GetPlaylist(string playlistId, CancellationToken cancellationToken)
+        {
+            var tokens = await _tokensService.GetSpotifyTokens();
+            var playlist = await _spotifyPlaylistClient.GetPlaylist(tokens.AccessToken, playlistId, cancellationToken);
+
+            return new PlaylistViewModel
+            {
+                Id = playlist.Id,
+                CoverImage = PlaylistServiceHelper.GetCoverImage(playlist.Images),
+                Creator = playlist.Owner.DisplayName,
+                Name = playlist.Name ?? string.Empty,
+                Tracks = GetTrackViewModels(playlist)
+            };
+
+            static IEnumerable<TrackViewModel> GetTrackViewModels(PlaylistObject spotifyPlaylist) =>
+                spotifyPlaylist.Tracks.Select(t =>
+                    new TrackViewModel(
+                        t.Track.Name, 
+                        t.Track.Artists.Select(a => a.Name),
+                        t.Track.Album.Name,
+                        t.AddedAt));
         }
 
         private async Task<IEnumerable<PagingObject<SimplifiedPlaylistObject>>> GetAllPaginatedPlaylists(CancellationToken cancellationToken)
         {
             var tokens = await _tokensService.GetSpotifyTokens();
 
-            var offset = 0;
+            var currentOffset = 0;
             var paginatedSimplifiedPlaylists = new List<PagingObject<SimplifiedPlaylistObject>>();
 
-            var paginatedSimplifiedPlaylist = await GetPaginatedSimplifiedPlaylist(offset);
+            var paginatedSimplifiedPlaylist = await GetPaginatedSimplifiedPlaylist(currentOffset);
             paginatedSimplifiedPlaylists.Add(paginatedSimplifiedPlaylist);
 
             while (paginatedSimplifiedPlaylist.Next != null && paginatedSimplifiedPlaylist.Items.Any())
             {
-                offset += paginatedSimplifiedPlaylist.Limit;
-                paginatedSimplifiedPlaylist = await GetPaginatedSimplifiedPlaylist(offset);
+                currentOffset += paginatedSimplifiedPlaylist.Limit;
+                paginatedSimplifiedPlaylist = await GetPaginatedSimplifiedPlaylist(currentOffset);
                 paginatedSimplifiedPlaylists.Add(paginatedSimplifiedPlaylist);
             }
 
             return paginatedSimplifiedPlaylists;
 
             async Task<PagingObject<SimplifiedPlaylistObject>> GetPaginatedSimplifiedPlaylist(int offset) =>
-                await _spotifyPlaylistClient.GetAPaginatedListOfCurrentUsersPlaylist(tokens.AccessToken,
+                await _spotifyPlaylistClient.GetPaginatedListOfCurrentUsersPlaylist(tokens.AccessToken,
                     cancellationToken, 50, offset);
         }
-
-        private static IEnumerable<PlaylistInformation> ExtractPlaylistInformations(IEnumerable<PagingObject<SimplifiedPlaylistObject>> allPlaylistsPages)
-        {
-            var playlistInformations = new List<PlaylistInformation>();
-            foreach (var playlistsPage in allPlaylistsPages)
-            {
-                var items = playlistsPage.Items;
-                playlistInformations.AddRange(ToPlaylistInformations(items));
-            }
-
-            return playlistInformations;
-        }
-
-        private static IEnumerable<PlaylistInformation> ToPlaylistInformations(IEnumerable<SimplifiedPlaylistObject> simplifiedPlaylists) =>
-            simplifiedPlaylists.Select(ToPlaylistInformation).ToList();
-
-        private static PlaylistInformation ToPlaylistInformation(SimplifiedPlaylistObject simplifiedPlaylist) =>
-            new()
-            {
-                Id = simplifiedPlaylist.Id,
-                Name = simplifiedPlaylist.Name ?? string.Empty,
-                Version = simplifiedPlaylist.SnapshotId,
-                CoverImage = simplifiedPlaylist.Images.FirstOrDefault()?.Url ?? "about:blank"
-            };
     }
 }
